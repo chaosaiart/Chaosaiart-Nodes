@@ -510,8 +510,10 @@ class chaosaiart_CheckpointPrompt_FrameMixer:
                 "ckpt_prompt_9":("CKPT_PROMPT",), 
             },
         }
-    RETURN_TYPES = ("STRING","MODEL", "CONDITIONING", "CONDITIONING", "VAE","CKPT_PROMPT")
-    RETURN_NAMES = ("Info","MODEL","POSITIV","NEGATIV","VAE","CKPT_PROMPT")
+    #RETURN_TYPES = ("STRING","MODEL", "CONDITIONING", "CONDITIONING", "VAE","CKPT_PROMPT")
+    #RETURN_NAMES = ("Info","MODEL","POSITIV","NEGATIV","VAE","CKPT_PROMPT")
+    RETURN_TYPES = ("STRING","MODEL", "CONDITIONING", "CONDITIONING", "VAE",)
+    RETURN_NAMES = ("Info","MODEL","POSITIV","NEGATIV","VAE",)
     FUNCTION = "node"
 
     CATEGORY = "Chaosaiart/checkpoint"
@@ -568,7 +570,8 @@ class chaosaiart_CheckpointPrompt_FrameMixer:
         PositivOut = chaosaiart_higher.textClipEncode(CLIP,sPositiv)
         NegativOut = chaosaiart_higher.textClipEncode(CLIP,sNegativ)
 
-        return (info,MODEL,PositivOut,NegativOut,VAE,activ_checkpoint_prompt_frame,) 
+        #return (info,MODEL,PositivOut,NegativOut,VAE,activ_checkpoint_prompt_frame,) 
+        return (info,MODEL,PositivOut,NegativOut,VAE,) 
                 
     
  
