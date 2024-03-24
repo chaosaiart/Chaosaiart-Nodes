@@ -1539,36 +1539,36 @@ class chaosaiart_Any_Switch:
 
     def node(self, mode, source_1,source_2, restart=0):
         
-        oneSwitch_mode = 1
+        mode_num = 1
         #if mode == "2) nr:2 = 2 else 1":
-            #oneSwitch_mode = 2
+            #mode_num = 2
         if mode == "Switch: 1-2-1-2..":
-            oneSwitch_mode = 3
+            mode_num = 3
 
        
         restart_numberNum = restart
         
 
-        if self.mode != oneSwitch_mode:
-            self.mode = oneSwitch_mode
+        if self.mode != mode_num:
+            self.mode = mode_num
             self.Started = 0
 
         useSourceNR = 1
 
-        if oneSwitch_mode == 1:
+        if mode_num == 1:
             if restart_numberNum == 1 or self.Started == 0: 
                 self.Started = 1
                 useSourceNR = 1 
             else: 
                 useSourceNR = 2
 
-        #elif oneSwitch_mode == 2:
+        #elif mode_num == 2:
             #if restart_numberNum == 2:
                 #useSourceNR = 2
             #else:
                 #useSourceNR = 1    
 
-        elif oneSwitch_mode == 3:
+        elif mode_num == 3:
             if restart_numberNum == 1 or self.Started == 0:
                 self.Started = 1
                 self.switch = 0
@@ -1679,8 +1679,8 @@ class chaosaiart_Any_Switch_Big_Number:
     def INPUT_TYPES(cls):
         return {
             "required": { 
-                "mode": (["nr = Source","nr = Revers", "Random",],), 
-                "nr": ("INT", {"default": 0, "min": 1, "max": 9, "step": 1}),
+                "mode": (["nr = Source","nr = Revers", "Random"],), 
+                "nr": ("INT", {"default": 0, "min": 0, "max": 9, "step": 1}),
                 "source_0": (anyType, {}),
             },
             "optional": {
@@ -1702,8 +1702,8 @@ class chaosaiart_Any_Switch_Big_Number:
     def IS_CHANGED(cls, **kwargs):
         return float("NaN")
      
-    RETURN_TYPES = ("STRING",anyType,)
-    RETURN_NAMES = ("Info","SOURCE_X",)
+    RETURN_TYPES = (anyType,"STRING",)
+    RETURN_NAMES = ("SOURCE_X","Info",)
 
     FUNCTION = "node"
     CATEGORY = "Chaosaiart/switch"
@@ -1711,33 +1711,17 @@ class chaosaiart_Any_Switch_Big_Number:
 
     def node(self, mode, nr,  
               source_0,
-              source_1,
-              source_2,
-              source_3,
-              source_4,
-              source_5,
-              source_6,
-              source_7,
-              source_8,
-              source_9,
+              source_1=None,
+              source_2=None,
+              source_3=None,
+              source_4=None,
+              source_5=None,
+              source_6=None,
+              source_7=None,
+              source_8=None,
+              source_9=None,
               #mode_override=None,
               nr_override=None):
-        
-        oneSwitch_mode = 1
-        if mode == "nr = Revers":
-            oneSwitch_mode = 2
-        if mode == "Random":
-            oneSwitch_mode = 3
-
-        #if mode_override:
-            #if mode == 1 or mode == 2 or mode == 3:
-                #oneSwitch_mode = mode_override
-            #else:
-                #print("chaosaiart_Any_Switch - Mode not Exist: Use 1, 2 or 3 - USED MODE: " + str(oneSwitch_mode) + ".")
-            
-        oneSwitch_nr = nr
-        if nr_override:
-            oneSwitch_nr = nr_override
         
         aSource = [
             source_0,
@@ -1752,22 +1736,26 @@ class chaosaiart_Any_Switch_Big_Number:
             source_9
         ]
 
-        if oneSwitch_mode==3:
+        source_num = nr_override if not nr_override==None else nr
+
+        mode_num = 1
+        if mode == "nr = Revers":
+            mode_num = 2
+            aSource.reverse()
+        if mode == "Random":
+            mode_num = 3 
             aSource = list(filter(lambda x: x is not None, aSource))
             random_index = random.randint(0, len(aSource) - 1)
-            out_NR = random_index
-        #else:
-            
-        if oneSwitch_mode == 2:
-            aSource.reverse()
-
-        oneSwitch_nr = int(oneSwitch_nr)
-        if aSource[oneSwitch_nr]:
-            out_NR = oneSwitch_nr
+            #out_NR = random_index 
+            source_num = random_index 
+             
+        print("test")
+        if aSource[source_num]:
+            out_NR = source_num
         else: 
-            print("chaosaiart_Any_Switch: source_"+str(oneSwitch_nr)+" Missing")
+            print("chaosaiart_Any_Switch: source_"+str(source_num)+" Missing")
             out_NR = None
-            for i in range(oneSwitch_nr, len(aSource)):
+            for i in range(source_num, len(aSource)):
                 if aSource[i]:
                     out_NR = i
                     break
@@ -1775,7 +1763,7 @@ class chaosaiart_Any_Switch_Big_Number:
                 print("chaosaiart_Any_Switch: Using Next Resource source_"+str(out_NR))
             else:
             
-                for i in range(oneSwitch_nr, -1, -1):
+                for i in range(source_num, -1, -1):
                     if aSource[i]:
                         out_NR = i
                         break    
@@ -1787,8 +1775,9 @@ class chaosaiart_Any_Switch_Big_Number:
                     return(None,None)
 
     
+        print("test2")
         info = f"Used Number: {out_NR}" 
-        return(info, aSource[out_NR])
+        return( aSource[out_NR], info,)
                    
  
 
