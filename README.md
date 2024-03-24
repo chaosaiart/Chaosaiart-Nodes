@@ -126,7 +126,7 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
     
     git clone https://github.com/chaosaiart/Chaosaiart-Nodes & pip install opencv-python & pip install tqdm
 <x> 
-7. get a good checkpoint, like <a href="https://civitai.com/models/9409?modelVersionId=30163">Anything5</a> ( Folder: ../ComfyUI/models/checkpoints )</x><br> 
+5. get a good checkpoint, like <a href="https://civitai.com/models/9409?modelVersionId=30163">Anything5</a> ( Folder: ../ComfyUI/models/checkpoints )</x><br> 
 <br>
 <div align="center"> 
 Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workflows</a>.    
