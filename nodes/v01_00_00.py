@@ -1611,8 +1611,8 @@ class chaosaiart_Number_Switch:
     def IS_CHANGED(cls, **kwargs):
         return float("NaN")
      
-    RETURN_TYPES = ("FLOAT","STRING",)
-    RETURN_NAMES = ("FLOAT","Info",)
+    RETURN_TYPES = ("INT","FLOAT","STRING",)
+    RETURN_NAMES = ("INT","FLOAT","Info",)
 
     FUNCTION = "node"
     CATEGORY = "Chaosaiart/logic"
