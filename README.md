@@ -50,12 +50,12 @@
       <img src="https://chaosaiart.de/nodes/workflows/elements/not_do.png" alt="Install" width="40%"><br><br>
       6. Windows:
       <br>
-      <dl><dd><dl><dd>Open the folder "Chaosaiart-Nodes" & use Install_windows<br>
+      <dl><dd><dl><dd>Use the Install_windows file in the "Chaosaiart-Nodes" folder<br>
       </dd></dl>      
-      Linux use: 
+      Linux: 
       
     pip install opencv-python & pip install tqdm
-</dd></dl> 
+</dd></dl><br> 
 7. get a good checkpoint, like <a href="https://civitai.com/models/9409?modelVersionId=30163">Anything5</a> ( Folder: ../ComfyUI/models/checkpoints )    
 </dl>
 <div align="center"> 
@@ -114,7 +114,7 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
           5. Use the command in CMD:<br>
 
     git clone https://github.com/chaosaiart/Chaosaiart-Nodes
-<x>6. Enter the new Folder "Chaosaiart-Nodes" & use Install_windows<br> 
+<x>6. Use the Install_windows file in the "Chaosaiart-Nodes" folder<br> 
 7. get a good checkpoint, like <a href="https://civitai.com/models/9409?modelVersionId=30163">Anything5</a> ( Folder: ../ComfyUI/models/checkpoints )</x><br> 
 <div align="center"> 
 Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workflows</a>.<br> 
