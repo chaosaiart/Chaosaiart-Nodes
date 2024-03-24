@@ -46,7 +46,8 @@
       2. Download <a href="https://github.com/chaosaiart/Chaosaiart-Nodes/archive/refs/heads/main.zip">Chaosaiart-Nodes</a><br>
       3. Unzip Chaosaiart-Nodes with <a href="https://7-zip.org/">7zip</a><br>
       4. Grab the Unzipped "Chaosaiart-Nodes" folder<br>
-      5. go into ComfyUI Folder, then "../comfyUI/custom_nodes/" place it in.<br>
+      5. go into ComfyUI Folder, then "../comfyUI/custom_nodes/" place it in.<br> 
+      <img src="https://chaosaiart.de/nodes/workflows/elements/not_do.png" alt="Install" width="40%"><br><br>
       6. Windows:
       <br>
       <dl><dd><dl><dd>Open the folder "Chaosaiart-Nodes" & use Install_windows<br>
