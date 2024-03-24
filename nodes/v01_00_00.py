@@ -1589,7 +1589,7 @@ class chaosaiart_Any_Switch:
         return (info,out,)
 
 
-class chaosaiart_Float_Switch:
+class chaosaiart_Number_Switch:
     def __init__(self):  
         self.started = False
         self.switch = 0
@@ -1625,10 +1625,11 @@ class chaosaiart_Float_Switch:
             self.started = True
             iNumber = First_IMG
  
-        info = f"Float: {iNumber}"
-        return (iNumber,info,)        
-
-
+        outINT = int(iNumber)
+        info = f"Float: {iNumber}, INT: {outINT}"
+        return (outINT,iNumber,info,)        
+  
+    
 class chaosaiart_Denoising_Switch:
     def __init__(self):  
         self.started = False
@@ -3144,7 +3145,7 @@ NODE_CLASS_MAPPINGS = {
     #"chaosaiart_ShowInput": chaosaiart_ShowInput,
     #"chaosaiart_saveImagePrefix" : chaosaiart_saveImagePrefix,
     "chaosaiart_Denoising_Switch": chaosaiart_Denoising_Switch, 
-    "chaosaiart_Float_Switch": chaosaiart_Float_Switch, 
+    "chaosaiart_Number_Switch": chaosaiart_Number_Switch,  
     "chaosaiart_EmptyLatentImage": chaosaiart_EmptyLatentImage, 
     "chaosaiart_video2img1":chaosaiart_video2img1,
     #"chaosaiart_video2img2":chaosaiart_video2img2,
@@ -3210,7 +3211,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     
     #"chaosaiart_saveImagePrefix":"AutoSyc SaveImage Prefix",
     "chaosaiart_Denoising_Switch": "🔶 Denoise Override (Switch)", 
-    "chaosaiart_Float_Switch": "🔶 One Time Float Switch", 
+    "chaosaiart_Number_Switch": "🔶 One Time Number Switch",  
     "chaosaiart_EmptyLatentImage": "🔶 Empty Latent Image - Video Size",
     "chaosaiart_video2img1": "🔶 Video2Img -> Frame",
     #"chaosaiart_video2img2": "🔶 Video2Img -> Frame - Advanced",
