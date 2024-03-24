@@ -81,7 +81,7 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       3. Open Manager, Use "Install via Git URL".<br>
       4. Command:
       
-    https://github.com/chaosaiart/Chaosaiart-Nodes 
+    https://github.com/chaosaiart/Chaosaiart-Nodes
 <x>    
 5. get a good checkpoint, like <a href="https://civitai.com/models/9409?modelVersionId=30163">Anything5</a> ( Folder: ../ComfyUI/models/checkpoints )</x>
 <br><br>
