@@ -170,6 +170,10 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
         <a href="#workflow_6"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_b_6.png" width="30%"></a>
         <a href="#workflow_7"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_b_7.png" width="30%"></a> 
       </div>
+      <div align="center">  
+        <a href="#workflow_10"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_b_10.png" width="30%"></a>
+        <a href="#workflow_11"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_b_11.png" width="30%"></a> 
+      </div>
       <!-- TODO: FIXME: -->
       <br><br>
       <!-- Checkpoint Changer --->
@@ -257,6 +261,22 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       For Loading & Saving Text you need to Install this <a href="https://github.com/pythongosssss/ComfyUI-Custom-Scripts?tab=readme-ov-file#installation">Custom Node</a>
       <img src="https://chaosaiart.de/nodes/workflows/img/Basic_save_load_Prompts.jpg" width="100%"><br>
       <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_save_load_Prompts">Download: Workflow</a> 
+      </div><br><br>
+      </dl>
+      <!-- Switch -->
+      <a id="workflow_10"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_b_10.png" width="30%"></a><br> 
+      <dl><dd>
+      Using Any-Switch to control any input at any time.
+      <img src="https://chaosaiart.de/nodes/workflows/img/Basic_Any_Switch_Count.jpg" width="100%"><br>
+      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_Any_Switch_Count">Download: Workflow</a> 
+      </div><br><br>
+      </dl>
+      <!-- Array -->
+      <a id="workflow_11"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_b_11.png" width="30%"></a><br> 
+      <dl><dd>
+      Utilize arrays to enhance the organization of your workspace, or swiftly switch between processes to test things.
+      <img src="https://chaosaiart.de/nodes/workflows/img/Basic_using_Array.jpg" width="100%"><br>
+      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_using_Array">Download: Workflow</a> 
       </div><br><br>
       </dl>
       
