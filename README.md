@@ -43,13 +43,13 @@
     <dl>
       <dd>  
       1. Install <a href="https://github.com/comfyanonymous/ComfyUI?tab=readme-ov-file#installing">ComfyUI</a><br>
-      2. Download <a href="https://github.com/chaosaiart/Chaosaiart-Nodes/archive/refs/heads/master.zip">Chaosaiart-Nodes</a><br>
+      2. Download <a href="https://github.com/chaosaiart/Chaosaiart-Nodes/archive/refs/heads/main.zip">Chaosaiart-Nodes</a><br>
       3. Unzip Chaosaiart-Nodes with <a href="https://7-zip.org/">7zip</a><br>
-      4. Grab the Unzipped "Chaosaiart" folder<br>
+      4. Grab the Unzipped "Chaosaiart-Nodes" folder<br>
       5. go into ComfyUI Folder, then "../comfyUI/custom_nodes/" place it in.<br>
       6. Windows:
       <br>
-      <dl><dd><dl><dd>Open the folder "Chaosaiart" & use Install_windows<br>
+      <dl><dd><dl><dd>Open the folder "Chaosaiart-Nodes" & use Install_windows<br>
       </dd></dl>      
       Linux use: 
       
@@ -81,7 +81,7 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       3. Open Manager, Use "Install via Git URL".<br>
       4. Command:
       
-    https://github.com/chaosaiart/Chaosaiart_Nodes 
+    https://github.com/chaosaiart/Chaosaiart-Nodes 
 <x>    
 5. get a good checkpoint, like <a href="https://civitai.com/models/9409?modelVersionId=30163">Anything5</a> ( Folder: ../ComfyUI/models/checkpoints )</x>
 <br><br>
@@ -112,8 +112,8 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
           4. Use the folder path, type CMD<br>
           5. Use the command in CMD:<br>
 
-    git clone https://github.com/chaosaiart/Chaosaiart_Nodes
-<x>6. Enter the new Folder "Chaosaiart" & use Install_windows<br> 
+    git clone https://github.com/chaosaiart/Chaosaiart-Nodes
+<x>6. Enter the new Folder "Chaosaiart-Nodes" & use Install_windows<br> 
 7. get a good checkpoint, like <a href="https://civitai.com/models/9409?modelVersionId=30163">Anything5</a> ( Folder: ../ComfyUI/models/checkpoints )</x><br> 
 <div align="center"> 
 Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workflows</a>.<br> 
@@ -124,7 +124,7 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
         <dl><dd> 
         4. use:
     
-    git clone https://github.com/chaosaiart/Chaosaiart_Nodes & pip install opencv-python & pip install tqdm
+    git clone https://github.com/chaosaiart/Chaosaiart-Nodes & pip install opencv-python & pip install tqdm
 <x> 
 7. get a good checkpoint, like <a href="https://civitai.com/models/9409?modelVersionId=30163">Anything5</a> ( Folder: ../ComfyUI/models/checkpoints )</x><br> 
 <br>
