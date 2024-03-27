@@ -201,7 +201,7 @@ class chaosaiart_higher:
         if cls.check_Text(txt):
             return txt
             
-        return None     
+        return ""     
     
     @classmethod
     def add_Prompt_txt_byMode(cls, txt, txt2, txt_after=True):
@@ -594,7 +594,7 @@ class chaosaiart_CheckpointPrompt2:
 
     CATEGORY = "Chaosaiart/checkpoint"
 
-    def node(self, Checkpoint,Positiv,Negativ,add_lora=[],add_positiv_txt = "",add_negativ_txt=""):
+    def node(self, Checkpoint,Positiv="",Negativ="",add_lora=[],add_positiv_txt = "",add_negativ_txt=""):
         lora = add_lora
         checkpointLoadItem = chaosaiart_higher.checkpointLoader(Checkpoint)
         MODEL   = checkpointLoadItem[0]
@@ -704,7 +704,7 @@ class chaosaiart_CheckpointPrompt:
 
     CATEGORY = "Chaosaiart/checkpoint"
 
-    def node(self, Checkpoint,positiv_txt,negativ_txt,lora=[]):
+    def node(self, Checkpoint,positiv_txt="",negativ_txt="",lora=[]):
         
         checkpointLoadItem = chaosaiart_higher.checkpointLoader(Checkpoint)
         MODEL   = checkpointLoadItem[0]
@@ -722,7 +722,65 @@ class chaosaiart_CheckpointPrompt:
 
         return (MODEL,PositivOut,NegativOut,VAE,) 
   
-        
+"""
+class chaosaiart_Style_Node:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {  
+                "Model":(["SDXL","SD1_5"],),
+                "Quality": (["Masterpiece",],),
+                "Light": (["none",],),
+                "Technique": (["none",],),
+                "Color": (["none",],),
+                "Mood": (["none",],), 
+                "Subjekt": (["none",],), 
+                "Style": (["none",],), 
+            }, 
+            "optional":{
+                "add_prompt_txt":("STRING", {"multiline": True, "forceInput": True}), 
+            }
+        }
+    RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("prompt_txt",) 
+    FUNCTION = "node"
+
+    CATEGORY = "Chaosaiart/prompt"
+
+    def node(self,Model,Quality,Light,Technique,Color,Mood,Subjekt,Style): 
+
+        return ("masterpiece,best quality, highres",)
+
+class chaosaiart_Style_Node:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {  
+                "Model":(["SDXL","SD1_5"],),
+                "Quality": (["Masterpiece",],),
+                "Light": (["none",],),
+                "Technique": (["none",],),
+                "Color": (["none",],),
+                "Mood": (["none",],), 
+                "Subjekt": (["none",],), 
+                "Style": (["none",],), 
+            }, 
+            "optional":{
+                "add_prompt_txt":("STRING", {"multiline": True, "forceInput": True}), 
+            }
+        }
+    RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("prompt_txt",) 
+    FUNCTION = "node"
+
+    CATEGORY = "Chaosaiart/prompt"
+
+    def node(self,Model,Quality,Light,Technique,Color,Mood,Subjekt,Style): 
+
+        return ("masterpiece,best quality, highres",)
+
+"""
+    
 class chaosaiart_CheckpointPrompt_Frame:
     @classmethod
     def INPUT_TYPES(s):
@@ -744,7 +802,7 @@ class chaosaiart_CheckpointPrompt_Frame:
 
     CATEGORY = "Chaosaiart/checkpoint"
 
-    def node(self, Start_Frame,Checkpoint,Positiv,Negativ,lora=[]): 
+    def node(self, Start_Frame,Checkpoint,Positiv="",Negativ="",lora=[]): 
         return ([Start_Frame,Checkpoint,Positiv,Negativ,lora],)
                 
  
@@ -2910,8 +2968,8 @@ class chaosaiart_CheckpointLoader:
 
     CATEGORY = "Chaosaiart/checkpoint"
 
-    def node(self, positiv_txt, negativ_txt,
-                        ckpt_1,
+    def node(self, 
+                        ckpt_1,positiv_txt="", negativ_txt="",
                         ckpt_2=None,
                         ckpt_3=None,
                         ckpt_4=None,
@@ -3610,6 +3668,7 @@ NODE_CLASS_MAPPINGS = {
     "chaosaiart_Number_Switch":                 chaosaiart_Number_Switch,  
     
     "chaosaiart_Show_Info":                     chaosaiart_Show_Info,
+   # "chaosaiart_Style_Node":                    chaosaiart_Style_Node,
   
 }
  
@@ -3675,5 +3734,6 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "chaosaiart_Denoising_Switch":              "🔶 Denoise Override (Switch)", 
     "chaosaiart_Number_Switch":                 "🔶 One Time Number Switch",  
     "chaosaiart_EmptyLatentImage":              "🔶 Empty Latent Image - Video Size",
+   # "chaosaiart_Style_Node":                    "🔶 Style Node",
    
 }
