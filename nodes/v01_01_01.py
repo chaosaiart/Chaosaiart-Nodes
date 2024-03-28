@@ -57,9 +57,9 @@ aSaveAny = []
 MAX_RESOLUTION=8192
 
 logActiv = {
-    "lora_load" : True,
+    "lora_load" : False,
     "error": True,
-    "Debugger": True
+    "Debugger": False
 
 } 
 
@@ -1540,6 +1540,49 @@ class chaosaiart_TextCLIPEncode_lora:
         return (out_Model,out_Positiv,out_Negaitv,)
 
 
+class chaosaiart_MainPromptCLIPEncode:
+    def __init__(self):  
+        self.lora_cache = []
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "model":("MODEL",), 
+                "clip": ("CLIP",), 
+                "main_prompt": ("MAIN_PROMPT",)
+            }}
+    RETURN_TYPES = ("MODEL","CONDITIONING","CONDITIONING",)
+    RETURN_NAMES = ("MODEL","POSITIV","NEGATIV",)
+    FUNCTION = "node"
+
+    CATEGORY = "Chaosaiart/prompt"
+    def node(self,model, clip, main_prompt): 
+
+        positiv_txt = main_prompt[0]
+        negativ_txt = main_prompt[1]
+        lora        = main_prompt[2]
+
+        loraArray = lora
+ 
+        chaosaiart_higher.Debugger("loraA",loraArray) 
+
+        if self.lora_cache == []:
+            chaosaiart_higher.log("Chaosaiart-Load Lora","No Lora in Cache.",logActiv["lora_load"])
+        else:  
+            if not chaosaiart_higher.Check_all_loras_in_cacheArray(self.lora_cache,loraArray): 
+                self.lora_cache = [] #Memorey optimization
+                chaosaiart_higher.log("Chaosaiart-Load Lora","Clean UP Lora Cache",logActiv["lora_load"])
+ 
+        out_Model, positiv_clip, negativ_clip, self.lora_cache, lora_Info  = chaosaiart_higher.load_lora_by_Array(loraArray,model,clip,self.lora_cache)
+        
+        out_Positiv = chaosaiart_higher.textClipEncode(positiv_clip,positiv_txt)
+        out_Negaitv = chaosaiart_higher.textClipEncode(negativ_clip,negativ_txt)
+         
+
+        #return (chaosaiart_higher.textClipEncode(clip,positiv_txt),chaosaiart_higher.textClipEncode(clip,negativ_txt), )
+        return (out_Model,out_Positiv,out_Negaitv,)
+    
 class chaosaiart_FramePromptCLIPEncode:
     def __init__(self):  
         self.lora_cache = []
@@ -2025,8 +2068,8 @@ class chaosaiart_Number_Switch:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "First_IMG": ("FLOAT", {"default": 0, "min": 0.00, "max": 1, "step": 0.01}),
-                "Rest_IMG": ("FLOAT", {"default": 1, "min": 0.00, "max": 1, "step": 0.01}),
+                "First_IMG": ("FLOAT", {"default": 0, "min": -50, "max": 50, "step": 0.01}),
+                "Rest_IMG": ("FLOAT", {"default": 1, "min": -50, "max": 50, "step": 0.01}),
             },
             "optional": {
                 "restart": ("RESTART",),
@@ -2415,7 +2458,8 @@ class chaosaiart_Simple_Prompt:
     def node(self, Prompt="", add_prompt=""): 
         out = chaosaiart_higher.add_Prompt_txt(add_prompt,Prompt)
         return(out,)
-    
+
+"""    
 #NOTIZ: Add_prompt / Add_positv .. kick it out, no Reason for it anymore    
 class chaosaiart_ADD_Prompt:
     location = ["after","before"]  
@@ -2455,6 +2499,7 @@ class chaosaiart_ADD_Prompt:
             new_string = addition + "," + input_string
 
         return(new_string,)
+"""
 
 #TODO: Testen, after changing
 class chaosaiart_Prompt_Frame: 
@@ -2613,7 +2658,8 @@ class chaosaiart_Prompt_mixer_byFrame:
 
  
 
-
+"""
+#NOTIZ: Kicked out by Add_prompt function
 class chaosaiart_Prompt_mixer: 
     
     def __init__(self):
@@ -2668,7 +2714,7 @@ class chaosaiart_Prompt_mixer:
 
      
         return(out,out,)
-
+"""
 
  
 imgType_EXT = ["jpg", "jpeg", "png"]
@@ -3487,7 +3533,7 @@ class chaosaiart_lora_advanced:
         strength_model_float =  strength_model if strength_model_override == None else strength_model_override
         strength_clip_float =  strength_clip if strength_clip_override == None else strength_clip_override
          
-        loraArray = chaosaiart_higher.add_Lora(add_lora,loraType,lora_name,strength_model,strength_clip)
+        loraArray = chaosaiart_higher.add_Lora(add_lora,loraType,lora_name,strength_model_float,strength_clip_float)
         return loraArray,
  
 """
@@ -3619,6 +3665,7 @@ NODE_CLASS_MAPPINGS = {
     "chaosaiart_Prompt_Frame":                  chaosaiart_Prompt_Frame,
     "chaosaiart_Prompt_mixer_byFrame":          chaosaiart_Prompt_mixer_byFrame,
     "chaosaiart_FramePromptCLIPEncode":         chaosaiart_FramePromptCLIPEncode,
+    "chaosaiart_MainPromptCLIPEncode":          chaosaiart_MainPromptCLIPEncode,
     "chaosaiart_TextCLIPEncode":                chaosaiart_TextCLIPEncode,
     "chaosaiart_TextCLIPEncode_lora":           chaosaiart_TextCLIPEncode_lora,
 
@@ -3690,6 +3737,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "chaosaiart_TextCLIPEncode":                "🔶 Text Prompt Clip Encode", 
     "chaosaiart_TextCLIPEncode_lora":           "🔶 Text Prompt Clip Endcode +Lora",
     "chaosaiart_FramePromptCLIPEncode":         "🔶 Frame_Prompt Clip Endcode",
+    "chaosaiart_MainPromptCLIPEncode":          "🔶 Main_Prompt Clip Endcode",
 
     "chaosaiart_CheckpointPrompt":              "🔶 Load Checkpoint",
     "chaosaiart_CheckpointPrompt2":             "🔶 Load Checkpoint +Prompt",
@@ -3711,6 +3759,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "chaosaiart_Number_Counter":                "🔶 Number Counter",
     "chaosaiart_restarter":                     "🔶 Restart & Activ Frame",
     "chaosaiart_Number":                        "🔶 Number Int float",
+    "chaosaiart_Number_Switch":                 "🔶 One Time Number Switch",  
     
     "chaosaiart_Any_Switch":                    "🔶 Any Switch", 
     "chaosaiart_Any_Switch_Big_Number":         "🔶 Any Switch (Big)",
@@ -3732,7 +3781,6 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "chaosaiart_restarter_advanced":            "🔶 Restart & Activ - Advanced",
     "chaosaiart_Show_Info":                     "🔶 Info Display",
     "chaosaiart_Denoising_Switch":              "🔶 Denoise Override (Switch)", 
-    "chaosaiart_Number_Switch":                 "🔶 One Time Number Switch",  
     "chaosaiart_EmptyLatentImage":              "🔶 Empty Latent Image - Video Size",
    # "chaosaiart_Style_Node":                    "🔶 Style Node",
    
