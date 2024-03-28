@@ -34,7 +34,7 @@
     <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h4.png?v=1" alt="Install" width="50%"> <br>
     This node is based on frame-to-frame generation (img after img).<br>
     This means it is VRAM efficient and suitable for GPUs with low VRAM.<br><br>
-    Additional: the Node is in the early phase, <br>more nodes will be added + Bug fixes + changes.<br><br>
+    Additional: Chaosaiart-Node is in the early phase, <br>more nodes will be added + Bug fixes + changes.<br><br>
 </div>
 <br>
 <a id="Install" name="Install">
