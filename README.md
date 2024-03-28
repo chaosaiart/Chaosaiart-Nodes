@@ -31,6 +31,10 @@
     Rethinking workflows with switches<br><br>
     <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h3.png?v=1" alt="Install" width="50%"> <br>
     In progress, coming soon.<br><br>
+    <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h4.png?v=<?php echo $IMG_version; ?>" alt="Install" width="50%"> <br>
+    This node is based on frame-to-frame generation (img after img).<br>
+    This means it is VRAM efficient and suitable for GPUs with low VRAM.<br><br>
+    Additional: the Node is in the early phase, <br>more nodes will be added + Bug fixes + changes.<br><br>
 </div>
 <br>
 <a id="Install" name="Install">
@@ -327,6 +331,9 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       You need this <a href="https://github.com/Fannovel16/comfyui_controlnet_aux">Custom Node</a> for Controlnet.<br> and both Modells.
       Additionally, you need to decompose a video into frames (Img) using <a href="#workflow_9">video2img Basic Workflow</a>.<br>
       Afterwards, you must stitch the images into a video using <a href="#workflow_8">img2video Basic Workflow</a>
+            <br><br>
+            This is a workflow idea, not a finished workflow.<br>
+In the future, finished advanced workflows will also be released<br>
       <img src="https://chaosaiart.de/nodes/workflows/img/advanced_1.jpg?v=1" width="100%">
       <div align="center">
       <div align="center"><a href="https://chaosaiart.de/nodes/?json=advanced_1">Download: Workflow</a> 
@@ -339,6 +346,9 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       You need this <a href="https://github.com/Fannovel16/comfyui_controlnet_aux">Custom Node</a> for Controlnet and both Modells.<br> 
       Additionally, you need to decompose a video into frames (Img) using <a href="#workflow_9">video2img Basic Workflow</a>.<br>
       Afterwards, you must stitch the images into a video using <a href="#workflow_8">img2video Basic Workflow</a>
+            <br><br>
+            This is a workflow idea, not a finished workflow.<br>
+In the future, finished advanced workflows will also be released<br>
       <img src="https://chaosaiart.de/nodes/workflows/img/advanced_2.jpg?v=1" width="100%"> 
       <div align="center">
       <div align="center"><a href="https://chaosaiart.de/nodes/?json=advanced_2">Download: Workflow</a> 
