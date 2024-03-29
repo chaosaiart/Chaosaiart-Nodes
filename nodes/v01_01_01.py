@@ -3772,7 +3772,7 @@ class chaosaiart_img2video:
         hoehe, breite, _ = erstes_bild.shape
 
         # Erstelle das Video mit der angegebenen FPS
-        video = cv2.VideoWriter(os.path.join(output_ordner, ausgabedatei), cv2.VideoWriter_fourcc(*'mp4v'), fps, (breite, hoehe))
+        video = cv2.VideoWriter(os.path.join(output_ordner, ausgabedatei), cv2.VideoWriter_fourcc(*'avc1'), fps, (breite, hoehe))
 
 
         info = f'Video Size: {breite}x{hoehe}\nFPS: {fps}' 
