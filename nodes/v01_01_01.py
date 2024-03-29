@@ -1190,7 +1190,7 @@ class chaosaiart_KSampler4:
                      "optional":{  
                         "latent_Override": ("LATENT", ), 
                         "latent_by_Image_Override": ("IMAGE", ),  
-                        "start_at_step_Override": ("INT", {"forceInput": True} ), 
+                        "start_at_step_Override": ("INT", {"forceInput": True} ),  
                     }
                 }
 
@@ -1211,13 +1211,16 @@ class chaosaiart_KSampler4:
         return pixels
     
     def node(self, 
-             model, seed, steps, cfg, sampler_name, scheduler, positive, negative, start_at_step, end_at_step, 
+             model, seed, steps, cfg, sampler_name, scheduler, positive, negative, start_at_step, 
              vae,empty_Img_width,empty_Img_height,
-             latent_Override = None, latent_by_Image_Override = None,
+             latent_Override = None, latent_by_Image_Override = None,start_at_step_Override = None,
              denoise=1.0):
         return_with_leftover_noise = "disable"
         empty_Img_batch_size = 1
         add_noise = "enable"
+
+        start_at_step = start_at_step if start_at_step_Override == None else start_at_step_Override
+        end_at_step = steps
 
         if latent_by_Image_Override==None: 
             if latent_Override==None:
@@ -3723,12 +3726,16 @@ class chaosaiart_img2video:
 
         # Eingabe des Output-Ordners
         output_ordner = os.path.dirname(bilder_ordner)
-
+ 
         # Eingabe des Ausgabedateinamens
-        pre_folder = os.path.join(self.output_dir, filename_prefix) 
-        ausgabedatei = os.path.join(pre_folder, "chaosaiart") 
-        ausgabedatei =  ausgabedatei+".mp4"
-
+        if filename_prefix:
+            pre_folder = os.path.join(self.output_dir, filename_prefix) 
+            if not os.path.exists(pre_folder):
+                os.makedirs(pre_folder)
+            ausgabedatei = os.path.join(pre_folder, "chaosaiart.mp4")
+        else:
+            ausgabedatei = os.path.join(self.output_dir, "chaosaiart.mp4")
+  
         # Eingabe der FPS 
         fps = FPS
 
@@ -3748,6 +3755,8 @@ class chaosaiart_img2video:
         # Prüfe, ob der Ausgabeordner existiert, andernfalls erstelle ihn
         if not os.path.exists(output_ordner):
             os.makedirs(output_ordner)
+        
+
 
         # Prüfe, ob die Ausgabedatei bereits existiert
         ausgabepfad = os.path.join(output_ordner, ausgabedatei)
