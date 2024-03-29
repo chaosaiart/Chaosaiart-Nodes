@@ -1176,7 +1176,7 @@ class chaosaiart_KSampler4:
                         "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
                         "steps": ("INT", {"default": 25, "min": 1, "max": 10000}),
                         "start_at_step": ("INT", {"default": 0, "min": 0, "max": 10000}),
-                        "end_at_step": ("INT", {"default": 25, "min": 0, "max": 10000}),
+                        #"end_at_step": ("INT", {"default": 25, "min": 0, "max": 10000}),
                         "cfg": ("FLOAT", {"default": 8.0, "min": 0.0, "max": 100.0, "step":0.1, "round": 0.01}),
                         "sampler_name": (comfy.samplers.KSampler.SAMPLERS, ),
                         "scheduler": (comfy.samplers.KSampler.SCHEDULERS, ),
@@ -1189,7 +1189,8 @@ class chaosaiart_KSampler4:
                      },
                      "optional":{  
                         "latent_Override": ("LATENT", ), 
-                        "latent_by_Image_Override": ("IMAGE", ), 
+                        "latent_by_Image_Override": ("IMAGE", ),  
+                        "start_at_step_Override": ("INT", {"forceInput": True} ), 
                     }
                 }
 
@@ -3996,7 +3997,7 @@ NODE_CLASS_MAPPINGS = {
     "chaosaiart_KSampler1":                     chaosaiart_KSampler1,
     "chaosaiart_KSampler2":                     chaosaiart_KSampler2, 
     "chaosaiart_KSampler3":                     chaosaiart_KSampler3,
-    "chaosaiart_KSampler4":                     chaosaiart_KSampler4,
+    #"chaosaiart_KSampler4":                     chaosaiart_KSampler4,
     #"chaosaiart_KSampler5":                     chaosaiart_KSampler5,
     "chaosaiart_Denoising_Switch":              chaosaiart_Denoising_Switch,
    
@@ -4069,7 +4070,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "chaosaiart_KSampler1":                     "🔶 KSampler txt2img", 
     "chaosaiart_KSampler2":                     "🔶 KSampler img2img",
     "chaosaiart_KSampler3":                     "🔶 KSampler +VAEdecode +Latent",
-    "chaosaiart_KSampler4":                     "🔶 KSampler Advanced",
+    #"chaosaiart_KSampler4":                     "🔶 KSampler Advanced",
     #"chaosaiart_KSampler5":                     "🔶 KSampler Simple Animation",
 
     "chaosaiart_ControlNetApply":               "🔶 controlnet Apply",
