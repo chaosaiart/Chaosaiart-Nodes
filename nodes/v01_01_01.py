@@ -1,4 +1,5 @@
   
+#TODO: FIXME: NOTIZ: Have to Cach the checkpoint , new loading makes no sence
 
 import cv2 
 from tqdm import tqdm
@@ -54,6 +55,7 @@ anyType = AnyType_fill("*")
 aSaveIMG = []  
 aSaveLatent = []  
 aSaveAny = []  
+aSaveKsampler = []
 MAX_RESOLUTION=8192
 
 logActiv = {
@@ -62,6 +64,9 @@ logActiv = {
     "Debugger": False
 
 } 
+
+lastCheckpoint_name = ""
+cachCheckpoint = []
 
 class anySave:
     def __init__(self, index, saveItem): 
@@ -83,20 +88,30 @@ class chaosaiart_higher:
     def ErrorMSG(Node,msg,Activ_status):
         print("ERROR: "+Node+": "+msg)
 
-    
-    #NOTIZ: Old Code
-    #def textClipEncode(clip,text):
-        #return [[clip.encode(text), {}]]
-    
-    #NOTIZ: New Code
+    @classmethod    
+    def textClipEncode_cacheCheck(cls, clip, text, cache_text, clip_result):
+        if cache_text == text:
+            if not clip_result == None:
+                return clip_result, clip_result,text 
+        
+        new_result = cls.textClipEncode(clip,text)
+        return new_result, new_result, text
+
+
     def textClipEncode(clip,text):
         tokens = clip.tokenize(text)
         cond, pooled = clip.encode_from_tokens(tokens, return_pooled=True)
         return [[cond, {"pooled_output": pooled}]]
     
+    @classmethod    
+    def CKPT_new_or_cache(cls,Checkpoint_name,Cached_CKPT_Name,Cached_CKPT):
+        if not Cached_CKPT_Name == Checkpoint_name or Cached_CKPT == None: 
+            Cached_CKPT = cls.checkpointLoader(Checkpoint_name)
+        return Cached_CKPT, Checkpoint_name
+
     def checkpointLoader(ckpt_name):
         ckpt_path = folder_paths.get_full_path("checkpoints", ckpt_name)
-        out = comfy.sd.load_checkpoint_guess_config(ckpt_path, output_vae=True, output_clip=True, embedding_directory=folder_paths.get_folder_paths("embeddings"))
+        out = comfy.sd.load_checkpoint_guess_config(ckpt_path, output_vae=True, output_clip=True, embedding_directory=folder_paths.get_folder_paths("embeddings"))     
         return out[:3]
     
     def is_number(s):
@@ -144,12 +159,15 @@ class chaosaiart_higher:
         global aSaveIMG
         global aSaveLatent
         global aSaveAny
+        global aSaveKsampler
         
         aTemp = []
         if art == "img":
             aTemp = aSaveIMG
         elif art == "latent":
             aTemp = aSaveLatent
+        elif art == "ksampler":
+            aTemp = aSaveKsampler
         else:
             aTemp = aSaveAny
 
@@ -483,6 +501,12 @@ class chaosaiart_higher:
 
         return (model_lora, clip_lora,loaded_lora)
      
+     #TODO: FIXME: NOTIZ:
+    #@classmethod   
+    #def load_lora_by_Array_or_cache(cls,lora, model, clip, cache_loraArray):
+        
+
+
     @classmethod   
     def load_lora_by_Array(cls,lora, model, clip, cache_loraArray):
         loraArray = lora
@@ -491,7 +515,8 @@ class chaosaiart_higher:
         clip_negative  = clip
         newCache = []
         info = "Lora:"
- 
+
+
         #try: 
             #loaded_lora
         if loraArray == None: 
@@ -502,7 +527,8 @@ class chaosaiart_higher:
             cls.Debugger("Chaosaiart-Load Lora",loraArray)
             return model_lora, clip_positive, clip_negative, newCache
         
-        chaosaiart_higher.log("Chaosaiart-Load Lora","Loading Lora...",logActiv["lora_load"])
+
+        cls.log("Chaosaiart-Load Lora","Loading Lora...",logActiv["lora_load"])
         cls.Debugger("Chaosaiart-Load Lora",loraArray)
         for i in range(len(loraArray)):  
 
@@ -546,9 +572,7 @@ class chaosaiart_higher:
                 cache_Element = [e_lora_name, None]
              
             newCache.append(cache_Element)
-                
-        #except NameError: 
-            #cls.ErrorMSG("Chaosaiart-Load Lora","Can't Load All Lora",logActiv["lora_load"]) 
+                 
         
         return model_lora, clip_positive, clip_negative, newCache, info
     
@@ -570,16 +594,20 @@ class chaosaiart_higher:
 class chaosaiart_CheckpointPrompt2:
     def __init__(self):
         self.lora_cache = []
+        self.Cached_CKPT_Name = ""
+        self.Cached_CKPT = None
+        self.p_cache_text = ""
+        self.n_cache_text = ""
+        self.p_cache = None
+        self.n_cache = None
 
     @classmethod
     def INPUT_TYPES(s):
         return {
             "required": {  
-                "Checkpoint": (folder_paths.get_filename_list("checkpoints"), ),
-                #"Add_Prompt_txt":(["Before","After"],),
+                "Checkpoint": (folder_paths.get_filename_list("checkpoints"), ), 
                 "Positiv": ("STRING", {"multiline": True}),
                 "Negativ": ("STRING", {"multiline": True}),
-
             },
             "optional": {
                 "add_positiv_txt": ("STRING", {"multiline": True, "forceInput": True}),
@@ -594,9 +622,13 @@ class chaosaiart_CheckpointPrompt2:
 
     CATEGORY = "Chaosaiart/checkpoint"
 
-    def node(self, Checkpoint,Positiv="",Negativ="",add_lora=[],add_positiv_txt = "",add_negativ_txt=""):
+    def node(self, Checkpoint, Positiv="",Negativ="",add_lora=[],add_positiv_txt = "",add_negativ_txt=""):
         lora = add_lora
-        checkpointLoadItem = chaosaiart_higher.checkpointLoader(Checkpoint)
+  
+        ckpt_name = Checkpoint 
+        self.Cached_CKPT, self.Cached_CKPT_Name = chaosaiart_higher.CKPT_new_or_cache(ckpt_name,self.Cached_CKPT_Name,self.Cached_CKPT)
+        checkpointLoadItem = self.Cached_CKPT   
+        
         MODEL   = checkpointLoadItem[0]
         CLIP    = checkpointLoadItem[1]
         VAE     = checkpointLoadItem[2]
@@ -611,8 +643,9 @@ class chaosaiart_CheckpointPrompt2:
                 
         MODEL, positiv_clip, negativ_clip, self.lora_cache, lora_Info  = chaosaiart_higher.load_lora_by_Array(lora,MODEL,CLIP,self.lora_cache)
          
-        PositivOut = chaosaiart_higher.textClipEncode(positiv_clip,sPositiv)
-        NegativOut = chaosaiart_higher.textClipEncode(negativ_clip,sNegativ)
+        PositivOut, self.p_cache , self.p_cache_text = chaosaiart_higher.textClipEncode_cacheCheck(positiv_clip, sPositiv,self.p_cache_text, self.p_cache) 
+        NegativOut, self.n_cache, self.n_cache_text = chaosaiart_higher.textClipEncode_cacheCheck(negativ_clip, sNegativ,self.n_cache_text, self.n_cache) 
+          
         info  = "checkpoint: "+chaosaiart_higher.path2name(Checkpoint)+"\n" 
         info += f"Positiv:\n{sPositiv}\n"
         info += f"Negativ:\n{sNegativ}\n" 
@@ -685,12 +718,14 @@ class chaosaiart_EmptyLatentImage:
 class chaosaiart_CheckpointPrompt:
     def __init__(self):
         self.lora_cache = []
+        self.Cached_CKPT_Name = ""
+        self.Cached_CKPT = None
 
     @classmethod
     def INPUT_TYPES(s):
         return {
             "required": {  
-                "Checkpoint": (folder_paths.get_filename_list("checkpoints"), ),  
+                "Checkpoint": (folder_paths.get_filename_list("checkpoints"), ),   
                 "positiv_txt": ("STRING", {"multiline": True, "forceInput": True}),
                 "negativ_txt": ("STRING", {"multiline": True, "forceInput": True}),
             }, 
@@ -704,9 +739,13 @@ class chaosaiart_CheckpointPrompt:
 
     CATEGORY = "Chaosaiart/checkpoint"
 
-    def node(self, Checkpoint,positiv_txt="",negativ_txt="",lora=[]):
-        
-        checkpointLoadItem = chaosaiart_higher.checkpointLoader(Checkpoint)
+    def node(self, Checkpoint, positiv_txt="",negativ_txt="",lora=[]):
+         
+        ckpt_name = Checkpoint
+         
+        self.Cached_CKPT, self.Cached_CKPT_Name = chaosaiart_higher.CKPT_new_or_cache(ckpt_name,self.Cached_CKPT_Name,self.Cached_CKPT)
+        checkpointLoadItem = self.Cached_CKPT  
+
         MODEL   = checkpointLoadItem[0]
         CLIP    = checkpointLoadItem[1]
         VAE     = checkpointLoadItem[2]   
@@ -802,13 +841,15 @@ class chaosaiart_CheckpointPrompt_Frame:
 
     CATEGORY = "Chaosaiart/checkpoint"
 
-    def node(self, Start_Frame,Checkpoint,Positiv="",Negativ="",lora=[]): 
+    def node(self, Start_Frame,Checkpoint,Positiv="",Negativ="",lora=[]):  
         return ([Start_Frame,Checkpoint,Positiv,Negativ,lora],)
                 
  
 class chaosaiart_CheckpointPrompt_FrameMixer:
     def __init__(self):
         self.lora_cache = []
+        self.Cached_CKPT_Name = ""
+        self.Cached_CKPT = None
 
     @classmethod
     def INPUT_TYPES(s):
@@ -816,7 +857,7 @@ class chaosaiart_CheckpointPrompt_FrameMixer:
             "required": {  
                 "activ_frame": ("ACTIV_FRAME", ),
                 "main_prompt": ("MAIN_PROMPT",),
-                "ckpt_prompt_1":("CKPT_PROMPT",), 
+                "ckpt_prompt_1":("CKPT_PROMPT",),  
             },
             "optional": {
                 "ckpt_prompt_2":("CKPT_PROMPT",), 
@@ -874,7 +915,11 @@ class chaosaiart_CheckpointPrompt_FrameMixer:
             print("Chaosaiart - CheckpointPrompt_FrameMixer: no checkpoint_prompt_frame with this Activ_Frame. checkpoint_prompt_frame1 will be Used")
             activ_checkpoint_prompt_frame = ckpt_prompt_1
 
-        checkpointLoadItem = chaosaiart_higher.checkpointLoader(activ_checkpoint_prompt_frame[1])
+        ckpt_name = activ_checkpoint_prompt_frame[1] 
+        self.Cached_CKPT, self.Cached_CKPT_Name = chaosaiart_higher.CKPT_new_or_cache(ckpt_name,self.Cached_CKPT_Name,self.Cached_CKPT)
+        checkpointLoadItem = self.Cached_CKPT 
+
+
         MODEL   = checkpointLoadItem[0]
         CLIP    = checkpointLoadItem[1]
         VAE     = checkpointLoadItem[2]
@@ -899,6 +944,7 @@ class chaosaiart_CheckpointPrompt_FrameMixer:
                 
         MODEL, positiv_clip, negativ_clip, self.lora_cache, lora_Info  = chaosaiart_higher.load_lora_by_Array(lora,MODEL,CLIP,self.lora_cache)
          
+
         PositivOut = chaosaiart_higher.textClipEncode(positiv_clip,sPositiv)
         NegativOut = chaosaiart_higher.textClipEncode(negativ_clip,sNegativ)
 
@@ -948,7 +994,7 @@ class chaosaiart_KSampler:
     
 
 
-class chaosaiart_KSampler1: 
+class chaosaiart_KSampler1: #txt2img
     def __init__(self):
         self.device = comfy.model_management.intermediate_device()
 
@@ -989,7 +1035,7 @@ class chaosaiart_KSampler1:
         return (image,samples[0],)
     
 
-class chaosaiart_KSampler2: 
+class chaosaiart_KSampler2: #img2img
     def __init__(self):
         self.device = comfy.model_management.intermediate_device()
 
@@ -1113,8 +1159,192 @@ class chaosaiart_KSampler3:
         samples = chaosaiart_higher.ksampler(model, seed, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise)
         image = vae.decode(samples[0]["samples"])
         return (image,samples[0],)
-         
 
+
+class chaosaiart_KSampler4:
+    def __init__(self):
+        self.device = comfy.model_management.intermediate_device()
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required":
+                    {
+                        "model": ("MODEL",),
+                        "empty_Img_width": ("INT", {"default": 512, "min": 16, "max": MAX_RESOLUTION, "step": 8}),
+                        "empty_Img_height": ("INT", {"default": 512, "min": 16, "max": MAX_RESOLUTION, "step": 8}),
+                        #"empty_Img_batch_size": ("INT", {"default": 1, "min": 1, "max": 4096}),
+                        "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
+                        "steps": ("INT", {"default": 25, "min": 1, "max": 10000}),
+                        "start_at_step": ("INT", {"default": 0, "min": 0, "max": 10000}),
+                        "end_at_step": ("INT", {"default": 25, "min": 0, "max": 10000}),
+                        "cfg": ("FLOAT", {"default": 8.0, "min": 0.0, "max": 100.0, "step":0.1, "round": 0.01}),
+                        "sampler_name": (comfy.samplers.KSampler.SAMPLERS, ),
+                        "scheduler": (comfy.samplers.KSampler.SCHEDULERS, ),
+                        "positive": ("CONDITIONING", ),
+                        "negative": ("CONDITIONING", ),
+                        #"latent_image": ("LATENT", ),
+                        #"add_noise": (["enable", "disable"], ),
+                        #"return_with_leftover_noise": (["disable", "enable"], ),
+                        "vae": ("VAE", ),
+                     },
+                     "optional":{  
+                        "latent_Override": ("LATENT", ), 
+                        "latent_by_Image_Override": ("IMAGE", ), 
+                    }
+                }
+
+    RETURN_TYPES = ("IMAGE","LATENT",) 
+    RETURN_NAMES = ("IMAGE","SAMPLES",) 
+    FUNCTION = "node"
+
+    CATEGORY = "Chaosaiart/ksampler"
+
+    @staticmethod
+    def vae_encode_crop_pixels(pixels):
+        x = (pixels.shape[1] // 8) * 8
+        y = (pixels.shape[2] // 8) * 8
+        if pixels.shape[1] != x or pixels.shape[2] != y:
+            x_offset = (pixels.shape[1] % 8) // 2
+            y_offset = (pixels.shape[2] % 8) // 2
+            pixels = pixels[:, x_offset:x + x_offset, y_offset:y + y_offset, :]
+        return pixels
+    
+    def node(self, 
+             model, seed, steps, cfg, sampler_name, scheduler, positive, negative, start_at_step, end_at_step, 
+             vae,empty_Img_width,empty_Img_height,
+             latent_Override = None, latent_by_Image_Override = None,
+             denoise=1.0):
+        return_with_leftover_noise = "disable"
+        empty_Img_batch_size = 1
+        add_noise = "enable"
+
+        if latent_by_Image_Override==None: 
+            if latent_Override==None:
+                latent = torch.zeros([empty_Img_batch_size, 4, empty_Img_height // 8, empty_Img_width // 8], device=self.device)
+                latent_image = {"samples":latent}
+                start_at_step = 0
+            else: 
+                latent_image = latent_Override
+        else:
+            pixels = latent_by_Image_Override
+            pixels = self.vae_encode_crop_pixels(pixels)
+            t = vae.encode(pixels[:,:,:,:3])
+            latent_image = {"samples":t} 
+
+ 
+
+        force_full_denoise = True
+        if return_with_leftover_noise == "enable":
+            force_full_denoise = False
+        disable_noise = False
+        if add_noise == "disable":
+            disable_noise = True 
+
+        samples =  chaosaiart_higher.ksampler(model, seed, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise, disable_noise=disable_noise, start_step=start_at_step, last_step=end_at_step, force_full_denoise=force_full_denoise)
+        image = vae.decode(samples[0]["samples"])
+        return (image,samples[0],)
+    
+class chaosaiart_KSampler5:
+    def __init__(self):
+        self.device  = comfy.model_management.intermediate_device()
+        self.counter = 1
+        #TODO: FIXME: NOTIZ:
+        #TODO: FIXME: NOTIZ:
+        #TODO: FIXME: NOTIZ: 
+        #Something good for more then one Reloader
+        #Need a Clean Up function for Cache, maybe implement restarter
+        self.reloader_Num = 0 
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required":
+                    {
+                        "restart": ("RESTART",),
+                        "model": ("MODEL",), 
+                        "Img_width": ("INT", {"default": 512, "min": 16, "max": MAX_RESOLUTION, "step": 8}),
+                        "Img_height": ("INT", {"default": 512, "min": 16, "max": MAX_RESOLUTION, "step": 8}), 
+                        "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
+                        "steps": ("INT", {"default": 25, "min": 1, "max": 10000}),
+                        "start_at_step": ("INT", {"default": 0, "min": 0, "max": 10000}),
+                        "end_at_step": ("INT", {"default": 25, "min": 0, "max": 10000}),
+                        "cfg": ("FLOAT", {"default": 8.0, "min": 0.0, "max": 100.0, "step":0.1, "round": 0.01}),
+                        "sampler_name": (comfy.samplers.KSampler.SAMPLERS, ),
+                        "scheduler": (comfy.samplers.KSampler.SCHEDULERS, ),
+                        "positive": ("CONDITIONING", ),
+                        "negative": ("CONDITIONING", ), 
+                        "vae": ("VAE", ),
+                     },
+                     "optional":{
+                        "Start_Image_Override": ("IMAGE", ), 
+                    }
+                }
+
+    RETURN_TYPES = ("STRING","IMAGE","LATENT",) 
+    RETURN_NAMES = ("Info","IMAGE","SAMPLES",) 
+    FUNCTION = "node"
+
+    CATEGORY = "Chaosaiart/ksampler"
+
+    @staticmethod
+    def vae_encode_crop_pixels(pixels):
+        x = (pixels.shape[1] // 8) * 8
+        y = (pixels.shape[2] // 8) * 8
+        if pixels.shape[1] != x or pixels.shape[2] != y:
+            x_offset = (pixels.shape[1] % 8) // 2
+            y_offset = (pixels.shape[2] % 8) // 2
+            pixels = pixels[:, x_offset:x + x_offset, y_offset:y + y_offset, :]
+        return pixels
+    
+    def node(self, 
+             model, seed, steps, cfg, sampler_name, scheduler, positive, negative, start_at_step, end_at_step, 
+             vae,empty_Img_width,empty_Img_height,
+             restart=0 , Start_Image_Override = None,
+             denoise=1.0):
+        
+        start_at_stepNum = start_at_step 
+        return_with_leftover_noise = "disable"
+        empty_Img_batch_size = 1
+        add_noise = "enable"
+        info = "It's frame-by-frame animation.\nPress Queue Prompt for each new frame or use Batch count in extras."
+
+
+        if self.counter == 1 or restart >= 1:
+            self.counter = 1
+            if not Start_Image_Override == None:
+                #img -> Vae -> Latent  
+                pixels = Start_Image_Override
+                pixels = self.vae_encode_crop_pixels(pixels)
+                t = vae.encode(pixels[:,:,:,:3])
+                latent_image = {"samples":t} 
+                info += "- Restarted: with Start_Image -\n" 
+            else: 
+                start_at_stepNum = 0
+                latent = torch.zeros([empty_Img_batch_size, 4, empty_Img_height // 8, empty_Img_width // 8], device=self.device)
+                latent_image = {"samples":latent} 
+                info += "- Restarted: with a Empty Image -\n" 
+        else:  
+            saved_latent = chaosaiart_higher.reloader_x("ksampler",self.reloader_Num,False,None)
+            latent_image = {"samples":saved_latent}  
+            info += "- continued -\n" 
+
+        force_full_denoise = True
+        if return_with_leftover_noise == "enable":
+            force_full_denoise = False
+        disable_noise = False
+        if add_noise == "disable":
+            disable_noise = True 
+
+        samples =  chaosaiart_higher.ksampler(model, seed, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise, disable_noise=disable_noise, start_step=start_at_stepNum, last_step=end_at_step, force_full_denoise=force_full_denoise)
+         
+        info += "Created Frame = self.counter" 
+        self.counter += 1 
+        info += "if you want more Controll use gets the Advenden Worfklow: ... "
+        
+        chaosaiart_higher.reloader_x("ksampler",self.reloader_Num,True,samples[0]["samples"])   
+        image = vae.decode(samples[0]["samples"])
+        return (info,image,samples[0],)
+    
+ 
 class chaosaiart_SaveImage:
     def __init__(self):
         self.output_dir = folder_paths.get_output_directory()
@@ -1184,8 +1414,10 @@ class chaosaiart_SaveImage:
 
         return { "ui": { "images": results } }
  
-
-
+#FIXME: TODO: NOTIZ:
+#FIXME: TODO: NOTIZ:
+#FIXME: TODO: NOTIZ: Error sometimes, load to early , i thing its come with when is the Node Created.
+#First Time see this bug, by Adding: OUTPUT_NODE = True, maybe its a part of it.
 class chaosaiart_reloadIMG_Save:
     def __init__(self):
         pass
@@ -1203,6 +1435,9 @@ class chaosaiart_reloadIMG_Save:
     def IS_CHANGED(cls, **kwargs):
         return float("NaN")
     
+    
+    OUTPUT_NODE = True
+
     RETURN_TYPES = ("IMAGE","STRING",)
     RETURN_NAMES = ("IMAGE","Info",)
     FUNCTION = "node"
@@ -1307,6 +1542,9 @@ class chaosaiart_reloadLatent_Save:
     def IS_CHANGED(cls, **kwargs):
         return float("NaN")
     
+    
+    OUTPUT_NODE = True
+
     RETURN_NAMES = ("LATENT","Info",)
     RETURN_TYPES = ("LATENT","STRING",)
     FUNCTION = "node"
@@ -1409,6 +1647,9 @@ class chaosaiart_reloadAny_Save:
             },
         }
     
+    
+    OUTPUT_NODE = True
+
     @classmethod
     def IS_CHANGED(cls, **kwargs):
         return float("NaN")
@@ -1501,6 +1742,7 @@ class chaosaiart_TextCLIPEncode:
 class chaosaiart_TextCLIPEncode_lora:
     def __init__(self):  
         self.lora_cache = []
+        self.cache_lora_feed = []
 
     @classmethod
     def INPUT_TYPES(s):
@@ -1530,11 +1772,21 @@ class chaosaiart_TextCLIPEncode_lora:
                 self.lora_cache = [] #Memorey optimization
                 chaosaiart_higher.log("Chaosaiart-Load Lora","Clean UP Lora Cache",logActiv["lora_load"])
  
+        #TODO: FIXME: NOTIZ: Using Cach to be faster.
+        #self.cache_lora_feed, out_Model, positiv_clip , negativ_clip   = chaosaiart_higher.load_lora_by_Array_or_cache(loraArray,model,clip,self.lora_cache)
+        #out_Model, positiv_clip, negativ_clip, self.lora_cache, lora_Info
+        
+        #out_Positiv = chaosaiart_higher.textClipEncode(positiv_clip,positiv_txt)
+        #out_Negaitv = chaosaiart_higher.textClipEncode(negativ_clip,negativ_txt)
+         
+
+
         out_Model, positiv_clip, negativ_clip, self.lora_cache, lora_Info  = chaosaiart_higher.load_lora_by_Array(loraArray,model,clip,self.lora_cache)
         
         out_Positiv = chaosaiart_higher.textClipEncode(positiv_clip,positiv_txt)
         out_Negaitv = chaosaiart_higher.textClipEncode(negativ_clip,negativ_txt)
-         
+
+
 
         #return (chaosaiart_higher.textClipEncode(clip,positiv_txt),chaosaiart_higher.textClipEncode(clip,negativ_txt), )
         return (out_Model,out_Positiv,out_Negaitv,)
@@ -2964,6 +3216,8 @@ class chaosaiart_Load_Image_Batch_2img:
 class chaosaiart_CheckpointLoader:
     def __init__(self):  
         self.lora_cache = []
+        self.Cached_CKPT =  None
+        self.Cached_CKPT_Name = "" 
 
     @classmethod
     def INPUT_TYPES(s):
@@ -3062,10 +3316,10 @@ class chaosaiart_CheckpointLoader:
                         ckpt_name = array[1]
                         break
                     
-        
-        #out = chaosaiart_higher.checkpointLoader(ckpt_name)
-               
-        checkpointLoadItem = chaosaiart_higher.checkpointLoader(ckpt_name)
+         
+        self.Cached_CKPT, self.Cached_CKPT_Name = chaosaiart_higher.CKPT_new_or_cache(ckpt_name,self.Cached_CKPT_Name,self.Cached_CKPT)
+        checkpointLoadItem = self.Cached_CKPT
+                
         MODEL   = checkpointLoadItem[0]
         CLIP    = checkpointLoadItem[1]
         VAE     = checkpointLoadItem[2]  
@@ -3133,53 +3387,6 @@ class chaosaiart_convert:
       
 
 
-class chaosaiart_ControlNetApply2:
-    @classmethod
-    def INPUT_TYPES(s):
-        return {"required": {"positive": ("CONDITIONING", ),
-                             "negative": ("CONDITIONING", ),
-                             "control_net": ("CONTROL_NET", ),
-                             "image": ("IMAGE", ),
-                             "strength": ("FLOAT",  {"default": 1, "min": 0, "max": 3, "step": 0.01}),
-                             "start": ("FLOAT",  {"default": 0, "min": 0, "max": 1, "step": 0.01}),
-                             "end": ("FLOAT",  {"default": 1, "min": 0, "max": 1, "step": 0.01})
-                             }}
-
-    RETURN_TYPES = ("CONDITIONING","CONDITIONING")
-    RETURN_NAMES = ("POSITVE", "NEGATIVE")
-    FUNCTION = "node"
-
-    CATEGORY = "Chaosaiart/controlnet"
-
-    def node(self, positive, negative, control_net, image, strength, start, end):
-        if strength == 0:
-            return (positive, negative)
-        if start == end:
-            return (positive, negative)    
-
-        control_hint = image.movedim(-1,1)
-        cnets = {}
-
-        out = []
-        for conditioning in [positive, negative]:
-            c = []
-            for t in conditioning:
-                d = t[1].copy()
-
-                prev_cnet = d.get('control', None)
-                if prev_cnet in cnets:
-                    c_net = cnets[prev_cnet]
-                else:
-                    c_net = control_net.copy().set_cond_hint(control_hint, strength, (start, end))
-                    c_net.set_previous_controlnet(prev_cnet)
-                    cnets[prev_cnet] = c_net
-
-                d['control'] = c_net
-                d['control_apply_to_uncond'] = False
-                n = [t[0], d]
-                c.append(n)
-            out.append(c)
-        return (out[0], out[1])
 
 class chaosaiart_ControlNetApply:
     @classmethod
@@ -3230,6 +3437,114 @@ class chaosaiart_ControlNetApply:
                 c.append(n)
             out.append(c)
         return (out[0], out[1])
+
+
+class chaosaiart_ControlNetApply2:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required": {"positive": ("CONDITIONING", ),
+                             "negative": ("CONDITIONING", ),
+                             "control_net": ("CONTROL_NET", ),
+                             "image": ("IMAGE", ),
+                             "strength": ("FLOAT",  {"default": 1, "min": 0, "max": 3, "step": 0.01}),
+                             "start": ("FLOAT",  {"default": 0, "min": 0, "max": 1, "step": 0.01}),
+                             "end": ("FLOAT",  {"default": 1, "min": 0, "max": 1, "step": 0.01})
+                             }}
+
+    RETURN_TYPES = ("CONDITIONING","CONDITIONING")
+    RETURN_NAMES = ("POSITVE", "NEGATIVE")
+    FUNCTION = "node"
+
+    CATEGORY = "Chaosaiart/controlnet"
+
+    def node(self, positive, negative, control_net, image, strength, start, end):
+        if strength == 0:
+            return (positive, negative)
+        if start == end:
+            return (positive, negative)    
+
+        control_hint = image.movedim(-1,1)
+        cnets = {}
+
+        out = []
+        for conditioning in [positive, negative]:
+            c = []
+            for t in conditioning:
+                d = t[1].copy()
+
+                prev_cnet = d.get('control', None)
+                if prev_cnet in cnets:
+                    c_net = cnets[prev_cnet]
+                else:
+                    c_net = control_net.copy().set_cond_hint(control_hint, strength, (start, end))
+                    c_net.set_previous_controlnet(prev_cnet)
+                    cnets[prev_cnet] = c_net
+
+                d['control'] = c_net
+                d['control_apply_to_uncond'] = False
+                n = [t[0], d]
+                c.append(n)
+            out.append(c)
+        return (out[0], out[1])
+    
+
+
+    
+class chaosaiart_ControlNetApply3:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required": {
+                    "activ_frame": ("ACTIV_FRAME",),
+                    "positive": ("CONDITIONING", ),
+                    "negative": ("CONDITIONING", ),
+                    "control_net": ("CONTROL_NET", ),
+                    "image": ("IMAGE", ),
+                    "strength": ("FLOAT",  {"default": 1, "min": 0, "max": 3, "step": 0.01}),
+                    "start": ("FLOAT",  {"default": 0, "min": 0, "max": 1, "step": 0.01}),
+                    "end": ("FLOAT",  {"default": 1, "min": 0, "max": 1, "step": 0.01}),
+                    "start_Frame":("INT", {"default": 1, "min": 1, "max": 999999999, "step": 1}),
+                    "End_Frame":("INT", {"default": 9999, "min": 1, "max": 999999999, "step": 1}),
+                }}
+
+    RETURN_TYPES = ("CONDITIONING","CONDITIONING")
+    RETURN_NAMES = ("POSITVE", "NEGATIVE")
+    FUNCTION = "node"
+
+    CATEGORY = "Chaosaiart/controlnet"
+
+    def node(self, positive, negative, control_net, image, strength, start, end, start_Frame, End_Frame,activ_frame):
+        if not ( activ_frame >= start_Frame and  activ_frame < End_Frame ):    
+            return (positive, negative)
+        
+        if strength == 0:
+            return (positive, negative)
+        if start == end:
+            return (positive, negative)    
+
+        control_hint = image.movedim(-1,1)
+        cnets = {}
+
+        out = []
+        for conditioning in [positive, negative]:
+            c = []
+            for t in conditioning:
+                d = t[1].copy()
+
+                prev_cnet = d.get('control', None)
+                if prev_cnet in cnets:
+                    c_net = cnets[prev_cnet]
+                else:
+                    c_net = control_net.copy().set_cond_hint(control_hint, strength, (start, end))
+                    c_net.set_previous_controlnet(prev_cnet)
+                    cnets[prev_cnet] = c_net
+
+                d['control'] = c_net
+                d['control_apply_to_uncond'] = False
+                n = [t[0], d]
+                c.append(n)
+            out.append(c)
+        return (out[0], out[1])
+
 
 
 
@@ -3681,10 +3996,13 @@ NODE_CLASS_MAPPINGS = {
     "chaosaiart_KSampler1":                     chaosaiart_KSampler1,
     "chaosaiart_KSampler2":                     chaosaiart_KSampler2, 
     "chaosaiart_KSampler3":                     chaosaiart_KSampler3,
+    "chaosaiart_KSampler4":                     chaosaiart_KSampler4,
+    #"chaosaiart_KSampler5":                     chaosaiart_KSampler5,
     "chaosaiart_Denoising_Switch":              chaosaiart_Denoising_Switch,
    
     "chaosaiart_ControlNetApply":               chaosaiart_ControlNetApply,
     "chaosaiart_ControlNetApply2":              chaosaiart_ControlNetApply2,
+    "chaosaiart_ControlNetApply3":              chaosaiart_ControlNetApply3,
     "chaosaiart_controlnet_weidgth":            chaosaiart_controlnet_weidgth,
 
     "chaosaiart_Number_Counter":                chaosaiart_Number_Counter,
@@ -3751,9 +4069,12 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "chaosaiart_KSampler1":                     "🔶 KSampler txt2img", 
     "chaosaiart_KSampler2":                     "🔶 KSampler img2img",
     "chaosaiart_KSampler3":                     "🔶 KSampler +VAEdecode +Latent",
+    "chaosaiart_KSampler4":                     "🔶 KSampler Advanced",
+    #"chaosaiart_KSampler5":                     "🔶 KSampler Simple Animation",
 
     "chaosaiart_ControlNetApply":               "🔶 controlnet Apply",
     "chaosaiart_ControlNetApply2":              "🔶 controlnet Apply + Streng Start End",
+    "chaosaiart_ControlNetApply3":              "🔶 controlnet Apply Frame",
     "chaosaiart_controlnet_weidgth":            "🔶 Controlnet Weidgth - strenght start end",
 
     "chaosaiart_Number_Counter":                "🔶 Number Counter",
