@@ -61,8 +61,7 @@ MAX_RESOLUTION=8192
 logActiv = {
     "lora_load" : False,
     "error": True,
-    "Debugger": True
-
+    "Debugger": False 
 } 
 
 oCache_CKPTname_LoraName_Array_promtTxt = []
@@ -647,7 +646,7 @@ class chaosaiart_CheckpointPrompt2:
     RETURN_NAMES = ("Info","MODEL","POSITIV","NEGATIV","VAE",) 
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/checkpoint"
+    CATEGORY = "🔶Chaosaiart/checkpoint"
 
     def node(self, Checkpoint, Positiv="",Negativ="",add_lora=[],add_positiv_txt = "",add_negativ_txt=""):
         
@@ -714,7 +713,7 @@ class chaosaiart_EmptyLatentImage:
     FUNCTION = "node"
 
 
-    CATEGORY = "Chaosaiart/image"
+    CATEGORY = "🔶Chaosaiart/image"
 
     #def generate(self, width, height, batch_size=1):
     def node(self, Mode, Size):
@@ -781,7 +780,7 @@ class chaosaiart_CheckpointPrompt:
     RETURN_NAMES = ("MODEL","POSITIV","NEGATIV","VAE",) 
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/checkpoint"
+    CATEGORY = "🔶Chaosaiart/checkpoint"
 
     def node(self, Checkpoint, positiv_txt="",negativ_txt="",lora=[]):
          
@@ -835,7 +834,7 @@ class chaosaiart_Style_Node:
     RETURN_NAMES = ("prompt_txt",) 
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/prompt"
+    CATEGORY = "🔶Chaosaiart/prompt"
 
     def node(self,Model,Quality,Light,Technique,Color,Mood,Subjekt,Style): 
 
@@ -863,7 +862,7 @@ class chaosaiart_Style_Node:
     RETURN_NAMES = ("prompt_txt",) 
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/prompt"
+    CATEGORY = "🔶Chaosaiart/prompt"
 
     def node(self,Model,Quality,Light,Technique,Color,Mood,Subjekt,Style): 
 
@@ -890,7 +889,7 @@ class chaosaiart_CheckpointPrompt_Frame:
     RETURN_NAMES = ("CKPT_PROMPT",) 
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/checkpoint"
+    CATEGORY = "🔶Chaosaiart/checkpoint"
 
     def node(self, Start_Frame,Checkpoint,Positiv="",Negativ="",lora=[]):  
         return ([Start_Frame,Checkpoint,Positiv,Negativ,lora],)
@@ -932,7 +931,7 @@ class chaosaiart_CheckpointPrompt_FrameMixer:
     RETURN_NAMES = ("Info","MODEL","POSITIV","NEGATIV","VAE",)
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/checkpoint"
+    CATEGORY = "🔶Chaosaiart/checkpoint"
 
     def node(self, activ_frame,main_prompt,
               ckpt_prompt_1,
@@ -1037,7 +1036,7 @@ class chaosaiart_KSampler:
     RETURN_TYPES = ("IMAGE",)
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/ksampler"
+    CATEGORY = "🔶Chaosaiart/ksampler"
 
     def node(self, model, vae, seed, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise, denoise_Override=None):
         denoise = denoise if denoise_Override is None else denoise_Override 
@@ -1074,7 +1073,7 @@ class chaosaiart_KSampler1: #txt2img
     RETURN_NAMES = ("IMAGE",) 
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/ksampler"
+    CATEGORY = "🔶Chaosaiart/ksampler"
 
     def node(self, model, vae, seed, steps, cfg, sampler_name, scheduler, positive, negative, Image_width,Image_height):
 
@@ -1118,7 +1117,7 @@ class chaosaiart_KSampler2: #img2img
     RETURN_NAMES = ("IMAGE",) 
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/ksampler"
+    CATEGORY = "🔶Chaosaiart/ksampler"
 
 
  
@@ -1178,7 +1177,7 @@ class chaosaiart_KSampler3:
     RETURN_NAMES = ("IMAGE","SAMPLES",) 
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/ksampler"
+    CATEGORY = "🔶Chaosaiart/ksampler"
     
     @staticmethod
     def vae_encode_crop_pixels(pixels):
@@ -1195,8 +1194,8 @@ class chaosaiart_KSampler3:
         
         denoise = denoise if denoise_Override is None else denoise_Override 
 
-        if latent_by_Image_Override==None: 
-            if latent_Override==None:
+        if latent_by_Image_Override is None: 
+            if latent_Override is None:
                 latent = torch.zeros([empty_Img_batch_size, 4, empty_Img_height // 8, empty_Img_width // 8], device=self.device)
                 latent_image = {"samples":latent}
                 if not denoise==1:
@@ -1252,7 +1251,7 @@ class chaosaiart_KSampler4:
     RETURN_NAMES = ("IMAGE","SAMPLES",) 
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/ksampler"
+    CATEGORY = "🔶Chaosaiart/ksampler"
 
     @staticmethod
     def vae_encode_crop_pixels(pixels):
@@ -1276,8 +1275,8 @@ class chaosaiart_KSampler4:
         start_at_step = start_at_step if start_at_step_Override is None else start_at_step_Override
         end_at_step = steps
 
-        if latent_by_Image_Override==None: 
-            if latent_Override==None:
+        if latent_by_Image_Override is None: 
+            if latent_Override is None:
                 latent = torch.zeros([empty_Img_batch_size, 4, empty_Img_height // 8, empty_Img_width // 8], device=self.device)
                 latent_image = {"samples":latent}
                 start_at_step = 0
@@ -1341,7 +1340,7 @@ class chaosaiart_KSampler5:
     RETURN_NAMES = ("Info","IMAGE","SAMPLES",) 
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/ksampler"
+    CATEGORY = "🔶Chaosaiart/ksampler"
 
     @staticmethod
     def vae_encode_crop_pixels(pixels):
@@ -1432,7 +1431,7 @@ class chaosaiart_SaveImage:
 
     OUTPUT_NODE = True
 
-    CATEGORY = "Chaosaiart"
+    CATEGORY = "🔶Chaosaiart"
 
     def node(self, images,restart=0, filename_prefix="chaosaiart", prompt=None, extra_pnginfo=None):
         if restart >= 1 or self.started == False:
@@ -1499,7 +1498,7 @@ class chaosaiart_reloadIMG_Save:
     RETURN_TYPES = ("IMAGE","STRING",)
     RETURN_NAMES = ("IMAGE","Info",)
     FUNCTION = "node"
-    CATEGORY = "Chaosaiart/cache"
+    CATEGORY = "🔶Chaosaiart/cache"
  
     def node(self, image, reloader):  
         chaosaiart_higher.reloader_x("img",reloader,True,image) 
@@ -1532,7 +1531,7 @@ class chaosaiart_reloadIMG_Load:
     RETURN_TYPES = ("IMAGE",)
     RETURN_NAMES = ("IMAGE",)
     FUNCTION = "node"
-    CATEGORY = "Chaosaiart/cache"
+    CATEGORY = "🔶Chaosaiart/cache"
  
     def node(self,reloader,vae,pre_cache_img_width,pre_cache_img_height,pre_cache_img_batch_size,restart=0):  
 
@@ -1568,7 +1567,7 @@ class chaosaiart_reloadIMG_Load2:
     RETURN_TYPES = ("IMAGE",)
     RETURN_NAMES = ("IMAGE",)
     FUNCTION = "node"
-    CATEGORY = "Chaosaiart/cache"
+    CATEGORY = "🔶Chaosaiart/cache"
  
     def node(self,reloader,image_pre_Save_Out,restart=0): 
 
@@ -1606,7 +1605,7 @@ class chaosaiart_reloadLatent_Save:
     RETURN_NAMES = ("LATENT","Info",)
     RETURN_TYPES = ("LATENT","STRING",)
     FUNCTION = "node"
-    CATEGORY = "Chaosaiart/cache"
+    CATEGORY = "🔶Chaosaiart/cache"
  
     def node(self, latent, reloader): 
         chaosaiart_higher.reloader_x("latent",reloader,True,latent) 
@@ -1640,7 +1639,7 @@ class chaosaiart_reloadLatent_Load:
     RETURN_TYPES = ("LATENT",)
     RETURN_NAMES = ("LATENT",)
     FUNCTION = "node"
-    CATEGORY = "Chaosaiart/cache"
+    CATEGORY = "🔶Chaosaiart/cache"
  
     def node(self,pre_cache_width,pre_cache_height,pre_cache_batch_size,reloader,restart=0): 
  
@@ -1678,7 +1677,7 @@ class chaosaiart_reloadLatent_Load2:
     RETURN_TYPES = ("LATENT",)
     RETURN_NAMES = ("LATENT",)
     FUNCTION = "node"
-    CATEGORY = "Chaosaiart/cache"
+    CATEGORY = "🔶Chaosaiart/cache"
  
     def node(self,latent_pre_Save_Out,reloader,restart=0):  
 
@@ -1715,7 +1714,7 @@ class chaosaiart_reloadAny_Save:
     RETURN_NAMES = ("ANY","Info",)
     RETURN_TYPES = (anyType,"STRING",)
     FUNCTION = "node"
-    CATEGORY = "Chaosaiart/cache"
+    CATEGORY = "🔶Chaosaiart/cache"
  
     def node(self, Any, reloader): 
         chaosaiart_higher.reloader_x("any",reloader,True,Any) 
@@ -1744,7 +1743,7 @@ class chaosaiart_reloadAny_Load:
     RETURN_TYPES = (anyType,)
     RETURN_NAMES = ("ANY",)
     FUNCTION = "node"
-    CATEGORY = "Chaosaiart/cache"
+    CATEGORY = "🔶Chaosaiart/cache"
  
     def node(self,reloader,any_pre_Save_Out,restart=0): 
 
@@ -1772,7 +1771,7 @@ class chaosaiart_TextCLIPEncode_simple:
     RETURN_TYPES = ("CONDITIONING",)
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/prompt"
+    CATEGORY = "🔶Chaosaiart/prompt"
     def node(self, clip, text):
         return (chaosaiart_higher.textClipEncode(clip,text), )
 
@@ -1791,7 +1790,7 @@ class chaosaiart_TextCLIPEncode:
     RETURN_NAMES = ("POSITIV","NEGATIV",)
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/prompt"
+    CATEGORY = "🔶Chaosaiart/prompt"
     def node(self, clip, positiv_txt,negativ_txt):
         return (chaosaiart_higher.textClipEncode(clip,positiv_txt),chaosaiart_higher.textClipEncode(clip,negativ_txt), )
 
@@ -1815,7 +1814,7 @@ class chaosaiart_TextCLIPEncode_lora:
     RETURN_NAMES = ("MODEL","POSITIV","NEGATIV",)
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/prompt"
+    CATEGORY = "🔶Chaosaiart/prompt"
     def node(self, clip, positiv_txt,negativ_txt,model,lora): 
    
         loraArray = lora
@@ -1843,7 +1842,7 @@ class chaosaiart_MainPromptCLIPEncode:
     RETURN_NAMES = ("MODEL","POSITIV","NEGATIV",)
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/prompt"
+    CATEGORY = "🔶Chaosaiart/prompt"
     def node(self,model, clip, main_prompt): 
 
         positiv_txt = main_prompt[0]
@@ -1874,7 +1873,7 @@ class chaosaiart_FramePromptCLIPEncode:
     RETURN_NAMES = ("MODEL","POSITIV","NEGATIV",)
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/prompt"
+    CATEGORY = "🔶Chaosaiart/prompt"
     def node(self,model, clip, frame_prompt): 
 
         positiv_txt = frame_prompt[1][0]
@@ -1929,7 +1928,7 @@ class chaosaiart_restarter_advanced:
 
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/restart"
+    CATEGORY = "🔶Chaosaiart/restart"
   
     def node(self, Mode, Start, End, Version, restart=0):
        
@@ -2036,7 +2035,7 @@ class chaosaiart_restarter:
 
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/restart"
+    CATEGORY = "🔶Chaosaiart/restart"
  
 
     def node(self, Version):
@@ -2068,7 +2067,7 @@ class chaosaiart_any_array2input_all_small:
     RETURN_NAMES = ("ANY_1","ANY_2","ANY_3","ANY_4",)
 
     FUNCTION = "node"
-    CATEGORY = "Chaosaiart/switch"
+    CATEGORY = "🔶Chaosaiart/switch"
  
 
     def node(self,array=None):  
@@ -2092,7 +2091,7 @@ class chaosaiart_any_array2input_all_big:
     RETURN_NAMES = ("ANY_1","ANY_2","ANY_3","ANY_4","ANY_5","ANY_6","ANY_7","ANY_8","ANY_9",)
 
     FUNCTION = "node"
-    CATEGORY = "Chaosaiart/switch"
+    CATEGORY = "🔶Chaosaiart/switch"
  
 
     def node(self,array=None):  
@@ -2123,7 +2122,7 @@ class chaosaiart_any_array2input_1Input:
     RETURN_NAMES = ("ANY",)
 
     FUNCTION = "node"
-    CATEGORY = "Chaosaiart/switch"
+    CATEGORY = "🔶Chaosaiart/switch"
  
 
     def node(self,array,input_nr,input_nr_override=None):  
@@ -2162,7 +2161,7 @@ class chaosaiart_any_input2array_small:
     RETURN_NAMES = ("ARRAY",)
 
     FUNCTION = "node"
-    CATEGORY = "Chaosaiart/switch"
+    CATEGORY = "🔶Chaosaiart/switch"
  
 
     def node(self,  
@@ -2208,7 +2207,7 @@ class chaosaiart_any_input2array_big:
     RETURN_NAMES = ("ARRAY",)
 
     FUNCTION = "node"
-    CATEGORY = "Chaosaiart/switch"
+    CATEGORY = "🔶Chaosaiart/switch"
  
 
     def node(self, 
@@ -2267,7 +2266,7 @@ class chaosaiart_Any_Switch:
     RETURN_NAMES = ("Info","SOURCE_X",)
 
     FUNCTION = "node"
-    CATEGORY = "Chaosaiart/switch"
+    CATEGORY = "🔶Chaosaiart/switch"
  
 
     def node(self, mode, source_1,source_2, restart=0):
@@ -2348,7 +2347,7 @@ class chaosaiart_Number_Switch:
     RETURN_NAMES = ("INT","FLOAT","Info",)
 
     FUNCTION = "node"
-    CATEGORY = "Chaosaiart/logic"
+    CATEGORY = "🔶Chaosaiart/logic"
  
 
     def node(self, First_IMG,Rest_IMG, restart=0):
@@ -2389,7 +2388,7 @@ class chaosaiart_Denoising_Switch:
     RETURN_NAMES = ("DENOISE","Info",)
 
     FUNCTION = "node"
-    CATEGORY = "Chaosaiart/ksampler"
+    CATEGORY = "🔶Chaosaiart/ksampler"
  
 
     def node(self, First_IMG,Rest_IMG, restart=0):
@@ -2440,7 +2439,7 @@ class chaosaiart_Any_Switch_Big_Number:
     RETURN_NAMES = ("SOURCE_X","Info",)
 
     FUNCTION = "node"
-    CATEGORY = "Chaosaiart/switch"
+    CATEGORY = "🔶Chaosaiart/switch"
  
 
     def node(self, mode, nr,  
@@ -2470,7 +2469,7 @@ class chaosaiart_Any_Switch_Big_Number:
             source_9
         ]
 
-        source_num = nr_override if not nr_override==None else nr
+        source_num = nr_override if nr_override is not None else nr
 
         mode_num = 1
         if mode == "nr = Revers":
@@ -2527,19 +2526,41 @@ class chaosaiart_Number:
     @classmethod
     def INPUT_TYPES(cls):
         return {
-            "required": {
-                "number_float": ("FLOAT", {"default": 1.0, "min": 0.0, "max": 10000000, "step": 0.01}),
+            "required": { 
                 "number_int": ("INT", {"default": 1, "min": 0, "max": 99999999, "step": 1}),
             }
         }
 
-    RETURN_TYPES = ("FLOAT","INT",)
-    RETURN_NAMES = ("FLOAT","INT",)
+    RETURN_TYPES = ("INT",)
+    RETURN_NAMES = ("INT",)
     FUNCTION = "node"
-    CATEGORY = "Chaosaiart/logic"
+    CATEGORY = "🔶Chaosaiart/logic"
 
-    def node(self,number_float, number_int): 
-        return (number_float,number_int,)
+    def node(self, number_int): 
+        return (number_int,)
+
+            
+ 
+class chaosaiart_Number2:
+     
+    def __init__(self):
+        pass
+    
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "number_float": ("FLOAT", {"default": 1.0, "min": 0.0, "max": 10000000, "step": 0.01}), 
+            }
+        }
+
+    RETURN_TYPES = ("FLOAT",)
+    RETURN_NAMES = ("FLOAT",)
+    FUNCTION = "node"
+    CATEGORY = "🔶Chaosaiart/logic"
+
+    def node(self,number_float): 
+        return (number_float,)
      
  
  
@@ -2563,7 +2584,7 @@ class chaosaiart_controlnet_weidgth:
     RETURN_NAMES = ("STRENGHT", "START", "END",)
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/controlnet"
+    CATEGORY = "🔶Chaosaiart/controlnet"
 
     def node(cls,strength, start, end, strength_override=None, start_override=None, end_override=None):
         iStrength   = strength_override if not strength_override    is None     else strength
@@ -2605,7 +2626,7 @@ class chaosaiart_Number_Counter:
     RETURN_NAMES = ("FLOAT", "INT", "Info")
 
     FUNCTION = "node"
-    CATEGORY = "Chaosaiart/logic"
+    CATEGORY = "🔶Chaosaiart/logic"
  
     def node(self, mode, start, stop, step, restart=0, repeat2step=0):
        
@@ -2717,7 +2738,7 @@ class chaosaiart_Simple_Prompt:
 
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/prompt"
+    CATEGORY = "🔶Chaosaiart/prompt"
  
     def node(self, Prompt="", add_prompt=""): 
         out = chaosaiart_higher.add_Prompt_txt(add_prompt,Prompt)
@@ -2750,7 +2771,7 @@ class chaosaiart_ADD_Prompt:
 
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/prompt"
+    CATEGORY = "🔶Chaosaiart/prompt"
  
     def node(self,placement, addition="",  input_string=""):
 
@@ -2791,7 +2812,7 @@ class chaosaiart_Prompt_Frame:
 
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/prompt"
+    CATEGORY = "🔶Chaosaiart/prompt"
  
     def node(self,start_frame,positiv="",negativ="",add_lora=[],add_positiv="",add_negativ=""):
         
@@ -2823,7 +2844,7 @@ class chaosaiart_Prompt:
 
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/prompt"
+    CATEGORY = "🔶Chaosaiart/prompt"
     
     def node(self,positiv="",negativ="",add_lora=[],add_positiv="",add_negativ=""):
         positivOUT = chaosaiart_higher.add_Prompt_txt(add_positiv,positiv)
@@ -2861,7 +2882,7 @@ class chaosaiart_Prompt_mixer_byFrame:
 
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/prompt"
+    CATEGORY = "🔶Chaosaiart/prompt"
 
     def node(self,activ_frame=0,
                  main_prompt=None,
@@ -2952,7 +2973,7 @@ class chaosaiart_Prompt_mixer:
 
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/prompt"
+    CATEGORY = "🔶Chaosaiart/prompt"
 
     def node(self,
                  prompt_txt_1=None,
@@ -3002,27 +3023,22 @@ def file_by_directory(directory_path,AllowedType):
     return Array           
    
 class chaosaiart_Load_Image_Batch:
-    def __init__(self): 
-        self.image_history = None 
-        self.repeatCount = 0   
-        self.counter = 0
-        self.Started = False
+    def __init__(self):   
+        self.counter = 0 
         self.activ_index = 0
         self.path = ""
+        self.Started = False
  
     @classmethod
     def INPUT_TYPES(cls):
         return {
-            "required": {
-                "mode": (["Increasing Index", "by Activ Frame"],),
+            "required": { 
                 "index": ("INT", {"default": 1, "min": 1, "max": 150000, "step": 1}), 
-                "path": ("STRING", {"default": '', "multiline": False}), 
-                "repeat": ("INT", {"default": 0, "min": 0, "max": 150000, "step": 1}), #Error ohne Sinn 
+                "path": ("STRING", {"default": '', "multiline": False}),  
             },
             "optional": { 
                 "restart": ("RESTART",),
                 "activ_frame2index": ("ACTIV_FRAME",),
-                "repeat_Override": ("REPEAT",),
             }
         }
 
@@ -3035,77 +3051,65 @@ class chaosaiart_Load_Image_Batch:
     RETURN_NAMES = ("Info","IMAGE","REPEAT",)
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/image"
+    CATEGORY = "🔶Chaosaiart/image"
 
-    def node(self, path, restart=0, repeat_Override=None, activ_frame2index=0, repeat=0, index=1, mode="by Activ Frame"):
-       
-        newImageCheck = False
+    def node(self, path, restart=0, activ_frame2index=None, index=1):
         
-        indexNum   = activ_frame2index if activ_frame2index  >= 1 else index 
-        indexNum = indexNum - 1
-        repeatNum  = int(repeat_Override) if not repeat_Override==None else repeat 
-        restartNum = restart
+        indexNum = activ_frame2index if activ_frame2index is not None else index
+        indexNum = indexNum - 1  
          
         if not self.path == path:
             self.path = path
-            self.Started == False
+            self.Started = False
 
-        if restartNum > 0 or self.Started == False:
-            self.image_history = None 
-            self.repeatCount = 0 
+        if restart > 0 or self.Started == False:
             self.counter = 0
  
+        self.Started = True
 
-        if  self.repeatCount >= repeatNum:  
-            self.repeatCount = 0
+        if os.path.exists(path):
+            
+            if activ_frame2index is None:
+                indexNum = indexNum + self.counter 
+                self.counter += 1 
+                chaosaiart_higher.Debugger("chaosaiart_Load_Image_Batch",f"no activ_frame2index + Index: {indexNum}")
 
-        if self.repeatCount == 0:
-            self.Started = True
-            newImageCheck = True 
-
-            if os.path.exists(path):
-
-                #if mode == "by Activ Frame":   Nothing happen 
-
-                if mode == 'Increasing Index':    
-                    indexNum = indexNum + self.counter 
-                    self.counter += 1 
-
-                fileArray = file_by_directory(path,imgType_EXT)
-                if len(fileArray) >= 1:
-                   
-                    if indexNum < 0:
-                        indexNum = 0
-                        print("Chaosaiart - Load Image Batch: Below first image not allowed, repeat first image")
-
-                    if indexNum >= len(fileArray):
-                        indexNum = len(fileArray)-1 
-                        print("Chaosaiart - Load Image Batch: its Last IMG, i will repeat it.")
- 
-             
-                    image = Image.open(fileArray[indexNum]) 
-                    self.activ_index = indexNum
-
-                else:
-                    self.Started = False
-                    print("Chaosaiart - Load Image Batch: Directory Empty")
-                    return None,None,None,
-            else:
-                self.Started = False
-                print("Chaosaiart - Load Image Batch: Directory Path")
-                return None,None,None,
+            fileArray = file_by_directory(path,imgType_EXT)
+            if len(fileArray) >= 1:
                 
-             
-            self.image_history = image 
+                if indexNum < 0:
+                    indexNum = 0
+                    print("Chaosaiart - Load Image Batch: Below first image not allowed, repeat first image")
 
-             
-        repeat_OUT = repeatNum - self.repeatCount  
-        self.repeatCount += 1 
-        info = f"Index: {self.activ_index+1}\nCountdown: {repeat_OUT}" 
-        
-        if newImageCheck:
-            return (info, pil2tensor(image), repeatNum,)
-        return (info, pil2tensor(self.image_history), repeatNum,)
+                if indexNum >= len(fileArray):
+                    indexNum = len(fileArray)-1 
+                    print("Chaosaiart - Load Image Batch: its Last IMG, i will repeat it.")
+ 
+                image = Image.open(fileArray[indexNum]) 
+                self.activ_index = indexNum
+
+            else:
+                self.Started = False 
+                info = "Chaosaiart - Load Batch Image: Error: Empty Directory!"
+                print("----")
+                print(" ")
+                print("\033[91m"+info+"\033[0m")
+                print(" ")
+                print("----")
+                return info,None,None,None,
+               
+        else:
+            self.Started = False
+            info = "Chaosaiart - Load Image Batch: Error: Open Directory Path Failed" 
+            print("----")
+            print(" ")
+            print("\033[91m"+info+"\033[0m")
+            print(" ")
+            print("----")
+            return info,None,None,None, 
+            
+        info = f"Index: {self.activ_index+1}"  
+        return (info, pil2tensor(image),) 
   
  
 class chaosaiart_Load_Image_Batch_2img:
@@ -3121,15 +3125,13 @@ class chaosaiart_Load_Image_Batch_2img:
     @classmethod
     def INPUT_TYPES(cls):
         return {
-            "required": {
-                "mode": (["Increasing Index","by Activ Frame"],),
+            "required": { 
                 "index": ("INT", {"default": 1, "min": 1, "max": 150000, "step": 1}), 
                 "path": ("STRING", {"default": '', "multiline": False}), 
                 "repeat": ("INT", {"default": 0, "min": 0, "max": 150000, "step": 1}), 
             },
             "optional": { 
                 "restart": ("RESTART",),
-                "activ_frame2index": ("ACTIV_FRAME",),
                 "repeat_Override": ("REPEAT",),
             }
         }
@@ -3143,16 +3145,16 @@ class chaosaiart_Load_Image_Batch_2img:
     RETURN_NAMES = ("Info","IMAGE = Index","IMAGE = Index+1","REPEAT",)
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/image"
+    CATEGORY = "🔶Chaosaiart/image"
 
-    def node(self, path,restart=0, repeat_Override=None, activ_frame2index=0, repeat=0, index=0, mode="by Activ Frame"):
+    def node(self, path,restart=0, repeat_Override=None, repeat=0, index=0):
       
         newImageCheck = False
         
-        indexNum   = activ_frame2index if activ_frame2index  >= 1 else index 
-        indexNum = indexNum - 1
-        repeatNum  = repeat_Override     if not repeat_Override ==None else repeat 
-        restartNum = restart
+        indexNum    = index 
+        indexNum    = indexNum - 1
+        repeatNum   = repeat_Override     if repeat_Override is not None else repeat 
+        restartNum  = restart
          
         if not self.path == path:
             self.path = path
@@ -3172,14 +3174,10 @@ class chaosaiart_Load_Image_Batch_2img:
             newImageCheck = True 
 
             if os.path.exists(path):
-
-                #if mode == "by Activ Frame":   Nothing happen 
-
-                if mode == 'Increasing Index':    
-                    indexNum = indexNum + self.counter 
-                    indexNum2 = indexNum + 1
-                    self.counter += 1
-                    #print("Debuging: "+str(self.counter))
+  
+                indexNum = indexNum + self.counter 
+                indexNum2 = indexNum + 1
+                self.counter += 1 
 
                 fileArray = file_by_directory(path,imgType_EXT)
                 if len(fileArray) >= 1:
@@ -3202,13 +3200,23 @@ class chaosaiart_Load_Image_Batch_2img:
 
                 else:
                     self.Started = False
-                    print("Chaosaiart - Load Batch Image: Error: Empty Directory!")
-                    return None,None,None,None,
+                    info = "Chaosaiart - Load Batch Image: Error: Empty Directory!"
+                    print("----")
+                    print(" ")
+                    print("\033[91m"+info+"\033[0m")
+                    print(" ")
+                    print("----")
+                    return info,None,None,None,
                
             else:
                 self.Started = False
-                print("Chaosaiart - Load Image Batch: Error: Open Directory Path Failed")
-                return None,None,None,None,
+                info = "Chaosaiart - Load Image Batch: Error: Open Directory Path Failed" 
+                print("----")
+                print(" ")
+                print("\033[91m"+info+"\033[0m")
+                print(" ")
+                print("----")
+                return info,None,None,None,
                 
              
             self.image_history = image 
@@ -3220,8 +3228,8 @@ class chaosaiart_Load_Image_Batch_2img:
         info = f"Index: {self.activ_index+1}\nCountdown: {repeat_OUT}" 
 
         if newImageCheck: 
-            return ( info,pil2tensor(image), pil2tensor(image2), repeatNum, )
-        return ( info,pil2tensor(self.image_history), pil2tensor(self.image_history2), repeatNum, )
+            return ( info, pil2tensor(image), pil2tensor(image2), repeatNum, )
+        return ( info, pil2tensor(self.image_history), pil2tensor(self.image_history2), repeatNum, )
   
 
   
@@ -3283,7 +3291,7 @@ class chaosaiart_CheckpointLoader:
     RETURN_NAMES = ("Info","MODEL", "POSITIV","NEGATIV", "VAE",)
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/checkpoint"
+    CATEGORY = "🔶Chaosaiart/checkpoint"
 
     def node(self, 
                         ckpt_1,positiv_txt="", negativ_txt="",
@@ -3384,7 +3392,7 @@ class chaosaiart_convert:
     RETURN_NAMES = ("FLOAT", "INT", "NUMBER","ACTIV_FRAME","REPEAT","RESTART(reset=1)","Bool","STRING",)
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/logic"
+    CATEGORY = "🔶Chaosaiart/logic"
 
     def node(cls,source):
 
@@ -3403,26 +3411,128 @@ class chaosaiart_convert:
         return floatSource, intSource, floatSource, intSource,intSource,intSource, bool, strSource,
       
 
-class chaosaiart_image_loop:
+class chaosaiart_oneNode:
     def __init__(self):  
-        self.image_history = None
-        
+        self.image_history  = None
+        self.notStarted     = True
+
+        self.Cache_index    = None
+        self.Cache_CKPT     = None
+        self.Cache_Lora     = None
+        self.Cache_pPrompt  = None
+        self.Cache_nPrompt  = None 
+
+        self.lora_load_cache = []
+        self.device = comfy.model_management.intermediate_device() 
+  
+      
     @classmethod
     def INPUT_TYPES(s):
-        return {"required": {
-            "restart": ("RESTART", ), 
-            "image": ("IMAGE", )
-    }}
+        return {    
+            "required":{ 
+                    "Mode": (["Create Image","Create Image, Hold it until Restart"],), 
+                    "Checkpoint": (folder_paths.get_filename_list("checkpoints"), ),
+                    "Positiv": ("STRING", {"multiline": True}),
+                    "Negativ": ("STRING", {"multiline": True}), 
+                    "empty_Img_width": ("INT", {"default": 512, "min": 16, "max": MAX_RESOLUTION, "step": 8}),
+                    "empty_Img_height": ("INT", {"default": 512, "min": 16, "max": MAX_RESOLUTION, "step": 8}), 
+                    "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
+                    "steps": ("INT", {"default": 20, "min": 1, "max": 10000}),
+                    "cfg": ("FLOAT", {"default": 8.0, "min": 0.0, "max": 100.0, "step":0.1, "round": 0.01}),
+                    "denoise": ("FLOAT", {"default": 1, "min": 0, "max": 1, "step": 0.01}),
+                    "sampler_name": (comfy.samplers.KSampler.SAMPLERS, ),
+                    "scheduler": (comfy.samplers.KSampler.SCHEDULERS, ),
+                      
+                },
+                "optional":{
+                    "restart": ("RESTART", ),
+                    "add_main_prompt": ("MAIN_PROMPT",),
+                    "latent_override": ("INT",{"forceInput": True}),
+                    "img2img_override": ("INT",{"forceInput": True}),
+                    "vae_override": ("VAE", ),
+                }
+            }
+
 
     RETURN_TYPES = ("IMAGE",)
     RETURN_NAMES = ("IMAGE",)
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/image"
+    CATEGORY = "🔶Chaosaiart/ksampler"
 
-    def node(self, image, restart):
+    @staticmethod
+    def vae_encode_crop_pixels(pixels):
+        x = (pixels.shape[1] // 8) * 8
+        y = (pixels.shape[2] // 8) * 8
+        if pixels.shape[1] != x or pixels.shape[2] != y:
+            x_offset = (pixels.shape[1] % 8) // 2
+            y_offset = (pixels.shape[2] % 8) // 2
+            pixels = pixels[:, x_offset:x + x_offset, y_offset:y + y_offset, :]
+        return pixels
+
+    def node(self,  Mode, Checkpoint,
+            empty_Img_width, empty_Img_height, seed, steps, cfg, sampler_name, scheduler, denoise,
+            add_main_prompt = None,
+            Positiv = "", Negativ = "", latent_override = None, img2img_override = None,  
+            vae_override = None, restart = 0
+        ):
         
-        if self.image_history is None or restart >= 1:
+        if Mode == "Create Image" or restart >= 1 or self.notStarted:
+
+            add_positiv_txt = ""    if add_main_prompt is None else add_main_prompt[0] 
+            add_negativ_txt = ""    if add_main_prompt is None else add_main_prompt[1] 
+            add_lora = []           if add_main_prompt is None else add_main_prompt[2] 
+             
+            self.notStarted = False
+            ckpt_name       = Checkpoint
+            alora           = add_lora
+            sPositiv        = chaosaiart_higher.add_Prompt_txt(add_positiv_txt,Positiv)
+            sNegativ        = chaosaiart_higher.add_Prompt_txt(Negativ,add_negativ_txt)  
+
+            self.Cache_index, bCKPT_inCache, bLora_inCache, bPositiv_inCache ,bNegativ_inCache \
+            = chaosaiart_higher.check_Checkpoint_Lora_Txt_caches(self.Cache_index,ckpt_name,alora,sPositiv,sNegativ)
+
+            if not bCKPT_inCache:
+                self.Cache_CKPT = chaosaiart_higher.checkpointLoader(ckpt_name) 
+            MODEL, CLIP, VAE = self.Cache_CKPT    
+
+            if not ( bCKPT_inCache and bLora_inCache):    
+                self.Cache_Lora = chaosaiart_higher.load_lora_by_Array(alora, MODEL, CLIP, self.lora_load_cache)
+            MODEL, positiv_clip, negativ_clip, self.lora_load_cache, lora_Info = self.Cache_Lora
+
+            if not ( bCKPT_inCache and bLora_inCache and bPositiv_inCache):   
+                self.Cache_pPrompt = chaosaiart_higher.textClipEncode(positiv_clip, sPositiv) 
+            PositivOut = self.Cache_pPrompt
+            
+            if not ( bCKPT_inCache and bLora_inCache and bNegativ_inCache):
+                self.Cache_nPrompt = chaosaiart_higher.textClipEncode(negativ_clip, sNegativ) 
+            NegativOut = self.Cache_nPrompt   
+
+
+            #def node(self, model, vae, seed, steps, cfg, sampler_name, scheduler, positive, negative, denoise,empty_Img_width,empty_Img_height,empty_Img_batch_size,latent_Override=None,latent_by_Image_Override=None,denoise_Override=None):
+            model = MODEL
+            vae = VAE if vae_override is None else vae_override
+            positive = PositivOut
+            negative = NegativOut
+            empty_Img_batch_size = 1
+
+            if img2img_override is None: 
+                if latent_override is None:
+                    latent = torch.zeros([empty_Img_batch_size, 4, empty_Img_height // 8, empty_Img_width // 8], device=self.device)
+                    latent_image = {"samples":latent}
+                    if not denoise==1:
+                        print("chaosaiart_oneNode: set Denoising to 1")
+                    denoise = 1 
+                else: 
+                    latent_image = latent_override
+            else:
+                pixels = img2img_override
+                pixels = self.vae_encode_crop_pixels(pixels)
+                t = vae.encode(pixels[:,:,:,:3])
+                latent_image = {"samples":t} 
+
+            samples = chaosaiart_higher.ksampler(model, seed, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise)
+            image = vae.decode(samples[0]["samples"])
             self.image_history = image 
 
         return self.image_history ,
@@ -3444,7 +3554,7 @@ class chaosaiart_ControlNetApply:
     RETURN_NAMES = ("POSITVE", "NEGATIVE")
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/controlnet"
+    CATEGORY = "🔶Chaosaiart/controlnet"
 
     def node(self, positive, negative, control_net, image, strength, start, end):
         if strength == 0:
@@ -3494,7 +3604,7 @@ class chaosaiart_ControlNetApply2:
     RETURN_NAMES = ("POSITVE", "NEGATIVE")
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/controlnet"
+    CATEGORY = "🔶Chaosaiart/controlnet"
 
     def node(self, positive, negative, control_net, image, strength, start, end):
         if strength == 0:
@@ -3549,7 +3659,7 @@ class chaosaiart_ControlNetApply3:
     RETURN_NAMES = ("POSITVE", "NEGATIVE")
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/controlnet"
+    CATEGORY = "🔶Chaosaiart/controlnet"
 
     def node(self, positive, negative, control_net, image, strength, start, end, start_Frame, End_Frame,activ_frame):
         if not ( activ_frame >= start_Frame and  activ_frame < End_Frame ):    
@@ -3614,7 +3724,7 @@ class chaosaiart_adjust_color:
     RETURN_NAMES = ("IMAGE",)
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/image"
+    CATEGORY = "🔶Chaosaiart/image"
 
     #def colorChange(self,image,Contrast,Color,Brightness,contrast_Override=None,color_Override=None,brightness_Override=None):
 
@@ -3653,7 +3763,7 @@ class chaosaiart_Show_Info:
     OUTPUT_NODE = True
     OUTPUT_IS_LIST = (True,)
 
-    CATEGORY = "Chaosaiart"
+    CATEGORY = "🔶Chaosaiart"
 
 
 
@@ -3683,7 +3793,7 @@ class chaosaiart_video2img2:
     RETURN_NAMES = ("Info",)
     FUNCTION = "node"  
 
-    CATEGORY = "Chaosaiart/image"
+    CATEGORY = "🔶Chaosaiart/image"
 
 
 
@@ -3716,7 +3826,7 @@ class chaosaiart_video2img1:
     RETURN_NAMES = ("Info",)
     FUNCTION = "node"  
 
-    CATEGORY = "Chaosaiart/video"
+    CATEGORY = "🔶Chaosaiart/video"
  
     #def node(self, Video_Path, FPS_Mode, Output_Folder):
     def node(self, Video_Path, FPS_Mode):
@@ -3746,7 +3856,7 @@ class chaosaiart_img2video:
     RETURN_NAMES = ("Info",)
     FUNCTION = "node"  
 
-    CATEGORY = "Chaosaiart/video"
+    CATEGORY = "🔶Chaosaiart/video"
 
 
 
@@ -3861,7 +3971,7 @@ class chaosaiart_lora:
     def IS_CHANGED(cls, **kwargs):
         return float("NaN")
     
-    CATEGORY = "Chaosaiart/lora"
+    CATEGORY = "🔶Chaosaiart/lora"
 
     def node(self, lora_name, strength_model, strength_clip, add_lora=None): 
            
@@ -3889,7 +3999,7 @@ class chaosaiart_lora_advanced:
     RETURN_TYPES = ("LORA", )
     FUNCTION = "node"
 
-    CATEGORY = "Chaosaiart/lora"
+    CATEGORY = "🔶Chaosaiart/lora"
 
     def node(self, lora_name,lora_type, strength_model, strength_clip, strength_model_override=None,strength_clip_override=None, add_lora=None):
         loraType = "positiv" if lora_type == "Positiv_Prompt" else "negativ"
@@ -4015,15 +4125,16 @@ class chaosaiart_HypernetworkLoader:
 
 # A dictionary that contains all nodes you want to export with their names
 NODE_CLASS_MAPPINGS = {
+
     "chaosaiart_video2img1":                    chaosaiart_video2img1,
     "chaosaiart_img2video":                     chaosaiart_img2video,
 
-    "chaosaiart_adjust_color":                  chaosaiart_adjust_color,
     "chaosaiart_Load_Image_Batch":              chaosaiart_Load_Image_Batch,
     "chaosaiart_Load_Image_Batch_2img":         chaosaiart_Load_Image_Batch_2img,
     "chaosaiart_SaveImage":                     chaosaiart_SaveImage,
     "chaosaiart_EmptyLatentImage":              chaosaiart_EmptyLatentImage, 
-    
+    "chaosaiart_adjust_color":                  chaosaiart_adjust_color,
+
     "chaosaiart_Prompt":                        chaosaiart_Prompt,
     "chaosaiart_Simple_Prompt":                 chaosaiart_Simple_Prompt,
     "chaosaiart_Prompt_Frame":                  chaosaiart_Prompt_Frame,
@@ -4042,6 +4153,7 @@ NODE_CLASS_MAPPINGS = {
     "chaosaiart_lora":                          chaosaiart_lora,
     "chaosaiart_lora_advanced":                 chaosaiart_lora_advanced,
 
+    "chaosaiart_oneNode":                       chaosaiart_oneNode,
     "chaosaiart_KSampler1":                     chaosaiart_KSampler1,
     "chaosaiart_KSampler2":                     chaosaiart_KSampler2, 
     "chaosaiart_KSampler3":                     chaosaiart_KSampler3,
@@ -4054,6 +4166,7 @@ NODE_CLASS_MAPPINGS = {
 
     "chaosaiart_Number_Counter":                chaosaiart_Number_Counter,
     "chaosaiart_Number":                        chaosaiart_Number,
+    "chaosaiart_Number2":                       chaosaiart_Number2,
     "chaosaiart_convert":                       chaosaiart_convert, 
 
     "chaosaiart_restarter":                     chaosaiart_restarter,
@@ -4096,10 +4209,12 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "chaosaiart_video2img1":                    "🔶 Video2Img -> Frame",
     "chaosaiart_img2video":                     "🔶 img2video -> Video",
 
-    "chaosaiart_adjust_color":                  "🔶 Adjust Color - Contrast, Bright, Color",
     "chaosaiart_Load_Image_Batch":              "🔶 Load Image Batch",
     "chaosaiart_Load_Image_Batch_2img":         "🔶 Load Image Batch - Advanced",
     "chaosaiart_SaveImage":                     "🔶 AutoSyc Save Image",
+    "chaosaiart_adjust_color":                  "🔶 Adjust Color - Contrast, Bright, Color",
+    "chaosaiart_EmptyLatentImage":              "🔶 Empty Latent Image - Video Size",
+
 
     "chaosaiart_Prompt":                        "🔶 Main Prompt / Prompt Text", 
     "chaosaiart_Simple_Prompt":                 "🔶 Simple Prompt Text",
@@ -4119,6 +4234,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "chaosaiart_lora":                          "🔶 Lora +add_lora",
     "chaosaiart_lora_advanced":                 "🔶 Lora Advanced +add_lora",   
     
+    "chaosaiart_oneNode":                       "🔶 One Node +Checkpoint +Prompt +Ksampler",
     "chaosaiart_KSampler1":                     "🔶 KSampler txt2img", 
     "chaosaiart_KSampler2":                     "🔶 KSampler img2img",
     "chaosaiart_KSampler3":                     "🔶 KSampler +VAEdecode +Latent",
@@ -4130,7 +4246,8 @@ NODE_DISPLAY_NAME_MAPPINGS = {
 
     "chaosaiart_Number_Counter":                "🔶 Number Counter",
     "chaosaiart_restarter":                     "🔶 Restart & Activ Frame",
-    "chaosaiart_Number":                        "🔶 Number Int float",
+    "chaosaiart_Number":                        "🔶 Number Int",
+    "chaosaiart_Number2":                       "🔶 Number Float",
     "chaosaiart_Number_Switch":                 "🔶 One Time Number Switch",  
     
     "chaosaiart_Any_Switch":                    "🔶 Any Switch", 
@@ -4153,7 +4270,6 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "chaosaiart_restarter_advanced":            "🔶 Restart & Activ - Advanced",
     "chaosaiart_Show_Info":                     "🔶 Info Display",
     "chaosaiart_Denoising_Switch":              "🔶 Denoise Override (Switch)", 
-    "chaosaiart_EmptyLatentImage":              "🔶 Empty Latent Image - Video Size",
    # "chaosaiart_Style_Node":                    "🔶 Style Node",
 
 
