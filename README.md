@@ -31,7 +31,7 @@
     Rethinking workflows with switches<br><br>
     <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h3.png?v=1" alt="Install" width="50%"> <br>
     In progress, coming soon.<br><br>
-    <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h4.png?v=1" alt="Install" width="50%"> <br>
+    <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h4.png?v=1>" alt="Install" width="50%"> <br>
     This node is based on frame-to-frame generation (img after img).<br>
     This means it is VRAM efficient and suitable for GPUs with low VRAM.<br><br>
     Additional: Chaosaiart-Node is in the early phase, <br>more nodes will be added + Bug fixes + changes.<br><br>
@@ -387,6 +387,7 @@ In the future, finished advanced workflows will also be released<br>
   <img src="https://chaosaiart.de/nodes/workflows/nodes/image_2.jpg?v=1" alt="Nodes" width="50%"><br><br>
   <!-- Ksampler -->
   <a id="nodes_2"><img src="https://chaosaiart.de/nodes/workflows/elements/ni_2.png?v=1" alt="" width="30%"></a><br> 
+  <img src="https://chaosaiart.de/nodes/workflows/nodes/One_Node.jpg?v=1" alt="Nodes" width="50%">
   <img src="https://chaosaiart.de/nodes/workflows/nodes/Ksampler_1.jpg?v=1" alt="Nodes" width="50%">
   <img src="https://chaosaiart.de/nodes/workflows/nodes/Ksampler_2.jpg?v=1" alt="Nodes" width="50%"><br><br>
   <!-- cache -->
