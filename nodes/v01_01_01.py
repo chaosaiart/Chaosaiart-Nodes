@@ -61,12 +61,11 @@ MAX_RESOLUTION=8192
 logActiv = {
     "lora_load" : False,
     "error": True,
-    "Debugger": False
+    "Debugger": True
 
 } 
 
-lastCheckpoint_name = ""
-cachCheckpoint = []
+oCache_CKPTname_LoraName_Array_promtTxt = []
 
 class anySave:
     def __init__(self, index, saveItem): 
@@ -88,27 +87,54 @@ class chaosaiart_higher:
     def ErrorMSG(Node,msg,Activ_status):
         print("ERROR: "+Node+": "+msg)
 
-    @classmethod    
-    def textClipEncode_cacheCheck(cls, clip, text, cache_text, clip_result):
-        if cache_text == text:
-            if not clip_result == None:
-                return clip_result, clip_result,text 
+   
+
+    @classmethod
+    def check_Checkpoint_Lora_Txt_caches(cls,index,sCKPT_name,aLora_Array,sPositiv_txt,sNegativ_txt):
         
-        new_result = cls.textClipEncode(clip,text)
-        return new_result, new_result, text
+        bCKPT_inCache   = False
+        bLora_inCache   = False
+        bPositiv_inCache = False
+        bNegativ_inCache = False 
 
+        iIndex = None
 
+        if index is not None: 
+            if 0 <= index < len(oCache_CKPTname_LoraName_Array_promtTxt):
+                iIndex = index
+                o = oCache_CKPTname_LoraName_Array_promtTxt[iIndex]
+                if sCKPT_name == o.get("ckpt") and sCKPT_name is not None:
+                    bCKPT_inCache = True
+                    if aLora_Array == o.get("lora") and aLora_Array is not None:
+                        bLora_inCache = True
+                        if sPositiv_txt == o.get("positiv") and sPositiv_txt is not None: 
+                            bPositiv_inCache = True
+                        if sNegativ_txt == o.get("negativ") and sNegativ_txt is not None: 
+                            bNegativ_inCache = True
+                            
+        if iIndex is None: 
+            oCache_CKPTname_LoraName_Array_promtTxt.append({"ckpt": sCKPT_name, "lora": aLora_Array, "positiv":sPositiv_txt, "negativ":sNegativ_txt})
+            iIndex = len(oCache_CKPTname_LoraName_Array_promtTxt) - 1
+        else:
+            oCache_CKPTname_LoraName_Array_promtTxt[iIndex] = {"ckpt":sCKPT_name,"lora":aLora_Array,"positiv":sPositiv_txt, "negativ":sNegativ_txt}
+
+        return iIndex, bCKPT_inCache, bLora_inCache, bPositiv_inCache ,bNegativ_inCache
+    
+  
     def textClipEncode(clip,text):
         tokens = clip.tokenize(text)
         cond, pooled = clip.encode_from_tokens(tokens, return_pooled=True)
         return [[cond, {"pooled_output": pooled}]]
     
+    """ #TODO: FIXME: NOTIZ:
     @classmethod    
     def CKPT_new_or_cache(cls,Checkpoint_name,Cached_CKPT_Name,Cached_CKPT):
-        if not Cached_CKPT_Name == Checkpoint_name or Cached_CKPT == None: 
+        bNewCheckpoint = False
+        if not Cached_CKPT_Name == Checkpoint_name or Cached_CKPT is None:: 
             Cached_CKPT = cls.checkpointLoader(Checkpoint_name)
-        return Cached_CKPT, Checkpoint_name
-
+            bNewCheckpoint = True
+        return Cached_CKPT, Checkpoint_name, bNewCheckpoint
+    """
     def checkpointLoader(ckpt_name):
         ckpt_path = folder_paths.get_full_path("checkpoints", ckpt_name)
         out = comfy.sd.load_checkpoint_guess_config(ckpt_path, output_vae=True, output_clip=True, embedding_directory=folder_paths.get_folder_paths("embeddings"))     
@@ -199,7 +225,7 @@ class chaosaiart_higher:
     def check_Text(txt):
         
         try: 
-            if txt == None:
+            if txt is None:
                 return False
             if txt == "":
                 return False
@@ -423,7 +449,7 @@ class chaosaiart_higher:
 
         loraObjekt = {"lora_type":loraType,"lora_name":lora_name,"strength_model":strength_model_float,"strength_clip":strength_clip_float}
 
-        if add_lora == None:
+        if add_lora is None:
             return [loraObjekt]
         
         add_lora.append(loraObjekt)
@@ -519,7 +545,7 @@ class chaosaiart_higher:
 
         #try: 
             #loaded_lora
-        if loraArray == None: 
+        if loraArray is None: 
             cls.Debugger("Chaosaiart-Load Lora: no Lora",loraArray)
             return model_lora, clip_positive, clip_negative, newCache
 
@@ -542,7 +568,7 @@ class chaosaiart_higher:
                  
                 info += "\n" + cls.path2name(lora_name)
 
-                if not cache_loraArray == None: 
+                if cache_loraArray is not None: 
                     if type(cache_loraArray) == list:
                         if i < len(cache_loraArray):
                             cache_lora = cache_loraArray[i]
@@ -593,13 +619,14 @@ class chaosaiart_higher:
         
 class chaosaiart_CheckpointPrompt2:
     def __init__(self):
-        self.lora_cache = []
-        self.Cached_CKPT_Name = ""
-        self.Cached_CKPT = None
-        self.p_cache_text = ""
-        self.n_cache_text = ""
-        self.p_cache = None
-        self.n_cache = None
+
+        self.Cache_index    = None
+        self.Cache_CKPT     = None
+        self.Cache_Lora     = None
+        self.Cache_pPrompt  = None
+        self.Cache_nPrompt  = None 
+
+        self.lora_load_cache = []
 
     @classmethod
     def INPUT_TYPES(s):
@@ -623,33 +650,45 @@ class chaosaiart_CheckpointPrompt2:
     CATEGORY = "Chaosaiart/checkpoint"
 
     def node(self, Checkpoint, Positiv="",Negativ="",add_lora=[],add_positiv_txt = "",add_negativ_txt=""):
-        lora = add_lora
-  
+        
+    
         ckpt_name = Checkpoint 
-        self.Cached_CKPT, self.Cached_CKPT_Name = chaosaiart_higher.CKPT_new_or_cache(ckpt_name,self.Cached_CKPT_Name,self.Cached_CKPT)
-        checkpointLoadItem = self.Cached_CKPT   
-        
-        MODEL   = checkpointLoadItem[0]
-        CLIP    = checkpointLoadItem[1]
-        VAE     = checkpointLoadItem[2]
-        
         sPositiv = chaosaiart_higher.add_Prompt_txt(add_positiv_txt,Positiv)
         sNegativ = chaosaiart_higher.add_Prompt_txt(add_negativ_txt,Negativ)  
-         
+        alora = add_lora
         
-        if not self.lora_cache == []:
-             if not chaosaiart_higher.Check_all_loras_in_cacheArray(self.lora_cache,lora): 
-                self.lora_cache = [] #Memorey optimization
-                
-        MODEL, positiv_clip, negativ_clip, self.lora_cache, lora_Info  = chaosaiart_higher.load_lora_by_Array(lora,MODEL,CLIP,self.lora_cache)
-         
-        PositivOut, self.p_cache , self.p_cache_text = chaosaiart_higher.textClipEncode_cacheCheck(positiv_clip, sPositiv,self.p_cache_text, self.p_cache) 
-        NegativOut, self.n_cache, self.n_cache_text = chaosaiart_higher.textClipEncode_cacheCheck(negativ_clip, sNegativ,self.n_cache_text, self.n_cache) 
-          
+        self.Cache_index, bCKPT_inCache, bLora_inCache, bPositiv_inCache ,bNegativ_inCache \
+        = chaosaiart_higher.check_Checkpoint_Lora_Txt_caches(self.Cache_index,ckpt_name,alora,sPositiv,sNegativ)
+
+        if not bCKPT_inCache:
+            self.Cache_CKPT = chaosaiart_higher.checkpointLoader(ckpt_name) 
+        MODEL, CLIP, VAE = self.Cache_CKPT    
+
+        if not ( bCKPT_inCache and bLora_inCache):    
+            self.Cache_Lora = chaosaiart_higher.load_lora_by_Array(alora, MODEL, CLIP, self.lora_load_cache)
+        MODEL, positiv_clip, negativ_clip, self.lora_load_cache, lora_Info = self.Cache_Lora
+
+        if not ( bCKPT_inCache and bLora_inCache and bPositiv_inCache):   
+            self.Cache_pPrompt = chaosaiart_higher.textClipEncode(positiv_clip, sPositiv) 
+        PositivOut = self.Cache_pPrompt
+        
+        if not ( bCKPT_inCache and bLora_inCache and bNegativ_inCache):
+            self.Cache_nPrompt = chaosaiart_higher.textClipEncode(negativ_clip, sNegativ) 
+        NegativOut = self.Cache_nPrompt  
+
         info  = "checkpoint: "+chaosaiart_higher.path2name(Checkpoint)+"\n" 
         info += f"Positiv:\n{sPositiv}\n"
         info += f"Negativ:\n{sNegativ}\n" 
         info += lora_Info
+        info += "\n\nCheckpoint: " 
+        info += "No Change " if bCKPT_inCache else "Changed"  
+        info += "\n\nLora: " 
+        info += "No Change " if bLora_inCache else "Changed"  
+        info += "\n\nPrompt Positiv: " 
+        info += "No Change " if bPositiv_inCache else "Changed"  
+        info += "\n\nPrompt Negativ: " 
+        info += "No Change " if bNegativ_inCache else "Changed"  
+        
         
         return (info,MODEL,PositivOut,NegativOut,VAE,) 
  
@@ -717,9 +756,14 @@ class chaosaiart_EmptyLatentImage:
 
 class chaosaiart_CheckpointPrompt:
     def __init__(self):
-        self.lora_cache = []
-        self.Cached_CKPT_Name = ""
-        self.Cached_CKPT = None
+
+        self.Cache_index    = None
+        self.Cache_CKPT     = None
+        self.Cache_Lora     = None
+        self.Cache_pPrompt  = None
+        self.Cache_nPrompt  = None  
+ 
+        self.lora_load_cache = []
 
     @classmethod
     def INPUT_TYPES(s):
@@ -741,23 +785,30 @@ class chaosaiart_CheckpointPrompt:
 
     def node(self, Checkpoint, positiv_txt="",negativ_txt="",lora=[]):
          
-        ckpt_name = Checkpoint
-         
-        self.Cached_CKPT, self.Cached_CKPT_Name = chaosaiart_higher.CKPT_new_or_cache(ckpt_name,self.Cached_CKPT_Name,self.Cached_CKPT)
-        checkpointLoadItem = self.Cached_CKPT  
+        ckpt_name = Checkpoint 
+        sPositiv = positiv_txt
+        sNegativ = negativ_txt
+        aLora = lora
 
-        MODEL   = checkpointLoadItem[0]
-        CLIP    = checkpointLoadItem[1]
-        VAE     = checkpointLoadItem[2]   
- 
-        if not self.lora_cache == []:
-             if not chaosaiart_higher.Check_all_loras_in_cacheArray(self.lora_cache,lora): 
-                self.lora_cache = [] #Memorey optimization
-                
-        MODEL, positiv_clip, negativ_clip, self.lora_cache, lora_Info  = chaosaiart_higher.load_lora_by_Array(lora,MODEL,CLIP,self.lora_cache)
-         
-        PositivOut = chaosaiart_higher.textClipEncode(positiv_clip,positiv_txt)
-        NegativOut = chaosaiart_higher.textClipEncode(negativ_clip,negativ_txt)
+        self.Cache_index, bCKPT_inCache, bLora_inCache, bPositiv_inCache ,bNegativ_inCache \
+        = chaosaiart_higher.check_Checkpoint_Lora_Txt_caches(self.Cache_index,ckpt_name,aLora,sPositiv,sNegativ)
+
+        if not bCKPT_inCache:
+            self.Cache_CKPT = chaosaiart_higher.checkpointLoader(ckpt_name) 
+        MODEL, CLIP, VAE = self.Cache_CKPT   
+  
+        if not ( bCKPT_inCache and bLora_inCache):    
+            self.Cache_Lora = chaosaiart_higher.load_lora_by_Array(aLora, MODEL, CLIP, self.lora_load_cache)
+        MODEL, positiv_clip, negativ_clip, self.lora_load_cache, lora_Info = self.Cache_Lora
+
+        if not ( bCKPT_inCache and bLora_inCache and bPositiv_inCache):   
+            self.Cache_pPrompt = chaosaiart_higher.textClipEncode(positiv_clip, sPositiv) 
+        PositivOut = self.Cache_pPrompt
+        
+        if not ( bCKPT_inCache and bLora_inCache and bNegativ_inCache):
+            self.Cache_nPrompt = chaosaiart_higher.textClipEncode(negativ_clip, sNegativ) 
+        NegativOut = self.Cache_nPrompt   
+       
 
         return (MODEL,PositivOut,NegativOut,VAE,) 
   
@@ -847,9 +898,14 @@ class chaosaiart_CheckpointPrompt_Frame:
  
 class chaosaiart_CheckpointPrompt_FrameMixer:
     def __init__(self):
-        self.lora_cache = []
-        self.Cached_CKPT_Name = ""
-        self.Cached_CKPT = None
+
+        self.Cache_index    = None
+        self.Cache_CKPT     = None
+        self.Cache_Lora     = None
+        self.Cache_pPrompt  = None
+        self.Cache_nPrompt  = None 
+
+        self.lora_load_cache = [] 
 
     @classmethod
     def INPUT_TYPES(s):
@@ -889,9 +945,6 @@ class chaosaiart_CheckpointPrompt_FrameMixer:
               ckpt_prompt_8=None,
               ckpt_prompt_9=None):
          
-        main_positiv = main_prompt[0]
-        main_negativ = main_prompt[1]
-        main_lora    = main_prompt[2]
 
         mArray = chaosaiart_higher.make_array(
             ckpt_prompt_1,
@@ -907,49 +960,50 @@ class chaosaiart_CheckpointPrompt_FrameMixer:
 
         if activ_frame < 1:
             activ_frame = 1
-
-        #activ_checkpoint_prompt_frame -> [Start_Frame,Checkpoint,Positiv,Negativ]
+ 
         activ_checkpoint_prompt_frame = chaosaiart_higher.get_Element_by_Frame(activ_frame,mArray) 
 
-        if activ_checkpoint_prompt_frame == None:
+        if activ_checkpoint_prompt_frame is None:
             print("Chaosaiart - CheckpointPrompt_FrameMixer: no checkpoint_prompt_frame with this Activ_Frame. checkpoint_prompt_frame1 will be Used")
             activ_checkpoint_prompt_frame = ckpt_prompt_1
 
-        ckpt_name = activ_checkpoint_prompt_frame[1] 
-        self.Cached_CKPT, self.Cached_CKPT_Name = chaosaiart_higher.CKPT_new_or_cache(ckpt_name,self.Cached_CKPT_Name,self.Cached_CKPT)
-        checkpointLoadItem = self.Cached_CKPT 
+        main_positiv = main_prompt[0]
+        main_negativ = main_prompt[1]
+        main_lora    = main_prompt[2]
 
-
-        MODEL   = checkpointLoadItem[0]
-        CLIP    = checkpointLoadItem[1]
-        VAE     = checkpointLoadItem[2]
-
+        ckpt_name   = activ_checkpoint_prompt_frame[1]   
         Positiv     = activ_checkpoint_prompt_frame[2]
         Negativ     = activ_checkpoint_prompt_frame[3]
         frame_lora  = activ_checkpoint_prompt_frame[4]
  
-        sPositiv = chaosaiart_higher.add_Prompt_txt_byMode(main_positiv,Positiv,True)
-        sNegativ = chaosaiart_higher.add_Prompt_txt_byMode(main_negativ,Negativ,True)  
+        sPositiv = chaosaiart_higher.add_Prompt_txt(main_positiv,Positiv)
+        sNegativ = chaosaiart_higher.add_Prompt_txt(Negativ,main_negativ)  
+          
+        alora = chaosaiart_higher.lora_mainprompt_and_frame(main_lora,frame_lora)
 
+
+        self.Cache_index, bCKPT_inCache, bLora_inCache, bPositiv_inCache ,bNegativ_inCache \
+        = chaosaiart_higher.check_Checkpoint_Lora_Txt_caches(self.Cache_index,ckpt_name,alora,sPositiv,sNegativ)
+
+        if not bCKPT_inCache:
+            self.Cache_CKPT = chaosaiart_higher.checkpointLoader(ckpt_name) 
+        MODEL, CLIP, VAE = self.Cache_CKPT    
+
+        if not ( bCKPT_inCache and bLora_inCache):    
+            self.Cache_Lora = chaosaiart_higher.load_lora_by_Array(alora, MODEL, CLIP, self.lora_load_cache)
+        MODEL, positiv_clip, negativ_clip, self.lora_load_cache, lora_Info = self.Cache_Lora
+ 
+        if not ( bCKPT_inCache and bLora_inCache and bPositiv_inCache):   
+            self.Cache_pPrompt = chaosaiart_higher.textClipEncode(positiv_clip, sPositiv) 
+        PositivOut = self.Cache_pPrompt
+        
+        if not ( bCKPT_inCache and bLora_inCache and bNegativ_inCache):
+            self.Cache_nPrompt = chaosaiart_higher.textClipEncode(negativ_clip, sNegativ) 
+        NegativOut = self.Cache_nPrompt  
+  
         info  = f"Frame:{activ_frame}\nCheckpoint: {activ_checkpoint_prompt_frame[1]}\nPostiv:\n {sPositiv}\nNegativ:\n {sNegativ}\n" 
         
-        #PositivOut = chaosaiart_higher.textClipEncode(CLIP,sPositiv)
-        #NegativOut = chaosaiart_higher.textClipEncode(CLIP,sNegativ)
-        
-        lora = chaosaiart_higher.lora_mainprompt_and_frame(main_lora,frame_lora)
- 
-        if not self.lora_cache == []:
-             if not chaosaiart_higher.Check_all_loras_in_cacheArray(self.lora_cache,lora): 
-                self.lora_cache = [] #Memorey optimization
-                
-        MODEL, positiv_clip, negativ_clip, self.lora_cache, lora_Info  = chaosaiart_higher.load_lora_by_Array(lora,MODEL,CLIP,self.lora_cache)
-         
-
-        PositivOut = chaosaiart_higher.textClipEncode(positiv_clip,sPositiv)
-        NegativOut = chaosaiart_higher.textClipEncode(negativ_clip,sNegativ)
-
-        info += lora_Info
-        #return (info,MODEL,PositivOut,NegativOut,VAE,activ_checkpoint_prompt_frame,) 
+        info += lora_Info 
         return (info,MODEL,PositivOut,NegativOut,VAE,) 
                 
     
@@ -986,7 +1040,7 @@ class chaosaiart_KSampler:
     CATEGORY = "Chaosaiart/ksampler"
 
     def node(self, model, vae, seed, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise, denoise_Override=None):
-        denoise = denoise if denoise_Override == None else denoise_Override 
+        denoise = denoise if denoise_Override is None else denoise_Override 
         samples = chaosaiart_higher.ksampler(model, seed, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise)
         image = vae.decode(samples[0]["samples"]) 
         return (image,) 
@@ -1080,7 +1134,7 @@ class chaosaiart_KSampler2: #img2img
  
     def node(self, model, vae, seed, steps, cfg, sampler_name, scheduler, positive, negative, image,denoise,denoise_Override=None):
         
-        denoise = denoise if denoise_Override == None else denoise_Override 
+        denoise = denoise if denoise_Override is None else denoise_Override 
 
         pixels = image
         pixels = self.vae_encode_crop_pixels(pixels)
@@ -1139,7 +1193,7 @@ class chaosaiart_KSampler3:
 
     def node(self, model, vae, seed, steps, cfg, sampler_name, scheduler, positive, negative, denoise,empty_Img_width,empty_Img_height,empty_Img_batch_size,latent_Override=None,latent_by_Image_Override=None,denoise_Override=None):
         
-        denoise = denoise if denoise_Override == None else denoise_Override 
+        denoise = denoise if denoise_Override is None else denoise_Override 
 
         if latent_by_Image_Override==None: 
             if latent_Override==None:
@@ -1219,7 +1273,7 @@ class chaosaiart_KSampler4:
         empty_Img_batch_size = 1
         add_noise = "enable"
 
-        start_at_step = start_at_step if start_at_step_Override == None else start_at_step_Override
+        start_at_step = start_at_step if start_at_step_Override is None else start_at_step_Override
         end_at_step = steps
 
         if latent_by_Image_Override==None: 
@@ -1314,7 +1368,7 @@ class chaosaiart_KSampler5:
 
         if self.counter == 1 or restart >= 1:
             self.counter = 1
-            if not Start_Image_Override == None:
+            if Start_Image_Override is not None:
                 #img -> Vae -> Latent  
                 pixels = Start_Image_Override
                 pixels = self.vae_encode_crop_pixels(pixels)
@@ -1487,7 +1541,7 @@ class chaosaiart_reloadIMG_Load:
             out = vae.decode(torch.zeros([pre_cache_img_batch_size, 4, pre_cache_img_height // 8, pre_cache_img_width // 8], device=self.device)) 
         else:
             out = chaosaiart_higher.reloader_x("img",reloader,False,None)
-            if out == None: 
+            if out is None: 
                 print("Chaosaiart - reloader: Load Failed")
                 out = vae.decode(torch.zeros([pre_cache_img_batch_size, 4, pre_cache_img_height // 8, pre_cache_img_width // 8], device=self.device))
         return ( out, )  
@@ -1523,7 +1577,7 @@ class chaosaiart_reloadIMG_Load2:
             out = image_pre_Save_Out
         else:
             out = chaosaiart_higher.reloader_x("img",reloader,False,None)
-            if out == None:
+            if out is None:
                 out = image_pre_Save_Out
         return ( out, ) 
 
@@ -1596,7 +1650,7 @@ class chaosaiart_reloadLatent_Load:
             return {"samples":latent}, 
         else:
             out = chaosaiart_higher.reloader_x("latent",reloader,False,None)
-            if out == None:
+            if out is None:
                 print("Chaosaiart - reloader: Load Failed")
                 latent = torch.zeros([pre_cache_batch_size, 4, pre_cache_height // 8, pre_cache_width // 8], device=self.device)
                 return {"samples":latent},
@@ -1633,7 +1687,7 @@ class chaosaiart_reloadLatent_Load2:
             out = latent_pre_Save_Out
         else:
             out = chaosaiart_higher.reloader_x("latent",reloader,False,None)
-            if out == None:
+            if out is None:
                 out = latent_pre_Save_Out
                 print("Chaosaiart - reloader: Load Failed")
         return ( out, ) 
@@ -1699,7 +1753,7 @@ class chaosaiart_reloadAny_Load:
             out = any_pre_Save_Out
         else:
             out = chaosaiart_higher.reloader_x("any",reloader,False,None)
-            if out == None:
+            if out is None:
                 print("Chaosaiart - reloader: Load Failed")
                 out = any_pre_Save_Out
         return ( out, ) 
@@ -1742,7 +1796,6 @@ class chaosaiart_TextCLIPEncode:
         return (chaosaiart_higher.textClipEncode(clip,positiv_txt),chaosaiart_higher.textClipEncode(clip,negativ_txt), )
 
 
-
 class chaosaiart_TextCLIPEncode_lora:
     def __init__(self):  
         self.lora_cache = []
@@ -1766,33 +1819,11 @@ class chaosaiart_TextCLIPEncode_lora:
     def node(self, clip, positiv_txt,negativ_txt,model,lora): 
    
         loraArray = lora
- 
-        chaosaiart_higher.Debugger("loraA",loraArray) 
-
-        if self.lora_cache == []:
-            chaosaiart_higher.log("Chaosaiart-Load Lora","No Lora in Cache.",logActiv["lora_load"])
-        else:  
-            if not chaosaiart_higher.Check_all_loras_in_cacheArray(self.lora_cache,loraArray): 
-                self.lora_cache = [] #Memorey optimization
-                chaosaiart_higher.log("Chaosaiart-Load Lora","Clean UP Lora Cache",logActiv["lora_load"])
- 
-        #TODO: FIXME: NOTIZ: Using Cach to be faster.
-        #self.cache_lora_feed, out_Model, positiv_clip , negativ_clip   = chaosaiart_higher.load_lora_by_Array_or_cache(loraArray,model,clip,self.lora_cache)
-        #out_Model, positiv_clip, negativ_clip, self.lora_cache, lora_Info
-        
-        #out_Positiv = chaosaiart_higher.textClipEncode(positiv_clip,positiv_txt)
-        #out_Negaitv = chaosaiart_higher.textClipEncode(negativ_clip,negativ_txt)
-         
-
-
         out_Model, positiv_clip, negativ_clip, self.lora_cache, lora_Info  = chaosaiart_higher.load_lora_by_Array(loraArray,model,clip,self.lora_cache)
         
         out_Positiv = chaosaiart_higher.textClipEncode(positiv_clip,positiv_txt)
         out_Negaitv = chaosaiart_higher.textClipEncode(negativ_clip,negativ_txt)
-
-
-
-        #return (chaosaiart_higher.textClipEncode(clip,positiv_txt),chaosaiart_higher.textClipEncode(clip,negativ_txt), )
+ 
         return (out_Model,out_Positiv,out_Negaitv,)
 
 
@@ -1820,23 +1851,11 @@ class chaosaiart_MainPromptCLIPEncode:
         lora        = main_prompt[2]
 
         loraArray = lora
- 
-        chaosaiart_higher.Debugger("loraA",loraArray) 
-
-        if self.lora_cache == []:
-            chaosaiart_higher.log("Chaosaiart-Load Lora","No Lora in Cache.",logActiv["lora_load"])
-        else:  
-            if not chaosaiart_higher.Check_all_loras_in_cacheArray(self.lora_cache,loraArray): 
-                self.lora_cache = [] #Memorey optimization
-                chaosaiart_higher.log("Chaosaiart-Load Lora","Clean UP Lora Cache",logActiv["lora_load"])
- 
         out_Model, positiv_clip, negativ_clip, self.lora_cache, lora_Info  = chaosaiart_higher.load_lora_by_Array(loraArray,model,clip,self.lora_cache)
         
         out_Positiv = chaosaiart_higher.textClipEncode(positiv_clip,positiv_txt)
         out_Negaitv = chaosaiart_higher.textClipEncode(negativ_clip,negativ_txt)
          
-
-        #return (chaosaiart_higher.textClipEncode(clip,positiv_txt),chaosaiart_higher.textClipEncode(clip,negativ_txt), )
         return (out_Model,out_Positiv,out_Negaitv,)
     
 class chaosaiart_FramePromptCLIPEncode:
@@ -1863,25 +1882,14 @@ class chaosaiart_FramePromptCLIPEncode:
         lora        = frame_prompt[1][2]
 
         loraArray = lora
- 
-        chaosaiart_higher.Debugger("loraA",loraArray) 
 
-        if self.lora_cache == []:
-            chaosaiart_higher.log("Chaosaiart-Load Lora","No Lora in Cache.",logActiv["lora_load"])
-        else:  
-            if not chaosaiart_higher.Check_all_loras_in_cacheArray(self.lora_cache,loraArray): 
-                self.lora_cache = [] #Memorey optimization
-                chaosaiart_higher.log("Chaosaiart-Load Lora","Clean UP Lora Cache",logActiv["lora_load"])
- 
         out_Model, positiv_clip, negativ_clip, self.lora_cache, lora_Info  = chaosaiart_higher.load_lora_by_Array(loraArray,model,clip,self.lora_cache)
         
         out_Positiv = chaosaiart_higher.textClipEncode(positiv_clip,positiv_txt)
         out_Negaitv = chaosaiart_higher.textClipEncode(negativ_clip,negativ_txt)
          
-
-        #return (chaosaiart_higher.textClipEncode(clip,positiv_txt),chaosaiart_higher.textClipEncode(clip,negativ_txt), )
         return (out_Model,out_Positiv,out_Negaitv,)
-
+ 
 
 
 
@@ -2558,9 +2566,9 @@ class chaosaiart_controlnet_weidgth:
     CATEGORY = "Chaosaiart/controlnet"
 
     def node(cls,strength, start, end, strength_override=None, start_override=None, end_override=None):
-        iStrength   = strength_override if not strength_override    == None     else strength
-        iStart      = start_override    if not start_override       == None     else start
-        iEnd        = end_override      if not end_override         == None     else end
+        iStrength   = strength_override if not strength_override    is None     else strength
+        iStart      = start_override    if not start_override       is None     else start
+        iEnd        = end_override      if not end_override         is None     else end
         return (iStrength, iStart, iEnd,)
       
  
@@ -2613,7 +2621,7 @@ class chaosaiart_Number_Counter:
             self.started = False 
             self.restartMySelf = False
             
-        if repeat2step == None:
+        if repeat2step is None:
             repeat2step = 0
 
         if int(repeat2step) > 1:
@@ -3219,9 +3227,14 @@ class chaosaiart_Load_Image_Batch_2img:
   
 class chaosaiart_CheckpointLoader:
     def __init__(self):  
-        self.lora_cache = []
-        self.Cached_CKPT =  None
-        self.Cached_CKPT_Name = "" 
+
+        self.Cache_index    = None
+        self.Cache_CKPT     = None
+        self.Cache_Lora     = None
+        self.Cache_pPrompt  = None
+        self.Cache_nPrompt  = None 
+
+        self.lora_load_cache = []
 
     @classmethod
     def INPUT_TYPES(s):
@@ -3295,7 +3308,7 @@ class chaosaiart_CheckpointLoader:
                         lora = [],output_vae=True, output_clip=True):
         
          
-        ckpt_name = ckpt_1  
+        ckpt_name_ByFrame = ckpt_1  
 
         if activ_frame > 1:
             Frame_array = [
@@ -3317,36 +3330,36 @@ class chaosaiart_CheckpointLoader:
             for array in Frame_array_filtered:
                 if isinstance(array, list): 
                     if activ_frame >= int(array[0]):
-                        ckpt_name = array[1]
-                        break
-                    
-         
-        self.Cached_CKPT, self.Cached_CKPT_Name = chaosaiart_higher.CKPT_new_or_cache(ckpt_name,self.Cached_CKPT_Name,self.Cached_CKPT)
-        checkpointLoadItem = self.Cached_CKPT
-                
-        MODEL   = checkpointLoadItem[0]
-        CLIP    = checkpointLoadItem[1]
-        VAE     = checkpointLoadItem[2]  
+                        ckpt_name_ByFrame = array[1]
+                        break 
+          
+        ckpt_name   = ckpt_name_ByFrame
+        alora       = lora
+        sPositiv    = positiv_txt
+        sNegativ    = negativ_txt
 
-        if not self.lora_cache == []:
-             if not chaosaiart_higher.Check_all_loras_in_cacheArray(self.lora_cache,lora): 
-                self.lora_cache = [] #Memorey optimization
-                
-        MODEL, positiv_clip, negativ_clip, self.lora_cache, lora_Info  = chaosaiart_higher.load_lora_by_Array(lora,MODEL,CLIP,self.lora_cache)
-         
-        PositivOut = chaosaiart_higher.textClipEncode(positiv_clip,positiv_txt)
-        NegativOut = chaosaiart_higher.textClipEncode(negativ_clip,negativ_txt)
+        self.Cache_index, bCKPT_inCache, bLora_inCache, bPositiv_inCache ,bNegativ_inCache \
+        = chaosaiart_higher.check_Checkpoint_Lora_Txt_caches(self.Cache_index,ckpt_name,alora,sPositiv,sNegativ)
 
+        if not bCKPT_inCache:
+            self.Cache_CKPT = chaosaiart_higher.checkpointLoader(ckpt_name) 
+        MODEL, CLIP, VAE = self.Cache_CKPT    
 
+        if not ( bCKPT_inCache and bLora_inCache):    
+            self.Cache_Lora = chaosaiart_higher.load_lora_by_Array(alora, MODEL, CLIP, self.lora_load_cache)
+        MODEL, positiv_clip, negativ_clip, self.lora_load_cache, lora_Info = self.Cache_Lora
 
-
-        #PositivOut = chaosaiart_higher.textClipEncode(CLIP,positiv_txt)
-        #NegativOut = chaosaiart_higher.textClipEncode(CLIP,negativ_txt)
+        if not ( bCKPT_inCache and bLora_inCache and bPositiv_inCache):   
+            self.Cache_pPrompt = chaosaiart_higher.textClipEncode(positiv_clip, sPositiv) 
+        PositivOut = self.Cache_pPrompt
+        
+        if not ( bCKPT_inCache and bLora_inCache and bNegativ_inCache):
+            self.Cache_nPrompt = chaosaiart_higher.textClipEncode(negativ_clip, sNegativ) 
+        NegativOut = self.Cache_nPrompt   
         
         info = f"Frame: {activ_frame}\nCheckpoint: {ckpt_name}\nPositiv: {positiv_txt}\nNegativ: {negativ_txt}\n{lora_Info}"
         return (info,MODEL,PositivOut,NegativOut,VAE,) 
-  
-        #return (info,out[0],out[1],out[2],) 
+   
  
 
 
@@ -3390,8 +3403,30 @@ class chaosaiart_convert:
         return floatSource, intSource, floatSource, intSource,intSource,intSource, bool, strSource,
       
 
+class chaosaiart_image_loop:
+    def __init__(self):  
+        self.image_history = None
+        
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required": {
+            "restart": ("RESTART", ), 
+            "image": ("IMAGE", )
+    }}
 
+    RETURN_TYPES = ("IMAGE",)
+    RETURN_NAMES = ("IMAGE",)
+    FUNCTION = "node"
 
+    CATEGORY = "Chaosaiart/image"
+
+    def node(self, image, restart):
+        
+        if self.image_history is None or restart >= 1:
+            self.image_history = image 
+
+        return self.image_history ,
+    
 class chaosaiart_ControlNetApply:
     @classmethod
     def INPUT_TYPES(s):
@@ -3822,10 +3857,14 @@ class chaosaiart_lora:
     RETURN_TYPES = ("LORA",)
     FUNCTION = "node"
 
+    @classmethod
+    def IS_CHANGED(cls, **kwargs):
+        return float("NaN")
+    
     CATEGORY = "Chaosaiart/lora"
 
-    def node(self, lora_name, strength_model, strength_clip, add_lora=None):
-        
+    def node(self, lora_name, strength_model, strength_clip, add_lora=None): 
+           
         loraArray = chaosaiart_higher.add_Lora(add_lora,"positiv",lora_name,strength_model,strength_clip)
         return loraArray,
 
@@ -3855,8 +3894,8 @@ class chaosaiart_lora_advanced:
     def node(self, lora_name,lora_type, strength_model, strength_clip, strength_model_override=None,strength_clip_override=None, add_lora=None):
         loraType = "positiv" if lora_type == "Positiv_Prompt" else "negativ"
 
-        strength_model_float =  strength_model if strength_model_override == None else strength_model_override
-        strength_clip_float =  strength_clip if strength_clip_override == None else strength_clip_override
+        strength_model_float =  strength_model if strength_model_override is None else strength_model_override
+        strength_clip_float =  strength_clip if strength_clip_override is None else strength_clip_override
          
         loraArray = chaosaiart_higher.add_Lora(add_lora,loraType,lora_name,strength_model_float,strength_clip_float)
         return loraArray,
@@ -3988,7 +4027,7 @@ NODE_CLASS_MAPPINGS = {
     "chaosaiart_Prompt":                        chaosaiart_Prompt,
     "chaosaiart_Simple_Prompt":                 chaosaiart_Simple_Prompt,
     "chaosaiart_Prompt_Frame":                  chaosaiart_Prompt_Frame,
-    "chaosaiart_Prompt_mixer_byFrame":          chaosaiart_Prompt_mixer_byFrame,
+    "chaosaiart_Prompt_mixer_byFrame":          chaosaiart_Prompt_mixer_byFrame, 
     "chaosaiart_FramePromptCLIPEncode":         chaosaiart_FramePromptCLIPEncode,
     "chaosaiart_MainPromptCLIPEncode":          chaosaiart_MainPromptCLIPEncode,
     "chaosaiart_TextCLIPEncode":                chaosaiart_TextCLIPEncode,
@@ -4006,8 +4045,6 @@ NODE_CLASS_MAPPINGS = {
     "chaosaiart_KSampler1":                     chaosaiart_KSampler1,
     "chaosaiart_KSampler2":                     chaosaiart_KSampler2, 
     "chaosaiart_KSampler3":                     chaosaiart_KSampler3,
-    #"chaosaiart_KSampler4":                     chaosaiart_KSampler4,
-    #"chaosaiart_KSampler5":                     chaosaiart_KSampler5,
     "chaosaiart_Denoising_Switch":              chaosaiart_Denoising_Switch,
    
     "chaosaiart_ControlNetApply":               chaosaiart_ControlNetApply,
@@ -4044,6 +4081,12 @@ NODE_CLASS_MAPPINGS = {
     
     "chaosaiart_Show_Info":                     chaosaiart_Show_Info,
    # "chaosaiart_Style_Node":                    chaosaiart_Style_Node,
+
+
+
+    #"chaosaiart_KSampler4":                     chaosaiart_KSampler4,
+    #"chaosaiart_KSampler5":                     chaosaiart_KSampler5,
+    #"chaosaiart_image_loop":                     chaosaiart_image_loop,
   
 }
  
@@ -4058,7 +4101,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "chaosaiart_Load_Image_Batch_2img":         "🔶 Load Image Batch - Advanced",
     "chaosaiart_SaveImage":                     "🔶 AutoSyc Save Image",
 
-    "chaosaiart_Prompt":                        "🔶 Prompt Text / Main Prompt", 
+    "chaosaiart_Prompt":                        "🔶 Main Prompt / Prompt Text", 
     "chaosaiart_Simple_Prompt":                 "🔶 Simple Prompt Text",
     "chaosaiart_Prompt_Frame":                  "🔶 Frame Prompt",
     "chaosaiart_Prompt_mixer_byFrame":          "🔶 Prompt mixer by Frame",
@@ -4071,7 +4114,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "chaosaiart_CheckpointPrompt2":             "🔶 Load Checkpoint +Prompt",
     "chaosaiart_CheckpointLoader":              "🔶 Load Checkpoint by Frame",
     "chaosaiart_CheckpointPrompt_Frame":        "🔶 Load Checkpoint +Frame CKPT_PROMPT",
-    "chaosaiart_CheckpointPrompt_FrameMixer":   "🔶 Checkpoint mixer by Frame",
+    "chaosaiart_CheckpointPrompt_FrameMixer":   "🔶 CKPT_PROMPT mixer",
     
     "chaosaiart_lora":                          "🔶 Lora +add_lora",
     "chaosaiart_lora_advanced":                 "🔶 Lora Advanced +add_lora",   
@@ -4079,8 +4122,6 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "chaosaiart_KSampler1":                     "🔶 KSampler txt2img", 
     "chaosaiart_KSampler2":                     "🔶 KSampler img2img",
     "chaosaiart_KSampler3":                     "🔶 KSampler +VAEdecode +Latent",
-    #"chaosaiart_KSampler4":                     "🔶 KSampler Advanced",
-    #"chaosaiart_KSampler5":                     "🔶 KSampler Simple Animation",
 
     "chaosaiart_ControlNetApply":               "🔶 controlnet Apply",
     "chaosaiart_ControlNetApply2":              "🔶 controlnet Apply + Streng Start End",
@@ -4114,5 +4155,12 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "chaosaiart_Denoising_Switch":              "🔶 Denoise Override (Switch)", 
     "chaosaiart_EmptyLatentImage":              "🔶 Empty Latent Image - Video Size",
    # "chaosaiart_Style_Node":                    "🔶 Style Node",
+
+
+
+    #"chaosaiart_image_loop":                     "🔶 Hold and Repeate one Image",
+   
+    #"chaosaiart_KSampler4":                     "🔶 KSampler Advanced",
+    #"chaosaiart_KSampler5":                     "🔶 KSampler Simple Animation",
    
 }
