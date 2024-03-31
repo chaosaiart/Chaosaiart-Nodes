@@ -3047,8 +3047,8 @@ class chaosaiart_Load_Image_Batch:
         return float("NaN")
 
 
-    RETURN_TYPES = ("STRING","IMAGE","REPEAT",)
-    RETURN_NAMES = ("Info","IMAGE","REPEAT",)
+    RETURN_TYPES = ("STRING","IMAGE",)
+    RETURN_NAMES = ("Info","IMAGE",)
     FUNCTION = "node"
 
     CATEGORY = "🔶Chaosaiart/image"
@@ -3096,7 +3096,7 @@ class chaosaiart_Load_Image_Batch:
                 print("\033[91m"+info+"\033[0m")
                 print(" ")
                 print("----")
-                return info,None,None,None,
+                return info,None,
                
         else:
             self.Started = False
@@ -3106,7 +3106,7 @@ class chaosaiart_Load_Image_Batch:
             print("\033[91m"+info+"\033[0m")
             print(" ")
             print("----")
-            return info,None,None,None, 
+            return info,None, 
             
         info = f"Index: {self.activ_index+1}"  
         return (info, pil2tensor(image),) 
