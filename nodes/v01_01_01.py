@@ -1242,6 +1242,7 @@ class chaosaiart_KSampler4:
                      },
                      "optional":{  
                         "latent_Override": ("LATENT", ), 
+                        
                         "latent_by_Image_Override": ("IMAGE", ),  
                         "start_at_step_Override": ("INT", {"forceInput": True} ),  
                     }
@@ -3446,9 +3447,9 @@ class chaosaiart_oneNode:
                 },
                 "optional":{
                     "restart": ("RESTART", ),
-                    "add_main_prompt": ("MAIN_PROMPT",),
-                    "latent_override": ("INT",{"forceInput": True}),
-                    "img2img_override": ("INT",{"forceInput": True}),
+                    "add_main_prompt": ("MAIN_PROMPT",), 
+                    "latent_override": ("LATENT",),
+                    "img2img_override": ("IMAGE",),
                     "vae_override": ("VAE", ),
                 }
             }
@@ -4276,7 +4277,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
 
     #"chaosaiart_image_loop":                     "🔶 Hold and Repeate one Image",
    
-    #"chaosaiart_KSampler4":                     "🔶 KSampler Advanced",
+   # "chaosaiart_KSampler4":                     "🔶 KSampler Advanced",
     #"chaosaiart_KSampler5":                     "🔶 KSampler Simple Animation",
    
 }
