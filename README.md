@@ -1,4 +1,3 @@
-?v=2
 <br>
 <div align="center"> 
 <a id="header"><img src="https://chaosaiart.de/nodes/workflows/elements/logo_2.png?v=2" alt="Alternativer Text" width="80%"></a>
