@@ -11,36 +11,36 @@
 <a id="Overview"><img src="https://chaosaiart.de/nodes/workflows/elements/overview.png?v=3" alt="Alternativer Text" width="100%"></a>   
 <br>
 <div align="center"> 
-  <a href="#Install"><img src="https://chaosaiart.de/nodes/workflows/elements/d1.png?v=3" alt="Discord" width="25%"></a>
-  <a href="#Workflows"><img src="https://chaosaiart.de/nodes/workflows/elements/d2.png?v=3" alt="Discord" width="25%"></a>
-  <a href="#Nodes"><img src="https://chaosaiart.de/nodes/workflows/elements/d3.png?v=3" alt="Discord" width="25%"></a>
+  <a href="#Install"><img src="https://chaosaiart.de/nodes/workflows/elements/d1.png?v=3"  width="25%"></a>
+  <a href="#Workflows"><img src="https://chaosaiart.de/nodes/workflows/elements/d2.png?v=3"  width="25%"></a>
+  <a href="#Nodes"><img src="https://chaosaiart.de/nodes/workflows/elements/d3.png?v=3"  width="25%"></a>
 </div>
 <div align="center">  
-  <a href="#Support"><img src="https://chaosaiart.de/nodes/workflows/elements/d4.png?v=3" alt="Discord" width="25%"></a> 
-  <a href="#Info"><img src="https://chaosaiart.de/nodes/workflows/elements/d5.png?v=3" alt="Discord" width="25%"></a>
+  <a href="#Support"><img src="https://chaosaiart.de/nodes/workflows/elements/d4.png?v=3"  width="25%"></a> 
+  <a href="#Info"><img src="https://chaosaiart.de/nodes/workflows/elements/d5.png?v=3"  width="25%"></a>
 </div>
 <br><br> 
 <div align="center">  
-    <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h1.png?v=3" alt="Install" width="65%"> <br>
+    <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h1.png?v=3" alt="Use Case:" width="65%"> <br>
     Animation<br><br><br> 
-    <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h3.png?v=3" alt="Install" width="65%"> <br>
-    <img src="https://chaosaiart.de/nodes/workflows/elements/examples_headline_1.png?v=3" alt="Install" width="50%"> <br>
+    <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h3.png?v=3" alt="Examples" width="65%"> <br>
+    <img src="https://chaosaiart.de/nodes/workflows/elements/examples_headline_1.png?v=3" alt="txt2img" width="50%"> <br>
     <div align="center">
-        <img src="https://github.com/chaosaiart/examples/blob/main/Chaosaiart-Nodes/e1.gif" alt="Install" width="25%">
-        <img src="https://github.com/chaosaiart/examples/blob/main/Chaosaiart-Nodes/e2.gif" alt="Install" width="25%">
-        <img src="https://github.com/chaosaiart/examples/blob/main/Chaosaiart-Nodes/e3.gif" alt="Install" width="25%">
+        <img src="https://github.com/chaosaiart/examples/blob/main/Chaosaiart-Nodes/e1.gif" width="25%">
+        <img src="https://github.com/chaosaiart/examples/blob/main/Chaosaiart-Nodes/e2.gif" width="25%">
+        <img src="https://github.com/chaosaiart/examples/blob/main/Chaosaiart-Nodes/e3.gif" width="25%">
     </div><br>
     <a href="https://chaosaiart.de/nodes/?json=Animation_txt2video">Download: Workflow</a> <br><br><br>
-    <img src="https://chaosaiart.de/nodes/workflows/elements/Animation_txt2video.png?v=3" alt="Install" width="50%"> <br>
+    <img src="https://chaosaiart.de/nodes/workflows/elements/examples_headline_2.png?v=3" alt="" width="50%"> <br>
     Work in Progress. 
     <br><br>
     <br>  
-    <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h2.png?v=3" alt="Install" width="65%"> <br>
+    <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h2.png?v=3" alt="Further Use" width="65%"> <br>
     Simplified workflow, VAE inclusion in KSampler<br>
     Workflow automation, e.g., changing checkpoints<br>
     Logical process for testing elements like Controlnet<br>
     Rethinking workflows with switches<br><br><br> 
-    <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h4.png?v=3>" alt="Install" width="65%"> <br>
+    <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h4.png?v=3>" alt="Importen" width="65%"> <br>
     This node is based on frame-to-frame generation (img after img).<br>
     This means it is VRAM efficient and suitable for GPUs with low VRAM.<br><br>
     Additional: Chaosaiart-Node is in the early phase, <br>more nodes will be added + Bug fixes + changes.<br><br><br>
@@ -52,15 +52,15 @@
  
 <br>
 <div align="center"> 
-  <a href="#Install_full"><img src="https://chaosaiart.de/nodes/workflows/elements/h1_2.png?v=3" alt="Install" width="25%"></a> 
-  <a href="#Install_manager"><img src="https://chaosaiart.de/nodes/workflows/elements/h3.png?v=3" alt="Install" width="25%"></a>
-  <a href="#Install_git"><img src="https://chaosaiart.de/nodes/workflows/elements/h2.png?v=3" alt="Install" width="25%"></a>
+  <a href="#Install_full"><img src="https://chaosaiart.de/nodes/workflows/elements/h1_2.png?v=3" alt="Manuel" width="25%"></a> 
+  <a href="#Install_manager"><img src="https://chaosaiart.de/nodes/workflows/elements/h3.png?v=3" alt="ComfyUI Manager" width="25%"></a>
+  <a href="#Install_git"><img src="https://chaosaiart.de/nodes/workflows/elements/h2.png?v=3" alt="Git" width="25%"></a>
 </div>
      
 <br>
  
 <a id="Install_full"> 
-<img src="https://chaosaiart.de/nodes/workflows/elements/i1_2.png?v=3" alt="Discord" width="100%"> 
+<img src="https://chaosaiart.de/nodes/workflows/elements/i1_2.png?v=3" width="100%"> 
 </a>
 <br>
 <dl>
@@ -72,7 +72,7 @@
       3. Unzip Chaosaiart-Nodes with <a href="https://7-zip.org/">7zip</a><br>
       4. Grab the Unzipped "Chaosaiart-Nodes" folder<br>
       5. go into ComfyUI Folder, then "../comfyUI/custom_nodes/" place it in.<br> 
-      <img src="https://chaosaiart.de/nodes/workflows/elements/not_do.png?v=3" alt="Install" width="40%"><br><br>
+      <img src="https://chaosaiart.de/nodes/workflows/elements/not_do.png?v=3" alt="" width="40%"><br><br>
       6. Windows:
       <br>
       <dl><dd><dl><dd>Use the Install_windows file in the "Chaosaiart-Nodes" folder<br>
@@ -96,7 +96,7 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
 </dl>  
 
 <a id="Install_manager">
-<img src="https://chaosaiart.de/nodes/workflows/elements/i3.png?v=3" alt="Install" width="100%">
+<img src="https://chaosaiart.de/nodes/workflows/elements/i3.png?v=3" alt="" width="100%">
 </a>
 <br>
 <dl>
