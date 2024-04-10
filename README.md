@@ -19,21 +19,32 @@
   <a href="#Support"><img src="https://chaosaiart.de/nodes/workflows/elements/d4.png?v=2" alt="Discord" width="25%"></a> 
   <a href="#Info"><img src="https://chaosaiart.de/nodes/workflows/elements/d5.png?v=2" alt="Discord" width="25%"></a>
 </div>
-<br>
+<br><br><br>
 <div align="center">  
-    <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h1.png?v=2" alt="Install" width="50%"> <br>
-    Animation<br><br>
-    <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h2.png?v=2" alt="Install" width="50%"> <br>
+    <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h1.png?v=2" alt="Install" width="65%"> <br>
+    Animation<br><br><br><br> 
+    <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h3.png?v=2" alt="Install" width="65%"> <br>
+    <img src="https://chaosaiart.de/nodes/workflows/elements/examples_headline_1.png?v=2" alt="Install" width="50%"> <br>
+    <div align="center">
+        <img src="https://chaosaiart.de/nodes/workflows/example/e1.gif?v=2" alt="Install" width="25%">
+        <img src="https://chaosaiart.de/nodes/workflows/example/e2.gif?v=2" alt="Install" width="25%">
+        <img src="https://chaosaiart.de/nodes/workflows/example/e3.gif?v=2" alt="Install" width="25%">
+    </div>
+    <a href="https://chaosaiart.de/nodes/?json=Animation_Cache_Img">Download: Workflow</a> 
+    <img src="https://chaosaiart.de/nodes/workflows/elements/examples_headline_2.png?v=2" alt="Install" width="50%"> <br>
+    Work in Progress. 
+    <br><br>
+    <br><br> 
+    <br><br> 
+    <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h2.png?v=2" alt="Install" width="65%"> <br>
     Simplified workflow, VAE inclusion in KSampler<br>
     Workflow automation, e.g., changing checkpoints<br>
     Logical process for testing elements like Controlnet<br>
-    Rethinking workflows with switches<br><br>
-    <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h3.png?v=2" alt="Install" width="50%"> <br>
-    In progress, coming soon.<br><br>
-    <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h4.png?v=2>" alt="Install" width="50%"> <br>
+    Rethinking workflows with switches<br><br><br><br>
+    <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h4.png?v=2>" alt="Install" width="65%"> <br>
     This node is based on frame-to-frame generation (img after img).<br>
     This means it is VRAM efficient and suitable for GPUs with low VRAM.<br><br>
-    Additional: Chaosaiart-Node is in the early phase, <br>more nodes will be added + Bug fixes + changes.<br><br>
+    Additional: Chaosaiart-Node is in the early phase, <br>more nodes will be added + Bug fixes + changes.<br><br><br>
 </div>
 <br>
 <a id="Install" name="Install">
