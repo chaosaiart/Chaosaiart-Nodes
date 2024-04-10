@@ -339,9 +339,9 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
         Additionally, KSampler has been modified to yield better results for animations.<br> 
         For example, the method "Fixed 0.5" has been optimized for checkpoint sd1.5.<br>
         Afterwards, you must stitch the images into a video using <a href="#workflow_8">img2video Basic Workflow</a> 
-      <img src="https://chaosaiart.de/nodes/workflows/img/Animation_Cache_Img.jpg?v=3" width="100%">
+      <img src="https://chaosaiart.de/nodes/workflows/img/Animation_txt2video.jpg?v=3" width="100%">
       <div align="center">
-      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Animation_Cache_Img">Download: Workflow</a> 
+      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Animation_txt2video">Download: Workflow</a> 
       </div><br><br>
       </dl> 
       <br><br><br>
