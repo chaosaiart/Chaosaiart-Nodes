@@ -165,7 +165,7 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
 
 <div align="center">  
   <a href="#Workflow_basic"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_1.png?v=2" alt="Install" width="25%"></a> 
-  <a href="#Workflow_advanced"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_2.png?v=2" alt="Install" width="25%"></a> 
+  <a href="#Workflow_animation"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_2_2.png?v=2" alt="Install" width="25%"></a> 
 </div>
 <a id="Workflow_basic">
   <img src="https://chaosaiart.de/nodes/workflows/elements/w1.png?v=2" alt="Workflows" width="100%">
@@ -311,8 +311,8 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       </dl>
       
 </dd></dl></dd></dl>  
-<a id="Workflow_advanced">
-  <img src="https://chaosaiart.de/nodes/workflows/elements/w2.png?v=2" alt="Workflows" width="100%">
+<a id="Workflow_animation">
+  <img src="https://chaosaiart.de/nodes/workflows/elements/w2_2.png?v=2" alt="Workflows" width="100%">
 </a>
 <div>
 <dl>
@@ -320,40 +320,22 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
     <dl>
       <dd>
       <div align="center">  
-        <a href="#workflow_Advanced_1"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_a_1.png?v=2" width="30%"></a>
-        <a href="#workflow_Advanced_2"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_a_2.png?v=2" width="30%"></a>
+        <a href="#workflow_Animation_1"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_a_3.png?v=2" width="30%"></a> 
       </div> <br><br>
-      <a id="workflow_Advanced_1"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_a_1.png?v=2" width="30%"></a>
+      <a id="workflow_Animation_1"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_a_3.png?v=2" width="30%"></a>
       <dl><dd>
-      Animation:<br>
-      Using Controlnet <a href="https://civitai.com/models/17220/controlnet-t2i-adapter-models">T2i Color Adapter</a> & Controlnet <a href="https://civitai.com/models/38784?modelVersionId=44716">Canny</a> for Animation<br>
-      You need this <a href="https://github.com/Fannovel16/comfyui_controlnet_aux">Custom Node</a> for Controlnet.<br> and both Modells.
-      Additionally, you need to decompose a video into frames (Img) using <a href="#workflow_9">video2img Basic Workflow</a>.<br>
-      Afterwards, you must stitch the images into a video using <a href="#workflow_8">img2video Basic Workflow</a>
-            <br><br>
-            This is a workflow idea, not a finished workflow.<br>
-In the future, finished advanced workflows will also be released<br>
-      <img src="https://chaosaiart.de/nodes/workflows/img/advanced_1.jpg?v=2" width="100%">
+      Animation:<br> 
+        This workflow has integrated the cache of the <a href="#workflow_1">Cache Workflow</a> in KSampler. <br>
+        Additionally, KSampler has been modified to yield better results for animations.<br> 
+        For example, the method "Fixed 0.5" has been optimized for checkpoint sd1.5.<br>
+        Afterwards, you must stitch the images into a video using <a href="#workflow_8">img2video Basic Workflow</a> 
+      <img src="https://chaosaiart.de/nodes/workflows/img/Animation_Cache_Img.jpg?v=2" width="100%">
       <div align="center">
-      <div align="center"><a href="https://chaosaiart.de/nodes/?json=advanced_1">Download: Workflow</a> 
+      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Animation_Cache_Img">Download: Workflow</a> 
       </div><br><br>
       </dl> 
-      <a id="workflow_Advanced_2"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_a_2.png?v=2" width="30%"></a>
-      <dl><dd>
-      Animation:<br>
-      Using Controlnet <a href="https://civitai.com/models/17220/controlnet-t2i-adapter-models">T2i Color Adapter</a> & 2x Controlnet <a href="https://civitai.com/models/38784?modelVersionId=44716">Canny</a> for Animation<br>
-      You need this <a href="https://github.com/Fannovel16/comfyui_controlnet_aux">Custom Node</a> for Controlnet and both Modells.<br> 
-      Additionally, you need to decompose a video into frames (Img) using <a href="#workflow_9">video2img Basic Workflow</a>.<br>
-      Afterwards, you must stitch the images into a video using <a href="#workflow_8">img2video Basic Workflow</a>
-            <br><br>
-            This is a workflow idea, not a finished workflow.<br>
-In the future, finished advanced workflows will also be released<br>
-      <img src="https://chaosaiart.de/nodes/workflows/img/advanced_2.jpg?v=2" width="100%"> 
-      <div align="center">
-      <div align="center"><a href="https://chaosaiart.de/nodes/?json=advanced_2">Download: Workflow</a> 
-      </div><br><br><br>
-      </dl> 
-      
+      <br><br><br>
+      </dl>  
 </dd></dl></dd></dl> 
 </div>
 <a id="Nodes" name="Nodes">
