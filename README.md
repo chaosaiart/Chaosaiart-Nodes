@@ -26,11 +26,11 @@
     <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h3.png?v=2" alt="Install" width="65%"> <br>
     <img src="https://chaosaiart.de/nodes/workflows/elements/examples_headline_1.png?v=2" alt="Install" width="50%"> <br>
     <div align="center">
-        <img src="https://chaosaiart.de/nodes/workflows/example/e1.gif?v=2" alt="Install" width="25%">
-        <img src="https://chaosaiart.de/nodes/workflows/example/e2.gif?v=2" alt="Install" width="25%">
-        <img src="https://chaosaiart.de/nodes/workflows/example/e3.gif?v=2" alt="Install" width="25%">
-    </div>
-    <a href="https://chaosaiart.de/nodes/?json=Animation_Cache_Img">Download: Workflow</a> 
+        <img src="https://github.com/chaosaiart/examples/blob/main/Chaosaiart-Nodes/e1.gif" alt="Install" width="25%">
+        <img src="https://github.com/chaosaiart/examples/blob/main/Chaosaiart-Nodes/e2.gif" alt="Install" width="25%">
+        <img src="https://github.com/chaosaiart/examples/blob/main/Chaosaiart-Nodes/e3.gif" alt="Install" width="25%">
+    </div><br>
+    <a href="https://chaosaiart.de/nodes/?json=Animation_Cache_Img">Download: Workflow</a> <br><br><br>
     <img src="https://chaosaiart.de/nodes/workflows/elements/examples_headline_2.png?v=2" alt="Install" width="50%"> <br>
     Work in Progress. 
     <br><br>
