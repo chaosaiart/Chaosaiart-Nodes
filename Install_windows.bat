@@ -12,5 +12,4 @@ if exist "%python_exec%" (
     echo Installing with system Python
     pip install -r "%requirements_txt%"
 )
-
 pause
