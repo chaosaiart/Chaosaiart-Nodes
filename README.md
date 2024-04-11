@@ -378,9 +378,10 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
   <img src="https://chaosaiart.de/nodes/workflows/nodes/image_2.jpg?v=4" alt="Nodes" width="50%"><br><br>
   <!-- Ksampler -->
   <a id="nodes_2"><img src="https://chaosaiart.de/nodes/workflows/elements/ni_2.png?v=4" alt="" width="30%"></a><br> 
-  <img src="https://chaosaiart.de/nodes/workflows/nodes/One_Node.jpg?v=4" alt="Nodes" width="50%">
   <img src="https://chaosaiart.de/nodes/workflows/nodes/Ksampler_1.jpg?v=4" alt="Nodes" width="50%">
-  <img src="https://chaosaiart.de/nodes/workflows/nodes/Ksampler_2.jpg?v=4" alt="Nodes" width="50%"><br><br>
+  <img src="https://chaosaiart.de/nodes/workflows/nodes/Ksampler_3.jpg?v=4" alt="Nodes" width="50%">
+  <img src="https://chaosaiart.de/nodes/workflows/nodes/Ksampler_2.jpg?v=4" alt="Nodes" width="50%">
+  <img src="https://chaosaiart.de/nodes/workflows/nodes/One_Node.jpg?v=4" alt="Nodes" width="50%"><br><br>
   <!-- cache -->
   <a id="nodes_3"><img src="https://chaosaiart.de/nodes/workflows/elements/ni_3.png?v=4" alt="" width="30%"></a><br> 
   <img src="https://chaosaiart.de/nodes/workflows/nodes/cache_1.jpg?v=4" alt="Nodes" width="50%">
