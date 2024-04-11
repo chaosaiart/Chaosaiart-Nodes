@@ -1,5 +1,6 @@
 import cv2 
 from tqdm import tqdm
+import shutil
 
 import torch
 
@@ -643,36 +644,56 @@ class chaosaiart_higher:
 
         return  info,batch_height,batch_width,height,width 
     
-    def resize_image(imageIN,target_width, target_height):
-        imageIN = tensor2pil(imageIN) 
-        resized_img = imageIN.resize((target_width, target_height), Image.ANTIALIAS)
+    @classmethod
+    def resize_image_pil(cls,imageIN,target_width, target_height):
+        img = tensor2pil(imageIN) 
+        resized_img = cls.resize_image("resize",img, target_width, target_height) 
         return pil2tensor(resized_img)
-        
-        
-    def resize_image_crop(imageIN, target_width, target_height):
-        
-        img = tensor2pil(imageIN)  
 
-        width_ratio = target_width / img.width
-        height_ratio = target_height / img.height
+    @classmethod 
+    def resize_image_fill_pil(cls,imageIN, target_width, target_height): 
+        img = tensor2pil(imageIN)  
+        resized_img = cls.resize_image("fill",img, target_width, target_height)   
+        pil2tensor(resized_img)   
+
+    @classmethod
+    def resize_image_crop_pil(cls,imageIN, target_width, target_height):
+        img = tensor2pil(imageIN)  
+        resized_img = cls.resize_image("crop",img, target_width, target_height)   
+        return pil2tensor(resized_img)  
+
+    @classmethod 
+    def resize_image(cls, resize_tpye,imageIN, target_width, target_height):   
+        if resize_tpye == "resize":
+            return imageIN.resize((target_width, target_height), Image.ANTIALIAS)
         
-        scale_ratio = max(width_ratio, height_ratio)
-        #scale_ratio = min(width_ratio, height_ratio) #for Match in
-        
-        new_width = int(img.width * scale_ratio)
-        new_height = int(img.height * scale_ratio)
-        
-        resized_img = img.resize((new_width, new_height), Image.ANTIALIAS)
-        
-        left = (new_width - target_width) / 2
-        top = (new_height - target_height) / 2
-        right = (new_width + target_width) / 2
-        bottom = (new_height + target_height) / 2
-        
-        cropped_img = resized_img.crop((left, top, right, bottom))
-        
-        return pil2tensor(cropped_img)
-  
+        elif resize_tpye == "crop" or resize_tpye == "fill": 
+             
+            img = imageIN
+
+            width_ratio = target_width / img.width
+            height_ratio = target_height / img.height
+            
+            if resize_tpye == "crop":
+                scale_ratio = max(width_ratio, height_ratio)
+            else: 
+                scale_ratio = min(width_ratio, height_ratio)
+            
+            new_width = int(img.width * scale_ratio)
+            new_height = int(img.height * scale_ratio)
+            
+            resized_img = img.resize((new_width, new_height), Image.ANTIALIAS)
+            
+            left = (new_width - target_width) / 2
+            top = (new_height - target_height) / 2
+            right = (new_width + target_width) / 2
+            bottom = (new_height + target_height) / 2
+            
+            cropped_img = resized_img.crop((left, top, right, bottom))
+            
+            return cropped_img 
+        else:
+            cls.ErrorMSG("Chaosaiart_Resize Img:","No Resize Type please do a issue request include your workflow")
         
 class chaosaiart_CheckpointPrompt2:
     def __init__(self):
@@ -1140,7 +1161,7 @@ class chaosaiart_KSampler2: #img2img
                     "model": ("MODEL",),
                     "Image_Mode":(["Widht = Height","Widescreen / 16:9","Portrait (Smartphone) / 9:16"],),
                     "Image_Size":(["360p","480p","HD","Full HD",],),
-                    "Img2img_input_Size":(["override","resize","crop"],),
+                    "Img2img_input_Size":(["crop","resize","override"],), 
                     "denoise": ("FLOAT", {"default": 1, "min": 0, "max": 1, "step": 0.01}),
                     "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
                     "steps": ("INT", {"default": 20, "min": 1, "max": 10000}),
@@ -1182,10 +1203,10 @@ class chaosaiart_KSampler2: #img2img
         infoSize, batch_height, batch_width, height, width = chaosaiart_higher.emptyVideoSize(screenMode[Image_Mode],sizeMode[Image_Size])   
         
         if Img2img_input_Size == "resize":
-            image = chaosaiart_higher.resize_image(image,batch_width,batch_height)
+            image = chaosaiart_higher.resize_image_pil(image,batch_width,batch_height)
             
         if Img2img_input_Size == "crop": 
-            image = chaosaiart_higher.resize_image_crop(image,batch_width,batch_height)
+            image = chaosaiart_higher.resize_image_crop_pil(image,batch_width,batch_height)
                  
         denoise = denoise if denoise_Override is None else denoise_Override 
 
@@ -1209,7 +1230,7 @@ class chaosaiart_KSampler3:
                     "model": ("MODEL",),
                     "Image_Mode":(["Widht = Height","Widescreen / 16:9","Portrait (Smartphone) / 9:16"],),
                     "Image_Size":(["360p","480p","HD","Full HD",],),
-                    "Img2img_input_Size":(["override","resize","crop"],),
+                    "Img2img_input_Size":(["crop","resize","override"],),
                     "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
                     "steps": ("INT", {"default": 20, "min": 1, "max": 10000}),
                     "cfg": ("FLOAT", {"default": 8.0, "min": 0.0, "max": 100.0, "step":0.1, "round": 0.01}),
@@ -1268,10 +1289,10 @@ class chaosaiart_KSampler3:
 
         else:
             if Img2img_input_Size == "resize":
-                latent_by_Image_Override = chaosaiart_higher.resize_image(latent_by_Image_Override,batch_width,batch_height)
+                latent_by_Image_Override = chaosaiart_higher.resize_image_pil(latent_by_Image_Override,batch_width,batch_height)
                 
             if Img2img_input_Size == "crop": 
-                latent_by_Image_Override = chaosaiart_higher.resize_image_crop(latent_by_Image_Override,batch_width,batch_height)
+                latent_by_Image_Override = chaosaiart_higher.resize_image_crop_pil(latent_by_Image_Override,batch_width,batch_height)
                 
             pixels = latent_by_Image_Override
             pixels = self.vae_encode_crop_pixels(pixels)
@@ -1294,7 +1315,7 @@ class chaosaiart_KSampler4:
                         "model": ("MODEL",),
                         "Image_Mode":(["Widht = Height","Widescreen / 16:9","Portrait (Smartphone) / 9:16"],),
                         "Image_Size":(["360p","480p","HD","Full HD",],),
-                        "Img2img_input_Size":(["override","resize","crop"],),
+                        "Img2img_input_Size":(["crop","resize","override"],),
                         "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
                         "steps": ("INT", {"default": 25, "min": 1, "max": 10000}),
                         "start_at_step": ("INT", {"default": 0, "min": 0, "max": 10000}),
@@ -1356,10 +1377,10 @@ class chaosaiart_KSampler4:
                 latent_image = latent_Override
         else:
             if Img2img_input_Size == "resize":
-                latent_by_Image_Override = chaosaiart_higher.resize_image(latent_by_Image_Override,batch_width,batch_height)
+                latent_by_Image_Override = chaosaiart_higher.resize_image_pil(latent_by_Image_Override,batch_width,batch_height)
                 
             if Img2img_input_Size == "crop": 
-                latent_by_Image_Override = chaosaiart_higher.resize_image_crop(latent_by_Image_Override,batch_width,batch_height)
+                latent_by_Image_Override = chaosaiart_higher.resize_image_crop_pil(latent_by_Image_Override,batch_width,batch_height)
         
             pixels = latent_by_Image_Override
             pixels = self.vae_encode_crop_pixels(pixels)
@@ -1393,7 +1414,7 @@ class chaosaiart_KSampler6:
                         "model": ("MODEL",),     
                         "Image_Mode":(["Widht = Height","Widescreen / 16:9","Portrait (Smartphone) / 9:16"],),
                         "Image_Size":(["360p","480p","HD","Full HD",],),
-                        "Img2img_input_Size":(["override","resize","crop"],),
+                        "Img2img_input_Size":(["crop","resize","override"],),
                         "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff, "step": 1}), 
                         "steps": ("INT", {"default": 25, "min": 0, "max": 10000, "step": 1}),
                         "start_at_step": ("INT", {"default": 0, "min": 0, "max": 10000, "step": 1}),
@@ -1459,10 +1480,10 @@ class chaosaiart_KSampler6:
         else:    
             if Latent_by_image_Override is not None:   
                 if Img2img_input_Size == "resize":
-                    Latent_by_image_Override = chaosaiart_higher.resize_image(Latent_by_image_Override,batch_width,batch_height)
+                    Latent_by_image_Override = chaosaiart_higher.resize_image_pil(Latent_by_image_Override,batch_width,batch_height)
                     
                 if Img2img_input_Size == "crop": 
-                    Latent_by_image_Override = chaosaiart_higher.resize_image_crop(Latent_by_image_Override,batch_width,batch_height)
+                    Latent_by_image_Override = chaosaiart_higher.resize_image_crop_pil(Latent_by_image_Override,batch_width,batch_height)
              
                 pixels = self.vae_encode_crop_pixels(Latent_by_image_Override)
                 latent = vae.encode(pixels[:,:,:,:3])
@@ -1588,10 +1609,10 @@ class chaosaiart_KSampler_a1:
             if start_Image is not None:    
                 
                 if Img2img_input_Size == "resize":
-                    start_Image = chaosaiart_higher.resize_image(start_Image,batch_width,batch_height)
+                    start_Image = chaosaiart_higher.resize_image_pil(start_Image,batch_width,batch_height)
                     
                 if Img2img_input_Size == "crop": 
-                    start_Image = chaosaiart_higher.resize_image_crop(start_Image,batch_width,batch_height)
+                    start_Image = chaosaiart_higher.resize_image_crop_pil(start_Image,batch_width,batch_height)
 
                 pixels = self.vae_encode_crop_pixels(start_Image)
                 latent = vae.encode(pixels[:,:,:,:3])
@@ -1733,10 +1754,10 @@ class chaosaiart_KSampler_a1a:
             if start_Image is not None:    
                 
                 if Img2img_input_Size == "resize":
-                    start_Image = chaosaiart_higher.resize_image(start_Image,batch_width,batch_height)
+                    start_Image = chaosaiart_higher.resize_image_pil(start_Image,batch_width,batch_height)
                     
                 if Img2img_input_Size == "crop": 
-                    start_Image = chaosaiart_higher.resize_image_crop(start_Image,batch_width,batch_height)
+                    start_Image = chaosaiart_higher.resize_image_crop_pil(start_Image,batch_width,batch_height)
                     
                 pixels = self.vae_encode_crop_pixels(start_Image)
                 latent = vae.encode(pixels[:,:,:,:3])
@@ -1896,7 +1917,7 @@ class chaosaiart_Ksampler_attribut:
                         "Mode":(["Restart = Empty Image","Restart = Img2img"],), 
                         "Image_Mode":(["Widht = Height","Widescreen / 16:9","Portrait (Smartphone) / 9:16"],),
                         "Image_Size":(["360p","480p","HD","Full HD",],),
-                        "Img2img_input_Size":(["override","resize","crop"],),
+                        "Img2img_input_Size":(["crop","resize","override"],),
                         "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
                         "steps": ("INT", {"default": 25, "min": 0, "max": 10000}),
                         "cfg": ("FLOAT", {"default": 8.0, "min": 0.0, "max": 100.0, "step":0.1, "round": 0.01}), 
@@ -1935,10 +1956,10 @@ class chaosaiart_Ksampler_attribut:
             
         if image is not None: 
             if Img2img_input_Size == "resize":
-                image = chaosaiart_higher.resize_image(image,batch_width,batch_height)
+                image = chaosaiart_higher.resize_image_pil(image,batch_width,batch_height)
                 
             if Img2img_input_Size == "crop": 
-                image = chaosaiart_higher.resize_image_crop(image,batch_width,batch_height)
+                image = chaosaiart_higher.resize_image_crop_pil(image,batch_width,batch_height)
                     
             pixels = self.vae_encode_crop_pixels(image)
             latent_out = vae.encode(pixels[:,:,:,:3]) 
@@ -2020,7 +2041,7 @@ class chaosaiart_KSampler5:
                         "model": ("MODEL",),  
                         "Image_Mode":(["Widht = Height","Widescreen / 16:9","Portrait (Smartphone) / 9:16"],),
                         "Image_Size":(["360p","480p","HD","Full HD",],),
-                        "Img2img_input_Size":(["override","resize","crop"],),"seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
+                        "Img2img_input_Size":(["crop","resize","override"],),"seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
                         "steps": ("INT", {"default": 25, "min": 1, "max": 10000}),
                         "start_at_step": ("INT", {"default": 0, "min": 0, "max": 10000}),
                         "end_at_step": ("INT", {"default": 25, "min": 0, "max": 10000}),
@@ -2074,10 +2095,10 @@ class chaosaiart_KSampler5:
             if Start_Image_Override is not None:
                 
                 if Img2img_input_Size == "resize":
-                    Start_Image_Override = chaosaiart_higher.resize_image(Start_Image_Override,batch_width,batch_height)
+                    Start_Image_Override = chaosaiart_higher.resize_image_pil(Start_Image_Override,batch_width,batch_height)
                     
                 if Img2img_input_Size == "crop": 
-                    Start_Image_Override = chaosaiart_higher.resize_image_crop(Start_Image_Override,batch_width,batch_height)
+                    Start_Image_Override = chaosaiart_higher.resize_image_crop_pil(Start_Image_Override,batch_width,batch_height)
                 
                 #img -> Vae -> Latent  
                 pixels = Start_Image_Override
@@ -2850,7 +2871,7 @@ class chaosaiart_any_input2array_small:
             ] 
         out = anySave(0,array)
         return (out,)
-                
+
 class chaosaiart_any_input2array_big:
     def __init__(self):  
         pass
@@ -3693,6 +3714,109 @@ def file_by_directory(directory_path,AllowedType):
 
     return Array           
    
+class chaosaiart_merge_Folders:                
+    def __init__(self):    
+        self.output_dir = folder_paths.get_output_directory() 
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {  
+                "Output_Folder": ("STRING", {"default": 'merge_folders_chaosaiart', "multiline": False}), 
+                #"if_Size_not_fit":(["resize","crop","fill"],), 
+                "if_Size_not_fit":(["crop","resize"],), 
+                "path_1": ("STRING", {"default": '', "multiline": False}), 
+            },
+            "optional": {   
+                "path_2": ("STRING", {"default": '', "multiline": False}),   
+                "path_3": ("STRING", {"default": '', "multiline": False}),   
+                "path_4": ("STRING", {"default": '', "multiline": False}),   
+                "path_5": ("STRING", {"default": '', "multiline": False}),   
+                "path_6": ("STRING", {"default": '', "multiline": False}),   
+                "path_7": ("STRING", {"default": '', "multiline": False}),   
+                "path_8": ("STRING", {"default": '', "multiline": False}),   
+                "path_9": ("STRING", {"default": '', "multiline": False}),   
+            }
+        }
+
+    @classmethod
+    def IS_CHANGED(cls, **kwargs):
+        return float("NaN")
+
+
+    RETURN_TYPES = ("STRING","PATH",)
+    RETURN_NAMES = ("Info","MERGE_FOLDERS",)
+    FUNCTION = "node"
+
+    OUTPUT_NODE = True
+
+    CATEGORY = "🔶Chaosaiart/video"
+
+    def node(self, if_Size_not_fit, Output_Folder, path_1,
+                path_2=None,
+                path_3=None,
+                path_4=None,
+                path_5=None,
+                path_6=None,
+                path_7=None,
+                path_8=None,
+                path_9=None):
+
+        num = 0
+        while os.path.exists(os.path.join(self.output_dir, Output_Folder, f"v_{num:04d}")):
+            num += 1
+
+        output_dir = os.path.join(self.output_dir, Output_Folder, f"v_{num:04d}")
+
+        paths = [path_1, path_2, path_3, path_4, path_5, path_6, path_7, path_8, path_9]
+        info = f"Output dir: {output_dir}\nUsed Folders:\n"
+        info_list_NoCopy = ""
+        infoIMG = ""
+        
+        width, height, img_type = None,None,None
+        
+        for index, path in enumerate(paths):
+            if path is not None:
+                if os.path.exists(path):
+                    info += f"Path_{index + 1} Used.\n"
+                    files = os.listdir(path)   
+                    
+                    files_progress = tqdm(files, desc=f"Processing Path_{index + 1}", unit="file")
+                    for i, file in enumerate(files_progress):
+                    #for i, file in enumerate(files):
+                        if file.lower().endswith(('.jpg', '.jpeg', '.png')):
+                            image_path = os.path.join(path, file)
+                            image_type = os.path.splitext(file)[1]  
+                            image = Image.open(image_path)
+                            
+                            if width is None or height is None or img_type is None: 
+                                width = image.size[0]
+                                height = image.size[1]
+                                img_type = image_type
+                                infoIMG = f"Cover all IMG into {img_type} - {width}x{height}"
+                                 
+                                if not os.path.exists(output_dir):
+                                    os.makedirs(output_dir)
+                            else:
+                                if not img_type == image_type: 
+                                    image_type = img_type
+
+                                m = {"resize":"resize","crop":"crop","fill":"fill"}
+                                resize_type = m.get(if_Size_not_fit) 
+                                image = chaosaiart_higher.resize_image(resize_type, image, width, height)
+                                    
+                            new_filename = f"img_p{index + 1}_{i:06d}{image_type}" 
+                            path_activ = os.path.join(output_dir, new_filename)   
+                            image.save(path_activ)
+                        else:
+                            info_list_NoCopy += f"{file}\n"
+                else:
+                    info += f"Path_{index + 1} not found.\n"
+
+        info = infoIMG + info + f"Not Copyed:\n{info_list_NoCopy}"
+        return info, output_dir
+
+ 
 class chaosaiart_Load_Image_Batch:
     def __init__(self):   
         self.counter = 0 
@@ -4508,6 +4632,8 @@ class chaosaiart_video2img1:
     FUNCTION = "node"  
 
     CATEGORY = "🔶Chaosaiart/video"
+    
+    OUTPUT_NODE = True
  
     #def node(self, Video_Path, FPS_Mode, Output_Folder):
     def node(self, Video_Path, FPS_Mode):
@@ -4560,30 +4686,32 @@ class chaosaiart_img2video:
                 "filename_prefix": ("STRING", {"default": 'video', "multiline": False}),
                 "FPS": ("INT",{"default": 30, "min": 1, "max": 18446744073709551615, "step": 1}),
             }, 
+            "optional":{
+                "merge_folders": ("PATH",),
+            }
         }
   
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("Info",)
     FUNCTION = "node"  
 
+    OUTPUT_NODE = True
+
     CATEGORY = "🔶Chaosaiart/video"
 
 
 
-    def node(self, Image_dir,filename_prefix,FPS): 
-        import shutil
+    def node(self, Image_dir,filename_prefix,FPS, merge_folders=None): 
+        #import shutil
             #import subprocess
 
-        ffmpeg_path = shutil.which("ffmpeg")
-        if ffmpeg_path is None:
-            raise ProcessLookupError("Could not find ffmpeg")
+        #ffmpeg_path = shutil.which("ffmpeg")
+        #if ffmpeg_path is None:
+            #raise ProcessLookupError("Could not find ffmpeg")
 
-
-
-
-
-        # Eingabe des Bildordners
-        bilder_ordner = Image_dir
+ 
+        # Eingabe des Bildordners 
+        bilder_ordner = Image_dir if merge_folders is None else merge_folders
 
         if not os.path.isdir(bilder_ordner):
             info = "No Folder" 
@@ -4594,8 +4722,9 @@ class chaosaiart_img2video:
         output_ordner = os.path.dirname(bilder_ordner)
  
         # Eingabe des Ausgabedateinamens
-        if filename_prefix:
-            pre_folder = os.path.join(self.output_dir, filename_prefix) 
+        folder_preFix = filename_prefix 
+        if folder_preFix:
+            pre_folder = os.path.join(self.output_dir, folder_preFix) 
             if not os.path.exists(pre_folder):
                 os.makedirs(pre_folder)
             ausgabedatei = os.path.join(pre_folder, "chaosaiart.mp4")
@@ -4937,6 +5066,7 @@ NODE_CLASS_MAPPINGS = {
     "chaosaiart_KSampler_a1a":                  chaosaiart_KSampler_a1a,
     "chaosaiart_zoom_frame":                    chaosaiart_zoom_frame,
 
+    "chaosaiart_merge_Folders":                  chaosaiart_merge_Folders,
    # "chaosaiart_Style_Node":                    chaosaiart_Style_Node,
  
     #"chaosaiart_KSampler8":                     chaosaiart_KSampler8,
@@ -5018,10 +5148,12 @@ NODE_DISPLAY_NAME_MAPPINGS = {
  
     "chaosaiart_forPreview":                    "🔶 Preview Stacking",
     "chaosaiart_Frame_Switch":                  "🔶 Switch on Frame", 
-    "chaosaiart_KSampler_a1":                    "🔶 KSampler txt2video img2video v1",
-    "chaosaiart_KSampler_a1a":                   "🔶 KSampler txt2video img2video - Advanced v1",
+    "chaosaiart_KSampler_a1":                   "🔶 KSampler txt2video img2video v1",
+    "chaosaiart_KSampler_a1a":                  "🔶 KSampler txt2video img2video - Advanced v1",
 
     "chaosaiart_zoom_frame":                    "🔶 Zoom_Frame - this node will come",
+    
+    "chaosaiart_merge_Folders":                  "🔶 Merge Folders",
 
     #"chaosaiart_image_loop":                     "🔶 Hold and Repeate one Image",
     #"chaosaiart_Style_Node":                    "🔶 Style Node",
