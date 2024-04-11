@@ -1,57 +1,40 @@
 import { app } from "../../../scripts/app.js";
 import { ComfyWidgets } from "../../../scripts/widgets.js";
 
-// Displays input text on a node
 app.registerExtension({
-	name: "chaosaiart.Show_Info",
-	async beforeRegisterNodeDef(nodeType, nodeData, app) {
-		if (nodeData.name === "chaosaiart_Show_Info") {
-			function populate(text) {
-				if (this.widgets) {
-					for (let i = 1; i < this.widgets.length; i++) {
-						this.widgets[i].onRemove?.();
-					}
-					this.widgets.length = 1;
+	name:"chaosaiart.Show_Info",
+	async beforeRegisterNodeDef(n,t,e){
+		if(t.name==="chaosaiart_Show_Info"){
+			function i(t){
+				if(this.widgets){
+					for(let e=1;e<this.widgets.length;e++)
+						this.widgets[e].onRemove?.();
+						this.widgets.length=1
 				}
-
-				const v = [...text];
-				if (!v[0]) {
-					v.shift();
+				const i=[...t];
+				if(!i[0]){
+					i.shift()
 				}
-				for (const list of v) {
-					const w = ComfyWidgets["STRING"](this, "text", ["STRING", { multiline: true }], app).widget;
-					w.inputEl.readOnly = true;
-					w.inputEl.style.opacity = 0.6;
-					w.value = list;
+				for(const t of i){
+					const i=ComfyWidgets["STRING"](this,"text",["STRING",{
+						multiline:!0
+					}],e).widget;
+					i.inputEl.readOnly=!0,i.inputEl.style.opacity=.6,i.value=t
 				}
-
-				requestAnimationFrame(() => {
-					const sz = this.computeSize();
-					if (sz[0] < this.size[0]) {
-						sz[0] = this.size[0];
-					}
-					if (sz[1] < this.size[1]) {
-						sz[1] = this.size[1];
-					}
-					this.onResize?.(sz);
-					app.graph.setDirtyCanvas(true, false);
-				});
+				requestAnimationFrame(()=>{
+					const t=this.computeSize();
+					t[0]<this.size[0] &&
+					(t[0]=this.size[0]),t[1]<this.size[1]&&(t[1]=this.size[1]),
+					this.onResize?.(t),e.graph.setDirtyCanvas(!0,!1)}
+				)
 			}
-
-			// When the node is executed we will be sent the input text, display this in the widget
-			const onExecuted = nodeType.prototype.onExecuted;
-			nodeType.prototype.onExecuted = function (message) {
-				onExecuted?.apply(this, arguments);
-				populate.call(this, message.text);
+			const o=n.prototype.onExecuted;n.prototype.onExecuted=function(t){
+				o?.apply(this,arguments),i.call(this,t.text)
 			};
-
-			const onConfigure = nodeType.prototype.onConfigure;
-			nodeType.prototype.onConfigure = function () {
-				onConfigure?.apply(this, arguments);
-				if (this.widgets_values?.length) {
-					populate.call(this, this.widgets_values);
-				}
-			};
+			const r=n.prototype.onConfigure;
+			n.prototype.onConfigure=function(){
+				r?.apply(this,arguments),this.widgets_values?.length&&i.call(this,this.widgets_values)
+			}
 		}
-	},
+	}
 });
