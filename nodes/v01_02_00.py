@@ -665,8 +665,9 @@ class chaosaiart_higher:
     @classmethod 
     def resize_image(cls, resize_tpye,imageIN, target_width, target_height):   
         if resize_tpye == "resize":
-            return imageIN.resize((target_width, target_height), Image.ANTIALIAS)
-        
+            #return imageIN.resize((target_width, target_height), Image.ANTIALIAS) 
+            return imageIN.resize((target_width, target_height), Image.Resampling.LANCZOS)
+
         elif resize_tpye == "crop" or resize_tpye == "fill": 
              
             img = imageIN
@@ -682,7 +683,8 @@ class chaosaiart_higher:
             new_width = int(img.width * scale_ratio)
             new_height = int(img.height * scale_ratio)
             
-            resized_img = img.resize((new_width, new_height), Image.ANTIALIAS)
+            #resized_img = img.resize((new_width, new_height), Image.ANTIALIAS)
+            resized_img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
             
             left = (new_width - target_width) / 2
             top = (new_height - target_height) / 2
@@ -1531,6 +1533,8 @@ class chaosaiart_KSampler_a1:
         self.started = False
         self.cache_seed = None
         self.cache_main_seed = 0
+        #self.img2img_Size, self.Image_Size, self.Image_Mode =  None, None, None
+
 
     @classmethod
     def INPUT_TYPES(s):
@@ -1595,6 +1599,12 @@ class chaosaiart_KSampler_a1:
         infoSize, batch_height, batch_width, height, width = chaosaiart_higher.emptyVideoSize(screenMode[Image_Mode],sizeMode[Image_Size])   
 
         info = ""
+        """ 
+        if (Img2img_input_Size == self.img2img_Size and Image_Size == self.Image_Size and Image_Mode == self.Image_Mode):
+            self.cache_latent = None
+            info += "Cleaning Cache, New Size settings.\n"
+        self.img2img_Size, self.Image_Size, self.Image_Mode =  Img2img_input_Size, Image_Size, Image_Mode
+        """        
 
         if (self.last_activ_frame >= activ_frame):
             self.started = False
@@ -1603,7 +1613,7 @@ class chaosaiart_KSampler_a1:
         latent = None
         newLatent = False
         if self.started and self.cache_latent is not None:
-            info = "Use Cache Image\n"
+            info += "Use Cache Image\n"
             latent = self.cache_latent
         else:    
             if start_Image is not None:    
@@ -1616,7 +1626,7 @@ class chaosaiart_KSampler_a1:
 
                 pixels = self.vae_encode_crop_pixels(start_Image)
                 latent = vae.encode(pixels[:,:,:,:3])
-                info = "Cached Start_image for next img2img generation\nOutput = Start Image\ndo the next Frame!"
+                info += "Cached Start_image for next img2img generation\nOutput = Start Image\ndo the next Frame!"
                 if seed_mode == "increment":
                     self.cache_latent = latent
                     self.last_activ_frame = activ_frame
@@ -1627,7 +1637,7 @@ class chaosaiart_KSampler_a1:
             newLatent = True
             denoise, batch_size = 1, 1 
             latent = torch.zeros([batch_size, 4, batch_height // 8, batch_width // 8], device=self.device)
-            info = "Use new Empty Image\n" + infoSize +"\n"
+            info += "Use new Empty Image\n" + infoSize +"\n"
 
         latent_image = {"samples":latent} 
         
@@ -1687,6 +1697,8 @@ class chaosaiart_KSampler_a1a:
         self.started = False
         self.cache_seed = None
         self.cache_main_seed = 0
+        #self.img2img_Size, self.Image_Size, self.Image_Mode =  None, None, None
+    
 
     @classmethod
     def INPUT_TYPES(s):
@@ -1743,12 +1755,21 @@ class chaosaiart_KSampler_a1a:
             self.cache_seed = None
         
         infoSize, batch_height, batch_width, height, width = chaosaiart_higher.emptyVideoSize(screenMode[Image_Mode],sizeMode[Image_Size])   
-            
+
+           
         info = ""
+        """ 
+        if (Img2img_input_Size == self.img2img_Size and Image_Size == self.Image_Size and Image_Mode == self.Image_Mode):
+            self.cache_latent = None
+            info += "Cleaning Cache, New Size settings.\n"
+        self.img2img_Size, self.Image_Size, self.Image_Mode =  Img2img_input_Size, Image_Size, Image_Mode
+        """  
+
+        
         latent = None
         newLatent = False
         if self.started and self.cache_latent is not None:
-            info = "Use Cache Image\n"
+            info += "Use Cache Image\n"
             latent = self.cache_latent
         else:    
             if start_Image is not None:    
@@ -1761,7 +1782,7 @@ class chaosaiart_KSampler_a1a:
                     
                 pixels = self.vae_encode_crop_pixels(start_Image)
                 latent = vae.encode(pixels[:,:,:,:3])
-                info = "Cached Start_image for next img2img generation\nOutput = Start Image\ndo the next Frame!"
+                info += "Cached Start_image for next img2img generation\nOutput = Start Image\ndo the next Frame!"
                 if seed_mode == "increment":
                     self.cache_latent = latent
                     self.last_activ_frame = activ_frame
@@ -1772,7 +1793,7 @@ class chaosaiart_KSampler_a1a:
             newLatent = True
             denoise, batch_size = 1, 1 
             latent = torch.zeros([batch_size, 4, batch_height // 8, batch_width // 8], device=self.device)
-            info = "Use new Empty Image\n" + infoSize +"\n"
+            info += "Use new Empty Image\n" + infoSize +"\n"
 
         latent_image = {"samples":latent} 
         
@@ -2026,11 +2047,6 @@ class chaosaiart_KSampler5:
     def __init__(self):
         self.device  = comfy.model_management.intermediate_device()
         self.counter = 1
-        #TODO: FIXME: NOTIZ:
-        #TODO: FIXME: NOTIZ:
-        #TODO: FIXME: NOTIZ: 
-        #Something good for more then one Reloader
-        #Need a Clean Up function for Cache, maybe implement restarter
         self.reloader_Num = 0 
 
     @classmethod
