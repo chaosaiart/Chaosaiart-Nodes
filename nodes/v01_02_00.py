@@ -2006,6 +2006,8 @@ class chaosaiart_Ksampler_attribut:
         }
         
         return out,
+ 
+
 
 class chaosaiart_forPreview:
     
@@ -4688,8 +4690,7 @@ class chaosaiart_Frame_Switch:
         if activ_frame >= Switch_frame:
             return source_after_frame,
         return source_before_frame,
-
-
+ 
 class chaosaiart_img2video:
     def __init__(self):
         self.output_dir = folder_paths.get_output_directory()
@@ -4718,6 +4719,7 @@ class chaosaiart_img2video:
 
 
     def node(self, Image_dir,filename_prefix,FPS, merge_folders=None): 
+        #TODO: 
         #import shutil
             #import subprocess
 
@@ -4725,95 +4727,75 @@ class chaosaiart_img2video:
         #if ffmpeg_path is None:
             #raise ProcessLookupError("Could not find ffmpeg")
 
- 
-        # Eingabe des Bildordners 
+
+        file_name = "chaosaiart"
+        file_type = "mp4"
+        fps = FPS
         bilder_ordner = Image_dir if merge_folders is None else merge_folders
 
         if not os.path.isdir(bilder_ordner):
             info = "No Folder" 
             print("chaosaiart_img2video : "+info)
             return info,
-
-        # Eingabe des Output-Ordners
-        output_ordner = os.path.dirname(bilder_ordner)
+  
+        dateien = os.listdir(bilder_ordner) 
+        # Filter PNG & JPG
+        bilddateien = [datei for datei in dateien if os.path.isfile(os.path.join(bilder_ordner, datei)) and datei.lower().endswith(('.png', '.jpg', '.jpeg'))]
  
+        if not bilddateien:
+            info = "No Image"
+            print("chaosaiart_img2video : "+info)
+            return info,
+  
         # Eingabe des Ausgabedateinamens
         folder_preFix = filename_prefix 
         if folder_preFix:
             pre_folder = os.path.join(self.output_dir, folder_preFix) 
             if not os.path.exists(pre_folder):
                 os.makedirs(pre_folder)
-            ausgabedatei = os.path.join(pre_folder, "chaosaiart.mp4")
+            output_ordner = pre_folder 
         else:
-            ausgabedatei = os.path.join(self.output_dir, "chaosaiart.mp4")
-  
-        # Eingabe der FPS 
-        fps = FPS
-
-        # Liste aller Dateien im Bildordner
-        dateien = os.listdir(bilder_ordner)
-
-        # Filtere nur die Bilddateien
-        #bilddateien = [datei for datei in dateien if os.path.isfile(os.path.join(bilder_ordner, datei)) and datei.lower().endswith(('.png', '.jpg', '.jpeg', '.gif'))]
-        bilddateien = [datei for datei in dateien if os.path.isfile(os.path.join(bilder_ordner, datei)) and datei.lower().endswith(('.png', '.jpg', '.jpeg'))]
-
-        # Prüfe, ob im Bildordner Bilddateien vorhanden sind
-        if not bilddateien:
-            info = "No Image"
-            print("chaosaiart_img2video : "+info)
-            return info,
-
-        # Prüfe, ob der Ausgabeordner existiert, andernfalls erstelle ihn
-        if not os.path.exists(output_ordner):
-            os.makedirs(output_ordner)
+            output_ordner = self.output_dir 
+   
+        file_name = "chaosaiart"
+        file_type = "mp4"
         
-
-
-        # Prüfe, ob die Ausgabedatei bereits existiert
-        ausgabepfad = os.path.join(output_ordner, ausgabedatei)
-        if os.path.exists(ausgabepfad):
-            index = 1
-            dateiname, dateiendung = os.path.splitext(ausgabedatei)
-            while os.path.exists(os.path.join(output_ordner, f'{dateiname}_{index}{dateiendung}')):
+        ausgabedatei = os.path.join(output_ordner, f"{file_name}.{file_type}")
+        if os.path.exists(ausgabedatei):
+            index = 1 
+            while os.path.exists(os.path.join(output_ordner, f'{file_name}_{index}.{file_type}')):
                 index += 1
-            ausgabedatei = f'{dateiname}_{index}{dateiendung}'
+            ausgabedatei = f'{file_name}_{index}.{file_type}'
 
+        output_path = os.path.join(output_ordner, ausgabedatei)
         # Bestimme die Bildgröße anhand des ersten Bildes
         erstes_bild = cv2.imread(os.path.join(bilder_ordner, bilddateien[0]))
         hoehe, breite, _ = erstes_bild.shape
 
         # Erstelle das Video mit der angegebenen FPS
         #video = cv2.VideoWriter(os.path.join(output_ordner, ausgabedatei), cv2.VideoWriter_fourcc(*'avc1'), fps, (breite, hoehe))
-        video = cv2.VideoWriter(os.path.join(output_ordner, ausgabedatei), cv2.VideoWriter_fourcc(*'mp4v'), fps, (breite, hoehe))
+        video = cv2.VideoWriter(output_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (breite, hoehe))
 
         info = f'Video Size: {breite}x{hoehe}\nFPS: {fps}' 
         print("chaosaiart_img2video : \n"+info)
 
         print("Process started, please wait.")
         # Schleife über alle Bilddateien im Ordner
-        with tqdm(total=len(bilddateien), desc="Process") as pbar:
-        #with tqdm(total=(bilddateien), desc="Process") as pbar:
+        with tqdm(total=len(bilddateien), desc="Process") as pbar: 
             for datei in bilddateien:
                 bildpfad = os.path.join(bilder_ordner, datei)
                 bild = cv2.imread(bildpfad)
 
-                # Füge das aktuelle Bild zum Video hinzu
                 video.write(bild)
-
-                # Zeige das aktuelle Bild im Fenster an (optional)
-                #cv2.imshow('Bild zum Video', bild)
-                #cv2.waitKey(1)  
-                # Warte 1 Millisekunde zwischen den Bildern# Aktualisiere den Fortschrittsbalken
                 pbar.update(1)
 
         # Schließe das Video und das Fenster
         video.release()
         
-        info += f'\nOutput: {ausgabedatei}'
-        print(f'Output: {ausgabedatei}')
+        info += f'\nOutput: {output_path}'
+        print(f'Output: {output_path}')
         
-        return info,
-        #cv2.destroyAllWindows()
+        return info, 
 
 
 class chaosaiart_lora: 
