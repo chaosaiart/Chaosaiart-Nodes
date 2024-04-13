@@ -24,6 +24,12 @@
     <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h1.png?v=4" alt="Use Case:" width="65%"> <br>
     Animation<br><br><br> 
     <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h3.png?v=4" alt="Examples" width="65%"> <br>
+    <img src="https://chaosaiart.de/nodes/workflows/elements/examples_headline_3.png?v=4" alt="txt2img" width="50%"> <br>
+    <div align="center"> 
+        <img src="https://github.com/chaosaiart/examples/blob/main/Chaosaiart-Nodes/e_img2video_1.gif" width="25%">
+        <img src="https://github.com/chaosaiart/examples/blob/main/Chaosaiart-Nodes/e_img2video_2.gif" width="25%">
+    </div><br>
+    <a href="https://chaosaiart.de/nodes/?json=Animation_img2video">Download: Workflow</a> <br><br><br>
     <img src="https://chaosaiart.de/nodes/workflows/elements/examples_headline_1.png?v=4" alt="txt2img" width="50%"> <br>
     <div align="center">
         <img src="https://github.com/chaosaiart/examples/blob/main/Chaosaiart-Nodes/e1.gif" width="25%">
@@ -331,17 +337,24 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       <dd>
       <div align="center">  
         <a href="#workflow_Animation_1"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_a_3.png?v=4" width="30%"></a> 
+        <a href="#workflow_Animation_2"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_a_4.png?v=4" width="30%"></a> 
       </div> <br><br>
-      <a id="workflow_Animation_1"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_a_3.png?v=4" width="30%"></a>
+        <a id="workflow_Animation_1"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_a_3.png?v=4" width="30%"></a>
       <dl><dd>
       Animation:<br> 
         This workflow has integrated the cache of the <a href="#workflow_1">Cache Workflow</a> in KSampler. <br>
         Additionally, KSampler has been modified to yield better results for animations.<br> 
         For example, the method "Fixed 0.5" has been optimized for checkpoint sd1.5.<br>
         Afterwards, you must stitch the images into a video using <a href="#workflow_8">img2video Basic Workflow</a> 
-      <img src="https://chaosaiart.de/nodes/workflows/img/Animation_txt2video.jpg?v=4" width="100%">
-      <div align="center">
+      <img src="https://chaosaiart.de/nodes/workflows/img/Animation_txt2video.jpg?v=4" width="100%"> 
+      </dl> 
       <div align="center"><a href="https://chaosaiart.de/nodes/?json=Animation_txt2video">Download: Workflow</a> 
+      </div><br><br>
+      <a id="workflow_Animation_2"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_a_4.png?v=4" width="30%"></a>
+      <dl><dd>
+      Same workflow as <a href="#workflow_Animation_1">txt2video</a>, but with image input.
+      <img src="https://chaosaiart.de/nodes/workflows/img/Animation_img2video.jpg?v=4" width="100%">
+      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Animation_img2video">Download: Workflow</a> 
       </div><br><br>
       </dl> 
       <br><br><br>
