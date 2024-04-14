@@ -696,7 +696,8 @@ class chaosaiart_higher:
             return cropped_img 
         else:
             cls.ErrorMSG("Chaosaiart_Resize Img:","No Resize Type please do a issue request include your workflow")
-        
+   
+ 
 class chaosaiart_CheckpointPrompt2:
     def __init__(self):
 
@@ -4691,6 +4692,139 @@ class chaosaiart_Frame_Switch:
             return source_after_frame,
         return source_before_frame,
  
+ 
+import threading 
+
+class noob_loading_process:
+    def __init__(self, node_name, process_name):
+        self.stop_event = threading.Event()
+        self.loading_thread = threading.Thread(target=self._animate_loading)
+        self.node_Name = node_name
+        self.process_name = process_name
+
+    def start(self): 
+        self.loading_thread.start()
+
+    def stop(self): 
+        self.stop_event.set()
+        self.loading_thread.join() 
+        print(f"\033[97m{self.node_Name} : Finish                         \n")  # Drucke den Abschlusstext in Weiß
+
+    def _animate_loading(self):
+        colors = [
+            '\033[94m',  # Hellblau
+            '\033[96m',  # Cyan
+            '\033[92m',  # Grün
+            '\033[32m',  # Hellgrün
+        ]
+        text_color = '\033[97m'  # Weiß
+        color_index = 0
+        while not self.stop_event.is_set():
+            for frame in ['.  ', '.. ', '...']: 
+                print(text_color + self.node_Name + " : " + colors[color_index] + self.process_name + frame, end='\r')
+                color_index = (color_index + 1) % len(colors)
+                time.sleep(0.5)  # Verzögerung von 0.5 Sekunden 
+            print('\033[0m', end='')  # Zurücksetzen auf die Standardfarbe
+ 
+
+class chaosaiart_img2gif:
+    def __init__(self):
+        self.output_dir = folder_paths.get_output_directory()
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": { 
+                "Image_dir": ("STRING", {"default": '', "multiline": False}),  
+                "filename_prefix": ("STRING", {"default": 'gif', "multiline": False}),
+                "FPS": ("INT",{"default": 10, "min": 1, "max": 18446744073709551615, "step": 1}),
+                "Loop":(["Start->END->Start","Start->END"],),
+            }, 
+            "optional":{
+                "merge_folders": ("PATH",),
+            }
+        }
+    
+    RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("Info",)
+    FUNCTION = "node"  
+
+    OUTPUT_NODE = True
+
+    CATEGORY = "🔶Chaosaiart/video"
+
+    def node(self, Image_dir,filename_prefix,FPS,Loop, merge_folders=None): 
+
+        info = ""
+        bilder_ordner = Image_dir if merge_folders is None else merge_folders
+        frame_count = FPS
+
+        if not os.path.isdir(bilder_ordner):
+            info += f"Folder not exist: {bilder_ordner}" 
+            print("chaosaiart_img2gif : "+info)
+            return info,
+    
+        images = []
+        empty_Image_dir = True
+        for filename in os.listdir(bilder_ordner):
+            if filename.endswith(".jpg") or filename.endswith(".png"):
+                filepath = os.path.join(bilder_ordner, filename)
+                images.append(Image.open(filepath))
+                empty_Image_dir = False
+
+        if empty_Image_dir: 
+            info += f"No JPG/PNG in: {bilder_ordner}" 
+            print("chaosaiart_img2gif : "+info)
+            return info, 
+        
+        folder_preFix = filename_prefix 
+        if folder_preFix:
+            pre_folder = os.path.join(self.output_dir, folder_preFix) 
+            if not os.path.exists(pre_folder):
+                os.makedirs(pre_folder)
+            output_ordner = pre_folder 
+        else:
+            output_ordner = self.output_dir 
+
+
+        file_name = "chaosaiart"
+        file_type = "gif"
+        
+        ausgabedatei = os.path.join(output_ordner, f"{file_name}.{file_type}")
+        if os.path.exists(ausgabedatei):
+            index = 1 
+            while os.path.exists(os.path.join(output_ordner, f'{file_name}_{index}.{file_type}')):
+                index += 1
+            ausgabedatei = os.path.join(output_ordner, f'{file_name}_{index}.{file_type}') 
+
+        full_image = images if Loop == "Start->END" else images + images[::-1]
+         
+        print("\n")  
+        #TODO: No idea how to implement a progress bar while converting img2gif.
+        loading_process = noob_loading_process("🔶Chaosaiart Convert img2gif", "Creating Gif")
+        loading_process.start()  
+        full_image[0].save(ausgabedatei, save_all=True, append_images=full_image, loop=0, duration=1000//frame_count)
+        loading_process.stop()
+
+        #progressbar = tqdm.tqdm(total=anzahl_bilder, desc="Bilder speichern")
+        #anzahl_bilder = len(full_image)
+        #pbar = tqdm(total=anzahl_bilder, desc="Creating GIF")
+
+        #for index, bild in enumerate(full_image):
+            #bild.save(ausgabedatei, save_all=True, append_images=full_image, loop=index, duration=1000//frame_count)
+            #progressbar.update()
+            #pbar.update(1)
+
+        #pbar.close()
+        #with tqdm(total=len(full_image), desc="Creating GIF") as pbar:
+            #full_image[0].save(ausgabedatei, save_all=True, append_images=full_image, loop=0, duration=1000//frame_count, progress_callback=lambda i, n: pbar.update(1))
+        #for i in range(1, frame_count):
+            #full_image[i].save(ausgabedatei, save_all=True, append_images=full_image, loop=i, duration=1000//frame_count)
+            #progress_bar.update(1)
+
+        info += f"GIF : {ausgabedatei}"
+        return info, 
+    
 class chaosaiart_img2video:
     def __init__(self):
         self.output_dir = folder_paths.get_output_directory()
@@ -4701,7 +4835,7 @@ class chaosaiart_img2video:
             "required": { 
                 "Image_dir": ("STRING", {"default": '', "multiline": False}),  
                 "filename_prefix": ("STRING", {"default": 'video', "multiline": False}),
-                "FPS": ("INT",{"default": 30, "min": 1, "max": 18446744073709551615, "step": 1}),
+                "FPS": ("INT",{"default": 10, "min": 1, "max": 18446744073709551615, "step": 1}),
             }, 
             "optional":{
                 "merge_folders": ("PATH",),
@@ -4994,6 +5128,7 @@ NODE_CLASS_MAPPINGS = {
 
     "chaosaiart_video2img1":                    chaosaiart_video2img1,
     "chaosaiart_img2video":                     chaosaiart_img2video,
+    "chaosaiart_img2gif":                       chaosaiart_img2gif,
 
     "chaosaiart_Load_Image_Batch":              chaosaiart_Load_Image_Batch,
     "chaosaiart_Load_Image_Batch_2img":         chaosaiart_Load_Image_Batch_2img,
@@ -5082,7 +5217,8 @@ NODE_CLASS_MAPPINGS = {
 # A dictionary that contains the friendly/humanly readable titles for the nodes
 NODE_DISPLAY_NAME_MAPPINGS = {
     "chaosaiart_video2img1":                    "🔶 Convert Video2Img -> Frame",
-    "chaosaiart_img2video":                     "🔶 Convert img2video -> Video",
+    "chaosaiart_img2video":                     "🔶 Convert img2video -> mp4",
+    "chaosaiart_img2gif":                       "🔶 Convert img2gif -> GIF",
 
     "chaosaiart_Load_Image_Batch":              "🔶 Load Image Batch",
     "chaosaiart_Load_Image_Batch_2img":         "🔶 Load Image Batch - Advanced",
