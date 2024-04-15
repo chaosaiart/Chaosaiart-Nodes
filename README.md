@@ -15,9 +15,10 @@
   <a href="#Workflows"><img src="https://chaosaiart.de/nodes/workflows/elements/d2.png?v=4"  width="25%"></a>
   <a href="#Nodes"><img src="https://chaosaiart.de/nodes/workflows/elements/d3.png?v=4"  width="25%"></a>
 </div>
-<div align="center">  
+<div align="center">
   <a href="#Support"><img src="https://chaosaiart.de/nodes/workflows/elements/d4.png?v=4"  width="25%"></a> 
   <a href="#Info"><img src="https://chaosaiart.de/nodes/workflows/elements/d5.png?v=4"  width="25%"></a>
+  <a href="https://github.com/chaosaiart/Chaosaiart-Nodes/blob/main/WISH_LIST.md"><img src="https://chaosaiart.de/nodes/workflows/elements/d6.png?v=4"  width="25%"></a>
 </div>
 <br><br> 
 <div align="center">  
