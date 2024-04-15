@@ -28,7 +28,8 @@ Any accepted wish or item on the ToDo list can be submitted as a pull request by
     <summary>Create a Wish / template</summary> 
       Author: <a href="https://github.com/chaosaiart">chaosaiart</a> - 
       Contact: <a href="https://chaosaiart.de/discord"> On Chaosaiart Discord server</a><br><br> 
-      Detailed explanation 
+      Detailed explanation .. <br>
+      more infos..<br> 
 </details>
 ```
 
@@ -42,9 +43,9 @@ Any accepted wish or item on the ToDo list can be submitted as a pull request by
   <summary>🔶 Convert img2video -> mp4 h265</summary> 
   Author: <a href="https://github.com/chaosaiart">chaosaiart</a> - 
   Contact: <a href="https://chaosaiart.de/discord"> On Chaosaiart Discord server</a><br><br>
-  Current output: mp4
-  Desired output: mp4 h264
-  I think for that, ffmpg is required. 
+  Current output: mp4<br>
+  Desired output: mp4 h264<br>
+  I think for that, ffmpg is required.<br> 
 </details>
 
 
@@ -52,9 +53,9 @@ Any accepted wish or item on the ToDo list can be submitted as a pull request by
   <summary>🔶 Frame interpolation, add more Frames</summary> 
   Author: <a href="https://github.com/chaosaiart">chaosaiart</a> - 
   Contact: <a href="https://chaosaiart.de/discord"> On Chaosaiart Discord server</a><br><br>
-  using Rife ai model  
-  mp4 -> mp4 + extraframe
-  best way -> connectors Dots by 🔶 Convert img2video "FRAME_MODEL"
+  using Rife ai model<br>  
+  mp4 -> mp4 + extraframe<br>
+  best way -> connectors Dots by 🔶 Convert img2video "FRAME_MODEL"<br>
   "FRAME_MODEL" = Model + the number of frames to be added <br> 
 </details>
 
@@ -66,21 +67,20 @@ Any accepted wish or item on the ToDo list can be submitted as a pull request by
   <summary>🔶 Workflow Up & Downloader</summary> 
   Author: <a href="https://github.com/chaosaiart">chaosaiart</a> - 
   Contact: <a href="https://chaosaiart.de/discord"> On Chaosaiart Discord server</a><br><br>  
-  2xButton in 1 element ( CSS / JS / HTML ), moveable
-  1. Upload -> Uploading Workflow , 
-  1.1.input: 
-  1.1.1. Result img/ Video / Gif (convert < 50mb)
-  1.1.2. Headline + Describe 
-  1.1.3. One time Email adress, ever Node get a random user ID -> "xasd213qwf211e" save in the Node
-  1.1.4. send to server function https://node.chaosaiart.de/workflow/upload
-  2. Download -> Open a PopUp Window. 
-  2.1. Each Item : Img/Video/gif + Headline, download + Open more Infos
-  2.2. Section -> Chaosaiart Upload(Trusted Upload) / Community Upload (Own Risk) 
-  2.3. Filter -> New , popular (likes/dislikes), Tags, Trusted Score , Workflow do what its have to do score 
-  2.4. Downloading -> open workflow + Open Voting system, when workflow is open. 
-  2.5. Voting system : Like, Trusted (?) / Risk (Virus Node included), add Tag (?) 
+  2xButton in 1 element ( CSS / JS / HTML ), moveable<br>
+  1. Upload -> Uploading Workflow ,<br> 
+  1.1.input: <br>
+  1.1.1. Result img/ Video / Gif (convert < 50mb)<br>
+  1.1.2. Headline + Describe <br>
+  1.1.3. One time Email adress, ever Node get a random user ID -> "xasd213qwf211e" save in the Node<br>
+  1.1.4. send to server function https://node.chaosaiart.de/workflow/upload<br><br>
+  2. Download -> Open a PopUp Window. <br>
+  2.1. Each Item : Img/Video/gif + Headline, download + Open more Infos<br>
+  2.2. Section -> Chaosaiart Upload(Trusted Upload) / Community Upload (Own Risk)<br> 
+  2.3. Filter -> New , popular (likes/dislikes), Tags, Trusted Score , Workflow do what its have to do score<br> 
+  2.4. Downloading -> open workflow + Open Voting system, when workflow is open.<br> 
+  2.5. Voting system : Like, Trusted (?) / Risk (Virus Node included), add Tag (?) <br>
 
-  Contact: [On Chaosaiart Discord server]{https://chaosaiart.de/discord}
 </details>
 
 <br><br>
