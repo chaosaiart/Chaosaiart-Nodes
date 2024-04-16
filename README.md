@@ -30,14 +30,15 @@
         <img src="https://github.com/chaosaiart/examples/blob/main/Chaosaiart-Nodes/e_img2video_1.gif" width="25%">
         <img src="https://github.com/chaosaiart/examples/blob/main/Chaosaiart-Nodes/e_img2video_2.gif" width="25%">
     </div><br>
-    <a href="https://chaosaiart.de/nodes/?json=Animation_img2video">Download: Workflow</a> <br><br><br>
+    <a href="https://chaosaiart.de/nodes/?json=Animation_img2video">
+        <img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%"></a> <br><br><br>
     <img src="https://chaosaiart.de/nodes/workflows/elements/examples_headline_1.png?v=4" alt="txt2img" width="50%"> <br>
     <div align="center">
         <img src="https://github.com/chaosaiart/examples/blob/main/Chaosaiart-Nodes/e1.gif" width="25%">
         <img src="https://github.com/chaosaiart/examples/blob/main/Chaosaiart-Nodes/e2.gif" width="25%">
         <img src="https://github.com/chaosaiart/examples/blob/main/Chaosaiart-Nodes/e3.gif" width="25%">
     </div><br>
-    <a href="https://chaosaiart.de/nodes/?json=Animation_txt2video">Download: Workflow</a> <br><br><br>
+    <a href="https://chaosaiart.de/nodes/?json=Animation_txt2video"><img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%"></a> <br><br><br>
     <img src="https://chaosaiart.de/nodes/workflows/elements/examples_headline_2.png?v=4" alt="" width="50%"> <br>
     Work in Progress. 
     <br><br>
