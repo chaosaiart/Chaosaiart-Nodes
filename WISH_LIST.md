@@ -10,7 +10,7 @@ Feel free to add your wishes or implement accepted wishes as code via Pull Reque
 | [Todo](#todo)                 | High-priority items   |
 | [Accepted wishes](#accepted-wishes) | Wishes implemented upon code submission |
 | [New Wishes](#new-wishes)     | List of new wishes awaiting approval.   |
-| [Rejected Wishes](#reject-wishes) | List of rejected wishes |
+| [Rejected Wishes](#rejected-wishes) | List of rejected wishes |
 | [Implemented Wishes](#implemented-wishes) | List of rejected wishes |
 
 <br><br>
@@ -118,6 +118,7 @@ Add the first Wish. (just Override this)
 
 # Rejected Wishes 
 No rejected wishes 
+
 <br><br>
 
 # Implemented Wishes  
