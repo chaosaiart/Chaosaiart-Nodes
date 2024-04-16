@@ -11,6 +11,7 @@ Feel free to add your wishes or implement accepted wishes as code via Pull Reque
 | [Accepted wishes](#accepted-wishes) | Wishes implemented upon code submission |
 | [New Wishes](#new-wishes)     | List of new wishes awaiting approval.   |
 | [Rejected Wishes](#reject-wishes) | List of rejected wishes |
+| [Implemented Wishes](#implemented-wishes) | List of rejected wishes |
 
 <br><br>
 
@@ -45,7 +46,7 @@ Any accepted wish or item on the ToDo list can be submitted as a pull request by
   Contact: <a href="https://chaosaiart.de/discord"> On Chaosaiart Discord server</a><br><br>
   Current output: mp4<br>
   Desired output: mp4 h264<br>
-  I think for that, ffmpg is required.<br> 
+  I think for that, ffmpg is required.<br> <br> 
 </details>
 
 
@@ -56,7 +57,32 @@ Any accepted wish or item on the ToDo list can be submitted as a pull request by
   using Rife ai model<br>  
   mp4 -> mp4 + extraframe<br>
   best way -> connectors Dots by 🔶 Convert img2video "FRAME_MODEL"<br>
-  "FRAME_MODEL" = Model + the number of frames to be added <br> 
+  "FRAME_MODEL" = Model + the number of frames to be added <br> <br> 
+</details>
+
+<details>
+  <summary>🔶 Controlnet Animation</summary> 
+  Author: <a href="https://github.com/chaosaiart">chaosaiart</a> - 
+  Contact: <a href="https://chaosaiart.de/discord"> On Chaosaiart Discord server</a><br><br>
+  An implementation of the Controlnet into the img2video / txt2video.<br> Either through a workflow or a new node / implementation within an active node.<br> Additional models to improve the process are also possible
+<br><br>
+</details>
+<details>
+
+<summary>🔶 Ksampler img2video & txt2video Change</summary> 
+  Author: <a href="https://github.com/chaosaiart">chaosaiart</a> - 
+  Contact: <a href="https://chaosaiart.de/discord"> On Chaosaiart Discord server</a><br><br>
+  Atwork: Chaosaiart<br><br>
+  Separating the Ksampler img2video & txt2video into two Ksamplers.<br>
+  -> txt2video<br>
+  -> Img2video<br><br>
+  Testing and implementing additional modes such as, initially, within the Ksampler txt2video img2video - Advanced<br>
+-> fixed || incremented<br>
+-> incremented || fixed<br>
+-> ...<br><br>
+Building the individual components that enable this workflow.<br>
+-> main_attribute - Expert<br>
+-> Sub Ksampler - Expert<br><br>
 </details>
 
 <br><br>
@@ -73,13 +99,13 @@ Any accepted wish or item on the ToDo list can be submitted as a pull request by
   1.1.1. Result img/ Video / Gif (convert < 50mb)<br>
   1.1.2. Headline + Describe <br>
   1.1.3. One time Email adress, ever Node get a random user ID -> "xasd213qwf211e" save in the Node<br>
-  1.1.4. send to server function https://node.chaosaiart.de/workflow/upload<br><br>
+  1.1.4. send to server function https://api.chaosaiart.de/workflow<br><br>
   2. Download -> Open a PopUp Window. <br>
   2.1. Each Item : Img/Video/gif + Headline, download + Open more Infos<br>
   2.2. Section -> Chaosaiart Upload(Trusted Upload) / Community Upload (Own Risk)<br> 
   2.3. Filter -> New , popular (likes/dislikes), Tags, Trusted Score , Workflow do what its have to do score<br> 
   2.4. Downloading -> open workflow + Open Voting system, when workflow is open.<br> 
-  2.5. Voting system : Like, Trusted (?) / Risk (Virus Node included), add Tag (?) <br>
+  2.5. Voting system : Like, Trusted (?) / Risk (Virus Node included), add Tag (?) <br><br> 
 
 </details>
 
@@ -92,5 +118,9 @@ Add the first Wish. (just Override this)
 
 # Rejected Wishes 
 No rejected wishes 
+<br><br>
+
+# Implemented Wishes  
+No implemented wishes 
 
  
