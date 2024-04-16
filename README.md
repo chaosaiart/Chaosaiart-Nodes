@@ -222,7 +222,9 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       Change Checkpoint, you can specify when.<br>
       1x Frame = 1x generated Img / Batch<br>
       <img src="https://chaosaiart.de/nodes/workflows/img/Basic_Checkpoint_changing.jpg?v=4" width="100%"><br>
-      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_Checkpoint_changing">Download: Workflow</a> 
+      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_Checkpoint_changing">
+        <img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%">
+      </a> 
       </div><br><br>
       </dl>
       <!-- Prompt Changer --->
@@ -231,7 +233,7 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       Change Prompt, you can specify when.<br>
       1x Frame = 1x generated Img / Batch<br>
       <img src="https://chaosaiart.de/nodes/workflows/img/Basic_Prompt_changing.jpg?v=4" width="100%"><br>
-      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_Prompt_changing">Download: Workflow</a> 
+      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_Prompt_changing"><img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%"></a> 
       </div><br><br>
       </dl> 
       <!-- Checkpoint & Prompt Changer -->
@@ -240,7 +242,7 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       Change Checkpoint & Prompt, you can specify when.<br>
       1x Frame = 1x generated Img / Batch<br>
       <img src="https://chaosaiart.de/nodes/workflows/img/Basic_Checkpoint_Prompt_changing.jpg?v=4" width="100%"><br>
-      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_Checkpoint_Prompt_changing">Download: Workflow</a> 
+      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_Checkpoint_Prompt_changing"><img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%"></a> 
       </div><br><br>
       </dl>
       <!-- Batch Loader -->
@@ -250,20 +252,20 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       Select folder, Each generation uses the next image.<br>
       You also can Repeat Img.<br>
       <img src="https://chaosaiart.de/nodes/workflows/img/Basic_Image_Batch_img2img.jpg?v=4" width="100%"><br>
-      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_Image_Batch_img2img">Download: Workflow</a> 
+      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_Image_Batch_img2img"><img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%"></a> 
       </div><br>
       Basic Controlnet Batch Loader<br>
       Select folder, Each generation uses the next image.<br>
       You also can Repeat Img.<br>
       <img src="https://chaosaiart.de/nodes/workflows/img/Basic_Image_Batch_controlnet.jpg?v=4" width="100%"><br>
-      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_Image_Batch_controlnet">Download: Workflow</a> 
+      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_Image_Batch_controlnet"><img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%"></a> 
       </div><br><br>
       </dl> <!-- Video2img-->
       <a id="workflow_9"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_b_9.png?v=4" width="30%"></a><br> 
       <dl><dd>
       Splitt Video in to Frames / img 
       <img src="https://chaosaiart.de/nodes/workflows/img/Basic_video2img.jpg?v=4" width="100%"><br>  
-      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_video2img">Download: Workflow</a> 
+      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_video2img"><img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%"></a> 
       </div><br><br>
       </dl>
       <!-- img2video -->
@@ -271,8 +273,12 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       <dl><dd>
       Stitching Image to Video
       <img src="https://chaosaiart.de/nodes/workflows/img/Basic_img2video.jpg?v=4" width="100%"><br>  
-      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_img2video">Download: Workflow</a> 
-      </div><br><br>
+      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_img2video"><img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%"></a> 
+      </div><br><br> 
+      Stitching Image to Gif 
+      <img src="https://chaosaiart.de/nodes/workflows/img/Basic_img2gif.jpg?v=4" width="100%"><br>  
+      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_img2gif"><img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%"></a> 
+      </div><br><br>  
       </dl>
       <!-- Cache Reloader -->
       <a id="workflow_1"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_b_1.png?v=4" width="30%"></a><br> 
@@ -281,7 +287,7 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       Cache a Img for the next generate, in this Case Img2img. 
       My <a href="#wi_b_4">Promptchanger workflow</a> has been implemented. Prompt Changer<br> 
       <img src="https://chaosaiart.de/nodes/workflows/img/Basic_img2img_cache_animation.jpg?v=4" width="100%"><br>  
-      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_img2img_cache_animation">Download: Workflow</a> 
+      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_img2img_cache_animation"><img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%"></a> 
       </div><br><br>
       </dl>
       <!-- Controlnet Changer -->
@@ -291,7 +297,7 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       1x Frame = 1x generated Img / Batch = Step<br>
       You will need <a href="https://civitai.com/models/38784?modelVersionId=44716">Canny Model<a>
       <img src="https://chaosaiart.de/nodes/workflows/img/Basic_controlnet_start_end_steps_changing.jpg?v=4" width="100%"><br>
-      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_controlnet_start_end_steps_changing">Download: Workflow</a> 
+      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_controlnet_start_end_steps_changing"><img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%"></a> 
       </div><br><br>
       </dl>
       <!-- Save Prompt -->
@@ -300,7 +306,7 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       Save and Load your Prompt + Simple Workflow.<br>
       For Loading & Saving Text you need to Install this <a href="https://github.com/pythongosssss/ComfyUI-Custom-Scripts?tab=readme-ov-file#installation">Custom Node</a>
       <img src="https://chaosaiart.de/nodes/workflows/img/Basic_save_load_Prompts.jpg?v=4" width="100%"><br>
-      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_save_load_Prompts">Download: Workflow</a> 
+      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_save_load_Prompts"><img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%"></a> 
       </div><br><br>
       </dl>
       <!-- Switch -->
@@ -308,7 +314,7 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       <dl><dd>
       Using Any-Switch to control any input at any time.
       <img src="https://chaosaiart.de/nodes/workflows/img/Basic_Any_Switch_Count.jpg?v=4" width="100%"><br>
-      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_Any_Switch_Count">Download: Workflow</a> 
+      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_Any_Switch_Count"><img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%"></a> 
       </div><br><br>
       </dl>
       <!-- Array -->
@@ -316,7 +322,7 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       <dl><dd>
       Utilize arrays to enhance the organization of your workspace, or swiftly switch between processes to test things.
       <img src="https://chaosaiart.de/nodes/workflows/img/Basic_using_Array.jpg?v=4" width="100%"><br>
-      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_using_Array">Download: Workflow</a> 
+      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_using_Array"><img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%"></a> 
       </div><br><br>
       </dl>
       <!-- Lora -->
@@ -324,7 +330,7 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       <dl><dd>
       Lora Input
       <img src="https://chaosaiart.de/nodes/workflows/img/Basic_Lora.jpg?v=4" width="100%"><br>
-      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_Lora">Download: Workflow</a> 
+      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_Lora"><img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%"></a> 
       </div><br><br>
       </dl>
       
@@ -350,13 +356,13 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
         Afterwards, you must stitch the images into a video using <a href="#workflow_8">img2video Basic Workflow</a> 
       <img src="https://chaosaiart.de/nodes/workflows/img/Animation_txt2video.jpg?v=4" width="100%"> 
       </dl> 
-      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Animation_txt2video">Download: Workflow</a> 
+      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Animation_txt2video"><img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%"></a> 
       </div><br><br>
       <a id="workflow_Animation_2"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_a_4.png?v=4" width="30%"></a>
       <dl><dd>
       Same workflow as <a href="#workflow_Animation_1">txt2video</a>, but with image input.
       <img src="https://chaosaiart.de/nodes/workflows/img/Animation_img2video.jpg?v=4" width="100%">
-      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Animation_img2video">Download: Workflow</a> 
+      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Animation_img2video"><img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%"></a> 
       </div><br><br>
       </dl> 
       <br><br><br>
