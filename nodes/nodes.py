@@ -42,6 +42,7 @@ import folder_paths
 import latent_preview
 
 
+ 
 # Hack: string type that is always equal in not equal comparisons
 class AnyType_fill(str):
     def __ne__(self, __value: object) -> bool:
@@ -71,7 +72,30 @@ class anySave:
 
 
 class chaosaiart_higher: 
-    
+    def name(name_Type): 
+        main_name = "🔶Chaosaiart"
+
+        categories = {
+            "main":         main_name,
+            "checkpoint":   main_name+"/checkpoint",
+            "image":        main_name+"/image",
+            "prompt":       main_name+"/prompt",
+            "ksampler":     main_name+"/ksampler",
+            "cache":        main_name+"/cache",
+            "restart":      main_name+"/restart",
+            "logic":        main_name+"/logic",
+            "controlnet":   main_name+"/controlnet",
+            "lora":         main_name+"/lora",
+            "video":        main_name+"/video",
+            "switch":       main_name+"/switch",
+            "animation":    main_name+"/animation",
+        }
+
+        out = categories.get(name_Type)
+        if out == None:
+            return categories.get("main")
+        return out
+
     def log(Node,msg,Activ_status):
         if Activ_status:
             print(Node+": "+msg)
@@ -697,6 +721,34 @@ class chaosaiart_higher:
         else:
             cls.ErrorMSG("Chaosaiart_Resize Img:","No Resize Type please do a issue request include your workflow")
    
+    @classmethod 
+    def check_seed(cls,error_seed_name,seed):  
+        try:   
+            return int(seed)  
+        except Exception as e:
+            cls.ErrorMSG(cls.name("main"),f"{error_seed_name} : Unknow type of Seed, {error_seed_name} = new Seed")
+            return -1
+
+    @classmethod 
+    def seed(cls,seed): 
+        seed = cls.check_seed("seed",seed)
+        if seed <= 0: 
+            return random.randint(1, 0xfffffffffff) 
+        return seed 
+    
+    @classmethod 
+    def txt2video_SEED_cachSEED(cls,seed,cach_seed):  
+        seed = cls.check_seed("seed",seed)
+        cach_seed = cls.check_seed("cache_seed",cach_seed) 
+        if seed <= 0:
+            if cach_seed <= 0:
+                new_seed = cls.seed(-1) 
+                return new_seed,new_seed
+            return cach_seed,cach_seed
+        return seed, seed
+
+   
+
  
 class chaosaiart_CheckpointPrompt2:
     def __init__(self):
@@ -728,8 +780,8 @@ class chaosaiart_CheckpointPrompt2:
     RETURN_NAMES = ("Info","MODEL","POSITIV","NEGATIV","VAE",) 
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/checkpoint"
-
+    CATEGORY = chaosaiart_higher.name("checkpoint")
+  
     def node(self, Checkpoint, Positiv="",Negativ="",add_lora=[],add_positiv_txt = "",add_negativ_txt=""):
         
     
@@ -791,7 +843,7 @@ class chaosaiart_EmptyLatentImage:
     FUNCTION = "node"
 
 
-    CATEGORY = "🔶Chaosaiart/image"
+    CATEGORY = chaosaiart_higher.name("image")
  
     def node(self, Mode, Size):
         
@@ -845,7 +897,7 @@ class chaosaiart_CheckpointPrompt:
     RETURN_NAMES = ("MODEL","POSITIV","NEGATIV","VAE",) 
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/checkpoint"
+    CATEGORY = chaosaiart_higher.name("checkpoint")
 
     def node(self, Checkpoint, positiv_txt="",negativ_txt="",lora=[]):
          
@@ -899,7 +951,7 @@ class chaosaiart_Style_Node:
     RETURN_NAMES = ("prompt_txt",) 
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/prompt"
+    CATEGORY = chaosaiart_higher.name("prompt")
 
     def node(self,Model,Quality,Light,Technique,Color,Mood,Subjekt,Style): 
 
@@ -927,7 +979,7 @@ class chaosaiart_Style_Node:
     RETURN_NAMES = ("prompt_txt",) 
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/prompt"
+    CATEGORY = chaosaiart_higher.name("prompt")
 
     def node(self,Model,Quality,Light,Technique,Color,Mood,Subjekt,Style): 
 
@@ -954,7 +1006,7 @@ class chaosaiart_CheckpointPrompt_Frame:
     RETURN_NAMES = ("CKPT_PROMPT",) 
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/checkpoint"
+    CATEGORY = chaosaiart_higher.name("checkpoint")
 
     def node(self, Start_Frame,Checkpoint,Positiv="",Negativ="",lora=[]):  
         return ([Start_Frame,Checkpoint,Positiv,Negativ,lora],)
@@ -996,7 +1048,7 @@ class chaosaiart_CheckpointPrompt_FrameMixer:
     RETURN_NAMES = ("Info","MODEL","POSITIV","NEGATIV","VAE",)
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/checkpoint"
+    CATEGORY = chaosaiart_higher.name("checkpoint")
 
     def node(self, activ_frame,main_prompt,
               ckpt_prompt_1,
@@ -1101,7 +1153,7 @@ class chaosaiart_KSampler:
     RETURN_TYPES = ("IMAGE",)
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/ksampler"
+    CATEGORY = chaosaiart_higher.name("ksampler")
 
     def node(self, model, vae, seed, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise, denoise_Override=None):
         denoise = denoise if denoise_Override is None else denoise_Override 
@@ -1138,7 +1190,7 @@ class chaosaiart_KSampler1: #txt2img
     RETURN_NAMES = ("IMAGE",) 
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/ksampler"
+    CATEGORY = chaosaiart_higher.name("ksampler")
 
     def node(self, model, vae, seed, steps, cfg, sampler_name, scheduler, positive, negative, Image_width,Image_height):
 
@@ -1185,7 +1237,7 @@ class chaosaiart_KSampler2: #img2img
     RETURN_NAMES = ("IMAGE",) 
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/ksampler"
+    CATEGORY = chaosaiart_higher.name("ksampler")
 
 
  
@@ -1255,7 +1307,7 @@ class chaosaiart_KSampler3:
     RETURN_NAMES = ("IMAGE","SAMPLES",) 
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/ksampler"
+    CATEGORY = chaosaiart_higher.name("ksampler")
     
     @staticmethod
     def vae_encode_crop_pixels(pixels):
@@ -1340,7 +1392,7 @@ class chaosaiart_KSampler4:
     RETURN_NAMES = ("IMAGE","SAMPLES",) 
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/ksampler"
+    CATEGORY = chaosaiart_higher.name("ksampler")
 
     @staticmethod
     def vae_encode_crop_pixels(pixels):
@@ -1403,7 +1455,7 @@ class chaosaiart_KSampler4:
         image = vae.decode(samples[0]["samples"])
         return (image,samples[0],)
     
-class chaosaiart_KSampler6:
+class chaosaiart_KSampler_expert_0:
     def __init__(self):
         self.device = comfy.model_management.intermediate_device()
         self.cache_latent = None
@@ -1441,11 +1493,11 @@ class chaosaiart_KSampler6:
                     }
                 }
 
-    RETURN_TYPES = ("STRING","IMAGE","LATENT",) 
-    RETURN_NAMES = ("Info","IMAGE","SAMPLER",) 
+    RETURN_TYPES = ("STRING","LATENT",) 
+    RETURN_NAMES = ("Info","SAMPLER",) 
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/ksampler"
+    CATEGORY = chaosaiart_higher.name("animation")
 
     @staticmethod
     def vae_encode_crop_pixels(pixels):
@@ -1522,18 +1574,19 @@ class chaosaiart_KSampler6:
         self.started = True
         
         info = f"Frame: {activ_frame}\n" + info +f"\nseed: {seed}"
-        return (info, image,samples[0]) 
+        return (info,samples[0]) 
     
   
      
-class chaosaiart_KSampler_a1:
+class chaosaiart_KSampler_a1: #img2video
     def __init__(self):
         self.device = comfy.model_management.intermediate_device()
         self.cache_latent = None
         self.last_activ_frame = 0
         self.started = False
-        self.cache_seed = None
-        self.cache_main_seed = 0
+        self.cache_seed = -1
+        self.cache_seed_2 = -1
+        self.img2video_mode = True
         #self.img2img_Size, self.Image_Size, self.Image_Mode =  None, None, None
 
 
@@ -1573,7 +1626,7 @@ class chaosaiart_KSampler_a1:
     RETURN_NAMES = ("Info","IMAGE","SAMPLER",) 
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/ksampler"
+    CATEGORY = chaosaiart_higher.name("animation")
 
     @staticmethod
     def vae_encode_crop_pixels(pixels):
@@ -1589,7 +1642,7 @@ class chaosaiart_KSampler_a1:
              Image_Size, steps,seed_mode, cfg, sampler_name, scheduler, start_Image = None, zoom_frame = None):
             
         seedMode = {
-            "fixed - 0.50 - SD1.5":0.5,
+            "fixed - 0.50 - SD1.5":0.5, 
             "fixed - 0.45":0.45, 
             "fixed - 0.48":0.48,  
             "fixed - 0.52":0.52,  
@@ -1599,17 +1652,13 @@ class chaosaiart_KSampler_a1:
         screenMode = { "Widescreen / 16:9":"widht", "Portrait (Smartphone) / 9:16":"height", "Widht = Height":"widht=height" } 
         infoSize, batch_height, batch_width, height, width = chaosaiart_higher.emptyVideoSize(screenMode[Image_Mode],sizeMode[Image_Size])   
 
-        info = ""
-        """ 
-        if (Img2img_input_Size == self.img2img_Size and Image_Size == self.Image_Size and Image_Mode == self.Image_Mode):
-            self.cache_latent = None
-            info += "Cleaning Cache, New Size settings.\n"
-        self.img2img_Size, self.Image_Size, self.Image_Mode =  Img2img_input_Size, Image_Size, Image_Mode
-        """        
+        info = ""    
 
         if (self.last_activ_frame >= activ_frame):
-            self.started = False
-            self.cache_seed = None
+            self.started    = False
+            self.cache_seed = -1
+            self.cache_seed_2 = -1
+            self.img2video_mode = True
         
         latent = None
         newLatent = False
@@ -1627,18 +1676,14 @@ class chaosaiart_KSampler_a1:
 
                 pixels = self.vae_encode_crop_pixels(start_Image)
                 latent = vae.encode(pixels[:,:,:,:3])
-                info += "Cached Start_image for next img2img generation\nOutput = Start Image\ndo the next Frame!"
-                if seed_mode == "increment":
-                    self.cache_latent = latent
-                    self.last_activ_frame = activ_frame
-                    self.started = True
-                    return (info, start_Image,latent) 
-            
+                info += "It's frame-after-frame animation.\nPress 'Queue Prompt' for each new frame or use 'Batch count' in 'Extras options'.\n"
+                  
         if latent is None: 
             newLatent = True
             denoise, batch_size = 1, 1 
             latent = torch.zeros([batch_size, 4, batch_height // 8, batch_width // 8], device=self.device)
-            info += "Use new Empty Image\n" + infoSize +"\n"
+            info += "It's frame-after-frame animation.\nPress 'Queue Prompt' for each new frame or use 'Batch count' in 'Extras options'.\n"
+            self.img2video_mode = False
 
         latent_image = {"samples":latent} 
         
@@ -1646,29 +1691,26 @@ class chaosaiart_KSampler_a1:
         force_full_denoise = True
         
         seed = seed_start
+        seed_2 = -1
         start_at_step = 0
         end_at_step = steps
         
-        if seed <= 0:
-            if self.cache_seed is None: 
-                self.cache_seed = random.randint(1, 0xffffffffffffffff)
-            seed = self.cache_seed
+        seed, self.cache_seed  = chaosaiart_higher.txt2video_SEED_cachSEED(seed, self.cache_seed)
 
-        
         if seed_mode == "increment":
+            
             #Increment Seed
-            self.cache_main_seed = seed
             seed = seed + activ_frame - 1 
             samples =  chaosaiart_higher.ksampler(model, seed, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise, disable_noise=disable_noise, start_step=start_at_step, last_step=end_at_step, force_full_denoise=force_full_denoise)
         
-        else: 
-            if newLatent:
-                main_seed = random.randint(1, 0xffffffffffffffff)
-                info += f"txt2video Mode - Fixed Seed :\n First Frame: new Image Seed Generated \n"
-                samples =  chaosaiart_higher.ksampler(model, main_seed, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise, disable_noise=disable_noise, start_step=start_at_step, last_step=end_at_step, force_full_denoise=force_full_denoise)
-                latent_image = samples[0]
-                self.cache_main_seed = main_seed
- 
+            info += f"Frame: {activ_frame}\n" +f"activ_seed: {seed}\nStart_Seed: {self.cache_seed}"
+        else:
+  
+            if newLatent:  
+                seed_2, self.cache_seed_2 = chaosaiart_higher.txt2video_SEED_cachSEED(seed_2, self.cache_seed_2) 
+                samples =  chaosaiart_higher.ksampler(model, seed_2, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise, disable_noise=disable_noise, start_step=start_at_step, last_step=end_at_step, force_full_denoise=force_full_denoise)
+                latent_image = samples[0] 
+            
             #Fixed Seed
             splitt_factor = seedMode[seed_mode]
             splittStep = int(chaosaiart_higher.round(steps * splitt_factor)) 
@@ -1682,22 +1724,158 @@ class chaosaiart_KSampler_a1:
             denoise, disable_noise  = 1, True 
             samples =  chaosaiart_higher.ksampler(model, seed, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise, disable_noise=disable_noise, start_step=start_at_step, last_step=end_at_step, force_full_denoise=force_full_denoise)
             
+            info += f"Frame: {activ_frame}\n" +f"activ_seed: {seed}\n"
+            info += "" if self.img2video_mode else f"txt2video mode actived - first img seed: {self.cache_seed_2}\n(For First IMG seed controll use Ksampler txt2video)\n" 
+             
+            
         image = vae.decode(samples[0]["samples"]) 
         self.cache_latent = samples[0]["samples"]
         self.last_activ_frame = activ_frame
         self.started = True
         
-        info = f"Frame: {activ_frame}\n" + info +f"activ_seed: {seed}\nStart_Seed: {self.cache_main_seed}"
         return (info, image,samples[0]) 
     
-class chaosaiart_KSampler_a1a:
+        
+class chaosaiart_KSampler_a2: #txt2video
     def __init__(self):
         self.device = comfy.model_management.intermediate_device()
         self.cache_latent = None
         self.last_activ_frame = 0
         self.started = False
-        self.cache_seed = None
-        self.cache_main_seed = 0
+        self.cache_seed = -1
+        self.cache_seed_txt2video = -1
+        #self.img2img_Size, self.Image_Size, self.Image_Mode =  None, None, None
+
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required":
+                    { 
+                        "activ_frame":("ACTIV_FRAME",),
+                        "model": ("MODEL",),     
+                        "Image_Mode":(["Widht = Height","Widescreen / 16:9","Portrait (Smartphone) / 9:16"],),
+                        "Image_Size":(["360p","480p","HD","Full HD",],), 
+                        "seed_main":("INT", {"default": -1, "min": -1, "max": 0xffffffffffffffff, "step": 1}),
+                        "seed_mode":([
+                                    "fixed: denoise=denise || denoise=1",
+                                    "increment", 
+                                ],), 
+                        "fixedMode_Splitte_by":("FLOAT", {"default": 0.5, "min": 0, "max": 1, "step":0.01}),
+                        "fixedMode_seed_first_Img":("INT", {"default": -1, "min": -1, "max": 0xffffffffffffffff, "step": 1}),
+                        "steps": ("INT", {"default": 25, "min": 0, "max": 10000, "step": 1}),
+                        "denoise":("FLOAT", {"default": 0.7, "min": 0, "max": 1, "step":0.01}),
+                        "cfg": ("FLOAT", {"default": 8.0, "min": 0.0, "max": 100.0, "step":0.1, "round": 0.01}),
+                        "sampler_name": (comfy.samplers.KSampler.SAMPLERS, ),
+                        "scheduler": (comfy.samplers.KSampler.SCHEDULERS, ),
+                        "positive": ("CONDITIONING", ),
+                        "negative": ("CONDITIONING", ),  
+                        "vae":("VAE",),
+                    },
+                     "optional":{   
+                        "zoom_frame":("ZOOM_FRAME",),  
+                    }
+                }
+
+    RETURN_TYPES = ("STRING","IMAGE","LATENT",) 
+    RETURN_NAMES = ("Info","IMAGE","SAMPLER",) 
+    FUNCTION = "node"
+
+    CATEGORY = chaosaiart_higher.name("animation")
+
+    @staticmethod
+    def vae_encode_crop_pixels(pixels):
+        x = (pixels.shape[1] // 8) * 8
+        y = (pixels.shape[2] // 8) * 8
+        if pixels.shape[1] != x or pixels.shape[2] != y:
+            x_offset = (pixels.shape[1] % 8) // 2
+            y_offset = (pixels.shape[2] % 8) // 2
+            pixels = pixels[:, x_offset:x + x_offset, y_offset:y + y_offset, :]
+        return pixels
+    
+    def node(self,model,vae,seed_main,fixedMode_seed_first_Img, positive, negative, denoise,
+            Image_Mode, activ_frame,fixedMode_Splitte_by,
+            Image_Size, steps,seed_mode, cfg, sampler_name, scheduler, zoom_frame = None):
+             
+        sizeMode = { "360p":"360p", "480p":"480p", "HD":"HD", "Full HD":"Full_HD" }
+        screenMode = { "Widescreen / 16:9":"widht", "Portrait (Smartphone) / 9:16":"height", "Widht = Height":"widht=height" } 
+        infoSize, batch_height, batch_width, height, width = chaosaiart_higher.emptyVideoSize(screenMode[Image_Mode],sizeMode[Image_Size])   
+
+        info = ""   
+
+        if (self.last_activ_frame >= activ_frame):
+            self.started = False
+            self.cache_seed = -1
+            self.cache_seed_txt2video = -1
+        
+        latent = None
+        newLatent = False
+        if self.started and self.cache_latent is not None:
+            info += "Use Cache Image\n"
+            latent = self.cache_latent 
+            
+        if latent is None: 
+            newLatent = True
+            denoise, batch_size = 1, 1 
+            latent = torch.zeros([batch_size, 4, batch_height // 8, batch_width // 8], device=self.device)
+            info += "It's frame-after-frame animation.\nPress 'Queue Prompt' for each new frame or use 'Batch count' in 'Extras options'.\n"
+                
+
+        latent_image = {"samples":latent} 
+        
+        disable_noise = False
+        force_full_denoise = True
+        
+        seed = seed_main
+        seed_txt2video = fixedMode_seed_first_Img
+        start_at_step = 0
+        end_at_step = steps
+         
+        seed, self.cache_seed  = chaosaiart_higher.txt2video_SEED_cachSEED(seed, self.cache_seed)
+      
+        if seed_mode == "increment":
+            #Increment Seed
+            seed = seed + activ_frame - 1 
+            samples =  chaosaiart_higher.ksampler(model, seed, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise, disable_noise=disable_noise, start_step=start_at_step, last_step=end_at_step, force_full_denoise=force_full_denoise)
+        
+            info += f"Frame: {activ_frame}\n" +f"activ_seed: {seed}\nStart_Seed: {self.cache_seed}"
+        else: 
+            if newLatent:  
+                seed_txt2video, self.cache_seed_txt2video = chaosaiart_higher.txt2video_SEED_cachSEED(seed_txt2video, self.cache_seed_txt2video) 
+                samples =  chaosaiart_higher.ksampler(model, seed_txt2video, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise, disable_noise=disable_noise, start_step=start_at_step, last_step=end_at_step, force_full_denoise=force_full_denoise)
+                latent_image = samples[0] 
+ 
+            #Fixed Seed
+            splitt_factor = fixedMode_Splitte_by
+            splittStep = int(chaosaiart_higher.round(steps * splitt_factor)) 
+
+            start_at_step, end_at_step = 0, splittStep
+            force_full_denoise = False 
+            samples =  chaosaiart_higher.ksampler(model, seed, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise, disable_noise=disable_noise, start_step=start_at_step, last_step=end_at_step, force_full_denoise=force_full_denoise)
+            
+            latent_image = samples[0]
+            start_at_step, end_at_step = splittStep, steps
+            denoise, disable_noise  = 1, True 
+            samples =  chaosaiart_higher.ksampler(model, seed, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise, disable_noise=disable_noise, start_step=start_at_step, last_step=end_at_step, force_full_denoise=force_full_denoise)
+            
+            info += f"Frame: {activ_frame}\n" +f"activ_seed: {seed}\nFirst Image SEED: {self.cache_seed_txt2video}"
+           
+        image = vae.decode(samples[0]["samples"]) 
+        self.cache_latent = samples[0]["samples"]
+        self.last_activ_frame = activ_frame
+        self.started = True
+        
+        return (info, image,samples[0]) 
+    
+class chaosaiart_KSampler_a1a: #txt2video & img2video
+    def __init__(self):
+        self.device = comfy.model_management.intermediate_device()
+        self.cache_latent = None
+        self.last_activ_frame = 0
+        self.started = False
+        self.cache_seed = -1
+        self.cache_seed_2 = -1
+        self.cache_seed_txt2video = -1
+        self.img2video_mode = True
         #self.img2img_Size, self.Image_Size, self.Image_Mode =  None, None, None
     
 
@@ -1710,12 +1888,13 @@ class chaosaiart_KSampler_a1a:
                         "Image_Mode":(["Widht = Height","Widescreen / 16:9","Portrait (Smartphone) / 9:16"],),
                         "Image_Size":(["360p","480p","HD","Full HD",],),
                         "Img2img_input_Size":(["crop","resize","override"],),
-                        "seed_start":("INT", {"default": -1, "min": -1, "max": 0xffffffffffffffff, "step": 1}),
-                        "seed_mode":(["fixed","increment"],),
-                        "fixedMode_seed_activ":("INT", {"default": -1, "min": -1, "max": 0xffffffffffffffff, "step": 1}),
-                        "fixedMode_denoise_splitt":("FLOAT", {"default": 0.5, "min": 0.3, "max": 0.8, "step":0.01}),
+                        "txt2video_seed_First_IMG":("INT", {"default": -1, "min": -1, "max": 0xffffffffffffffff, "step": 1}),
+                        "seed_activ":("INT", {"default": -1, "min": -1, "max": 0xffffffffffffffff, "step": 1}),
+                        "splitt_by":("FLOAT", {"default": 0.5, "min": 0.3, "max": 0.8, "step":0.01}),
+                        "seed_mode":(["fixed || fixed","increment || increment","fixed || increment","increment || fixed"],),
+                        "denoise_part_1":("FLOAT", {"default": 0.6, "min": 0, "max": 1, "step":0.01}),
+                        "denoise_part_2":("FLOAT", {"default": 1, "min": 0, "max": 1, "step":0.01}),
                         "steps": ("INT", {"default": 25, "min": 0, "max": 10000, "step": 1}),
-                        "denoise":("FLOAT", {"default": 0.7, "min": 0, "max": 1, "step":0.01}),
                         "cfg": ("FLOAT", {"default": 8.0, "min": 0.0, "max": 100.0, "step":0.1, "round": 0.01}),
                         "sampler_name": (comfy.samplers.KSampler.SAMPLERS, ),
                         "scheduler": (comfy.samplers.KSampler.SCHEDULERS, ),
@@ -1733,7 +1912,7 @@ class chaosaiart_KSampler_a1a:
     RETURN_NAMES = ("Info","IMAGE","SAMPLER",) 
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/ksampler"
+    CATEGORY = chaosaiart_higher.name("animation")
 
     @staticmethod
     def vae_encode_crop_pixels(pixels):
@@ -1745,27 +1924,25 @@ class chaosaiart_KSampler_a1a:
             pixels = pixels[:, x_offset:x + x_offset, y_offset:y + y_offset, :]
         return pixels
     
-    def node(self,model,Img2img_input_Size,fixedMode_seed_activ,fixedMode_denoise_splitt, positive, negative, denoise, seed_start, vae, Image_Mode, activ_frame,
-             Image_Size, steps,seed_mode, cfg, sampler_name, scheduler, start_Image = None, zoom_frame = None):
+    def node(self,model, positive, negative, activ_frame,vae, 
+            Image_Mode, Image_Size,Img2img_input_Size, 
+            txt2video_seed_First_IMG,seed_activ,splitt_by,seed_mode,
+            denoise_part_1, denoise_part_2,   
+            steps,cfg, sampler_name, scheduler, start_Image = None, zoom_frame = None):
             
         sizeMode = { "360p":"360p", "480p":"480p", "HD":"HD", "Full HD":"Full_HD" }
         screenMode = { "Widescreen / 16:9":"widht", "Portrait (Smartphone) / 9:16":"height", "Widht = Height":"widht=height" } 
 
         if (self.last_activ_frame >= activ_frame):
             self.started = False
-            self.cache_seed = None
+            self.cache_seed = -1
+            self.cache_seed_2 = -1
+            self.cache_seed_txt2video = -1 
+            self.img2video_mode = True
         
         infoSize, batch_height, batch_width, height, width = chaosaiart_higher.emptyVideoSize(screenMode[Image_Mode],sizeMode[Image_Size])   
-
-           
-        info = ""
-        """ 
-        if (Img2img_input_Size == self.img2img_Size and Image_Size == self.Image_Size and Image_Mode == self.Image_Mode):
-            self.cache_latent = None
-            info += "Cleaning Cache, New Size settings.\n"
-        self.img2img_Size, self.Image_Size, self.Image_Mode =  Img2img_input_Size, Image_Size, Image_Mode
-        """  
-
+ 
+        info = ""  
         
         latent = None
         newLatent = False
@@ -1783,181 +1960,90 @@ class chaosaiart_KSampler_a1a:
                     
                 pixels = self.vae_encode_crop_pixels(start_Image)
                 latent = vae.encode(pixels[:,:,:,:3])
-                info += "Cached Start_image for next img2img generation\nOutput = Start Image\ndo the next Frame!"
-                if seed_mode == "increment":
-                    self.cache_latent = latent
-                    self.last_activ_frame = activ_frame
-                    self.started = True
-                    return (info, start_Image,latent) 
-            
+                info += "It's frame-after-frame animation.\nPress 'Queue Prompt' for each new frame or use 'Batch count' in 'Extras options'.\n"
+         
         if latent is None: 
             newLatent = True
             denoise, batch_size = 1, 1 
             latent = torch.zeros([batch_size, 4, batch_height // 8, batch_width // 8], device=self.device)
-            info += "Use new Empty Image\n" + infoSize +"\n"
-
+            info += "It's frame-after-frame animation.\nPress 'Queue Prompt' for each new frame or use 'Batch count' in 'Extras options'.\n"
+            self.img2video_mode = False
+            
         latent_image = {"samples":latent} 
         
+        start_at_step = 0
+        end_at_step = steps
         disable_noise = False
         force_full_denoise = True
         
-        seed = seed_start
-        start_at_step = 0
-        end_at_step = steps
-        
-        if seed <= 0:
-            if self.cache_seed is None: 
-                self.cache_seed = random.randint(1, 0xffffffffffffffff)
-            seed = self.cache_seed
-
-        
-        if seed_mode == "increment":
-            #Increment Seed
-            self.cache_main_seed = seed
+        seed = seed_activ
+        seed_2 = seed_activ
+        seed_txt2video = txt2video_seed_First_IMG 
+        seed, self.cache_seed  = chaosaiart_higher.txt2video_SEED_cachSEED(seed, self.cache_seed)
+        seed_2, self.cache_seed_2 =seed ,seed
+      
+        parts = seed_mode.split(" || ")
+        if "increment" in parts[0]:
             seed = seed + activ_frame - 1 
-            samples =  chaosaiart_higher.ksampler(model, seed, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise, disable_noise=disable_noise, start_step=start_at_step, last_step=end_at_step, force_full_denoise=force_full_denoise)
-        
-        else: 
-            seed = fixedMode_seed_activ
-            if newLatent:
-                main_seed = seed_start
-                info += f"txt2video Mode - Fixed Seed :\n First Frame: new Image Seed Generated \n"
-                samples =  chaosaiart_higher.ksampler(model, main_seed, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise, disable_noise=disable_noise, start_step=start_at_step, last_step=end_at_step, force_full_denoise=force_full_denoise)
-                latent_image = samples[0]
-                self.cache_main_seed = main_seed
- 
-            #Fixed Seed
-            splitt_factor = fixedMode_denoise_splitt
-            splittStep = int(chaosaiart_higher.round(steps * splitt_factor)) 
+        if "increment" in parts[1]:
+            seed_2 = seed_2 + activ_frame - 1
+            
+        if newLatent: 
+            seed_txt2video, self.cache_seed_txt2video  = chaosaiart_higher.txt2video_SEED_cachSEED(seed_txt2video, self.cache_seed_txt2video)
+            info += f"txt2video Mode - Fixed Seed :\n First Frame: new Image Seed Generated \n"
+            samples =  chaosaiart_higher.ksampler(model, seed_txt2video, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise, disable_noise=disable_noise, start_step=start_at_step, last_step=end_at_step, force_full_denoise=force_full_denoise)
+            latent_image = samples[0] 
 
-            start_at_step, end_at_step = 0, splittStep
-            force_full_denoise = False 
-            samples =  chaosaiart_higher.ksampler(model, seed, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise, disable_noise=disable_noise, start_step=start_at_step, last_step=end_at_step, force_full_denoise=force_full_denoise)
-            
-            latent_image = samples[0]
-            start_at_step, end_at_step = splittStep, steps
-            denoise, disable_noise  = 1, True 
-            samples =  chaosaiart_higher.ksampler(model, seed, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise, disable_noise=disable_noise, start_step=start_at_step, last_step=end_at_step, force_full_denoise=force_full_denoise)
-            
+        splitt_factor = splitt_by
+        splittStep = int(chaosaiart_higher.round(steps * splitt_factor)) 
+
+        start_at_step, end_at_step = 0, splittStep
+        denoise, force_full_denoise = denoise_part_1, False 
+        samples =  chaosaiart_higher.ksampler(model, seed, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise, disable_noise=disable_noise, start_step=start_at_step, last_step=end_at_step, force_full_denoise=force_full_denoise)
+        
+        latent_image = samples[0]
+        start_at_step, end_at_step = splittStep, steps
+        denoise, disable_noise  = denoise_part_2, True 
+        samples =  chaosaiart_higher.ksampler(model, seed_2, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise, disable_noise=disable_noise, start_step=start_at_step, last_step=end_at_step, force_full_denoise=force_full_denoise)
+        
+        
+        info += f"Frame: {activ_frame}\n\n" 
+        info += f"Start_seed Part_1: {self.cache_seed},\nActiv_seed Part_1: {seed},\n\n"
+        info += f"Start_seed Part_2: {self.cache_seed},\nActiv_seed Part_2: {seed_2}\n\n"
+        info += "" if self.img2video_mode else f"txt2video mode actived - first img seed: {self.cache_seed_txt2video}\n" 
+       
         image = vae.decode(samples[0]["samples"]) 
         self.cache_latent = samples[0]["samples"]
         self.last_activ_frame = activ_frame
         self.started = True
         
-        info = f"Frame: {activ_frame}\n" + info +f"activ_seed: {seed}\nStart_Seed: {self.cache_main_seed}"
         return (info, image,samples[0]) 
     
-class chaosaiart_KSampler8:
-    def __init__(self):
-        pass 
-    
-    @classmethod
-    def INPUT_TYPES(s):
-        return {
-            "required":
-            { 
-                "k_attribut": ("K_ATTRIBUT",),
-                "end_at_step": ("INT", {"default": 25, "min": 0, "max": 10000}),
-                "denoise":("FLOAT", {"default": 1, "min": 0, "max": 1}), 
-                "Fast_Mode":(["Off->IMG_Output=IMG","On->IMG_Output=None"],)
-           
-            },
-            "optional":{   
-                "positive_override": ("CONDITIONING", ),
-                "negative_override": ("CONDITIONING", ),
-            }
-        }
 
- 
-    RETURN_TYPES = ("K_ATTRIBUT","IMAGE","LATENT",) 
-    RETURN_NAMES = ("SUB_K_ATTRIBUT","IMAGE","SAMPLER",) 
-    FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/ksampler"
-    
-    def node(self, k_attribut, end_at_step, denoise,Fast_Mode, positive_override = None, negative_override = None):
-        
-        if not("last_end_step" in k_attribut):
-            print("chaosaiart_8 need Main K_Attribut by chaosaiart_Ksampler_attribut")
-            raise ValueError("chaosaiart_8 need Main K_Attribut by chaosaiart_Ksampler_attribut")
-            
-     
-        model           = k_attribut["model"]
-        seed            = k_attribut["seed"]
-        steps           = k_attribut["steps"]
-        cfg             = k_attribut["cfg"]
-        sampler_name    = k_attribut["sampler_name"]
-        scheduler       = k_attribut["scheduler"]
-        latent          = k_attribut["latent"] 
-        start_at_step   = k_attribut["last_end_step"]  
-        vae             = k_attribut["vae"] 
-        positive        = k_attribut["positive"] if positive_override is None else positive_override
-        negative        = k_attribut["negative"] if negative_override is None else negative_override
-          
-        print(f"start_at_step: {start_at_step}")
-        if k_attribut["restart"]:
-            denoise = 1 
-
-        disable_noise = True 
-        force_full_denoise = False
-
-        if start_at_step == 0:             
-            disable_noise = False
-            force_full_denoise = False
-        #last -> 
-            #force_full_denoise = True
- 
-        latent_image = {"samples":latent} 
-        #latent_image = {"samples":latent} 
-        #Latent_Override["samples"] 
-        
-        
-        samples =  chaosaiart_higher.ksampler(model, seed, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise, disable_noise=disable_noise, start_step=start_at_step, last_step=end_at_step, force_full_denoise=force_full_denoise)
-        
-        k_attribut["latent"] = samples[0]["samples"]
-        k_attribut["last_end_step"] = end_at_step  # +1 ?
-         
-        if Fast_Mode == "Off->IMG_Output=IMG":
-            return k_attribut, vae.decode(samples[0]["samples"]), samples[0], 
-        
-        return k_attribut, None, samples[0],
-     
-            
 class chaosaiart_Ksampler_attribut:
     def __init__(self): 
-        self.device = comfy.model_management.intermediate_device() 
+        self.started = False
 
     @classmethod
     def INPUT_TYPES(s):
         return {"required":
-                    { 
-                        "restart":("RESTART",),
-                        "model": ("MODEL",),
-                        "positive": ("CONDITIONING", ),
-                        "negative": ("CONDITIONING", ),
-                        "vae":("VAE",),  
-                        "Mode":(["Restart = Empty Image","Restart = Img2img"],), 
-                        "Image_Mode":(["Widht = Height","Widescreen / 16:9","Portrait (Smartphone) / 9:16"],),
-                        "Image_Size":(["360p","480p","HD","Full HD",],),
-                        "Img2img_input_Size":(["crop","resize","override"],),
-                        "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
+                    {      
                         "steps": ("INT", {"default": 25, "min": 0, "max": 10000}),
-                        "cfg": ("FLOAT", {"default": 8.0, "min": 0.0, "max": 100.0, "step":0.1, "round": 0.01}), 
-                        "sampler_name": (comfy.samplers.KSampler.SAMPLERS, ),
-                        "scheduler": (comfy.samplers.KSampler.SCHEDULERS, ),
-
-                    },
-                     "optional":{  
-                        "latent":("LATENT",),       
-                        "image":("IMAGE",),
-                    }
+                        "Synchro_denoise":(["No","All = First 🔶KSampler Splitted"],),
+                        "Synchro_seed":(["No","All = First 🔶KSampler Splitted"],),
+                        "Synchro_cfg":(["No","All = First 🔶KSampler Splitted"],),
+                        "Synchro_sampler":(["No","All = First 🔶KSampler Splitted"],),
+                        "Synchro_scheduler":(["No","All = First 🔶KSampler Splitted"],),   
+                        "latent":("LATENT",),  
+                    }, 
                 }
 
-    RETURN_TYPES = ("K_ATTRIBUT",) 
-    RETURN_NAMES = ("MAIN_K_ATTRIBUT",) 
+    RETURN_TYPES = ("K_ATTRIBUT", "LATENT",) 
+    RETURN_NAMES = ("MAIN_K_ATTRIBUT", "LATENT",) 
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/ksampler"
+    CATEGORY = chaosaiart_higher.name("ksampler")
   
     @staticmethod
     def vae_encode_crop_pixels(pixels):
@@ -1969,44 +2055,127 @@ class chaosaiart_Ksampler_attribut:
             pixels = pixels[:, x_offset:x + x_offset, y_offset:y + y_offset, :]
         return pixels
     
-    def node(self,Image_Mode, Image_Size, Img2img_input_Size, Mode, model, positive, negative, latent, seed, steps, cfg, sampler_name, scheduler, vae, restart=0, image = None):
- 
-        restart_out = 0 if Mode == "Restart = Img2img" else restart
-        sizeMode = { "360p":"360p", "480p":"480p", "HD":"HD", "Full HD":"Full_HD" }
-        screenMode = { "Widescreen / 16:9":"widht", "Portrait (Smartphone) / 9:16":"height", "Widht = Height":"widht=height" } 
-        infoSize, batch_height, batch_width, height, width = chaosaiart_higher.emptyVideoSize(screenMode[Image_Mode],sizeMode[Image_Size])   
-            
-        if image is not None: 
-            if Img2img_input_Size == "resize":
-                image = chaosaiart_higher.resize_image_pil(image,batch_width,batch_height)
-                
-            if Img2img_input_Size == "crop": 
-                image = chaosaiart_higher.resize_image_crop_pil(image,batch_width,batch_height)
-                    
-            pixels = self.vae_encode_crop_pixels(image)
-            latent_out = vae.encode(pixels[:,:,:,:3]) 
-        elif latent is not None:
-            latent_out = latent["samples"]
-        else:
-            batch_size = 1
-            latent = torch.zeros([batch_size, 4, batch_height // 8, batch_width // 8], device=self.device)
-            
+    def node(self, 
+             Synchro_denoise,Synchro_seed,Synchro_cfg,Synchro_sampler,Synchro_scheduler,
+             latent, steps, #Image_Mode, Image_Size, Img2img_input_Size, vae_by_imageInput = None, image = None
+             ):
+        
+        Synchro_denoise = -1 if Synchro_denoise == "No" else 0
+        Synchro_seed = -1 if Synchro_seed == "No" else 0
+        Synchro_cfg = -1 if Synchro_cfg == "No" else 0
+        Synchro_sampler = -1 if Synchro_sampler == "No" else 0
+        Synchro_scheduler = -1 if Synchro_scheduler == "No" else 0
+    
         out = {   
             "last_end_step":0, 
-            "restart":restart_out,
-            "model":model,
-            "positive": positive,
-            "negative": negative,
-            "latent":latent_out,
-            "seed":seed,
             "steps":steps,
-            "cfg":cfg,
-            "sampler_name":sampler_name,
-            "scheduler":scheduler,
-            "vae": vae
+            "denoise": Synchro_denoise,
+            "seed": Synchro_seed,
+            "cfg": Synchro_cfg,
+            "sampler_name": Synchro_sampler,
+            "scheduler": Synchro_scheduler
         }
         
-        return out,
+        return out, latent, 
+
+
+class chaosaiart_KSampler_expert_1:
+    def __init__(self):
+        self.device = comfy.model_management.intermediate_device()
+    
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required":
+            { 
+                "model": ("MODEL",),
+                "positive": ("CONDITIONING", ),
+                "negative": ("CONDITIONING", ),
+                "k_attribut": ("K_ATTRIBUT",),
+                "latent":("LATENT",), 
+                "seed":("INT", {"default": -1, "min": -1, "max": 0xffffffffffffffff, "step": 1}), 
+                "end_at_step": ("INT", {"default": 25, "min": 0, "max": 10000}),
+                "denoise":("FLOAT", {"default": 1, "min": 0, "max": 1}), 
+                "cfg": ("FLOAT", {"default": 8.0, "min": 0.0, "max": 100.0, "step":0.1, "round": 0.01}),
+                "sampler_name": (comfy.samplers.KSampler.SAMPLERS, ),
+                "scheduler": (comfy.samplers.KSampler.SCHEDULERS, ),
+            }, 
+        }
+
+ 
+    RETURN_TYPES = ("K_ATTRIBUT","LATENT","STRING",) 
+    RETURN_NAMES = ("SUB_K_ATTRIBUT","SAMPLER","Info") 
+    FUNCTION = "node"
+
+    CATEGORY = chaosaiart_higher.name("ksampler")
+    
+    def node( self, model, positive, negative, k_attribut, 
+             latent,seed, end_at_step, denoise, cfg,sampler_name,scheduler ):
+        info = ""
+        
+        start_at_step = k_attribut["last_end_step"] 
+        steps = k_attribut["steps"] 
+        
+        
+        if k_attribut["denoise"] > 0:
+            denoise = k_attribut["denoise"]    
+        else: 
+            if k_attribut["denoise"] == 0:
+                k_attribut["denoise"] = denoise 
+
+        if k_attribut["seed"] > 0:
+            seed = k_attribut["seed"]
+        else:     
+            if k_attribut["seed"] == 0:
+                k_attribut["seed"] = seed
+
+        if k_attribut["cfg"] > 0:
+            cfg = k_attribut["cfg"]
+        else:    
+            if k_attribut["cfg"] == 0:
+                k_attribut["cfg"] = cfg
+
+        if k_attribut["sampler_name"] == -1 or k_attribut["sampler_name"] == 0:
+            if k_attribut["sampler_name"] == 0:
+                k_attribut["sampler_name"] = sampler_name
+        else:        
+            sampler_name = k_attribut["sampler_name"]
+
+        if k_attribut["scheduler"] == -1 or k_attribut["scheduler"] == 0: 
+            if k_attribut["scheduler"] == 0:
+                k_attribut["scheduler"] = scheduler 
+        else:
+            scheduler = k_attribut["scheduler"]
+        
+ 
+        latent_image = latent
+
+        disable_noise = True 
+        force_full_denoise = False
+        if start_at_step == 0:             
+            disable_noise = False
+            force_full_denoise = False
+        #last -> force_full_denoise = True ?
+     
+        samples =  chaosaiart_higher.ksampler(model, seed, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise, disable_noise=disable_noise, start_step=start_at_step, last_step=end_at_step, force_full_denoise=force_full_denoise)
+        
+        out_k_attribut = {
+            "last_end_step": end_at_step,  # +1 ?
+            "steps": k_attribut["steps"],
+            "denoise": k_attribut["denoise"], 
+            "seed": k_attribut["seed"], 
+            "cfg": k_attribut["cfg"], 
+            "sampler_name": k_attribut["sampler_name"], 
+            "scheduler": k_attribut["scheduler"] 
+        }  
+ 
+        info += f"Start_at_step: {start_at_step}\nend_at_step: {end_at_step}\nsteps: {steps}\ndenoise: {denoise}\n"  
+        info += f"seed: {seed}\ncfg: {cfg}\nsampler_name: {sampler_name}\nscheduler: {scheduler}"
+
+        return out_k_attribut, samples[0], info,
+        
+     
+            
  
 
 
@@ -2030,7 +2199,7 @@ class chaosaiart_forPreview:
     RETURN_NAMES = ("IMAGE",) 
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/image"
+    CATEGORY = chaosaiart_higher.name("image")
 
     def node(self, image, restart, Preview_Max):
 
@@ -2080,7 +2249,7 @@ class chaosaiart_KSampler5:
     RETURN_NAMES = ("Info","IMAGE","SAMPLES",) 
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/ksampler"
+    CATEGORY = chaosaiart_higher.name("ksampler")
 
     @staticmethod
     def vae_encode_crop_pixels(pixels):
@@ -2102,13 +2271,14 @@ class chaosaiart_KSampler5:
         return_with_leftover_noise = "disable"
         empty_Img_batch_size = 1
         add_noise = "enable"
-        info = "It's frame-by-frame animation.\nPress Queue Prompt for each new frame or use Batch count in extras."
+        
+        info = ""
+        info += "It's frame-after-frame animation.\nPress 'Queue Prompt' for each new frame or use 'Batch count' in 'Extras options'.\n"
         
         sizeMode = { "360p":"360p", "480p":"480p", "HD":"HD", "Full HD":"Full_HD" }
         screenMode = { "Widescreen / 16:9":"widht", "Portrait (Smartphone) / 9:16":"height", "Widht = Height":"widht=height" } 
         infoSize, batch_height, batch_width, height, width = chaosaiart_higher.emptyVideoSize(screenMode[Image_Mode],sizeMode[Image_Size])   
              
-        info = ""
         if self.counter == 1 or restart >= 1:
             self.counter = 1
             if Start_Image_Override is not None:
@@ -2182,7 +2352,7 @@ class chaosaiart_SaveImage:
 
     OUTPUT_NODE = True
 
-    CATEGORY = "🔶Chaosaiart"
+    CATEGORY = chaosaiart_higher.name("main")
 
     def node(self, images,restart=0, filename_prefix="chaosaiart", prompt=None, extra_pnginfo=None):
         if restart >= 1 or self.started == False:
@@ -2249,7 +2419,7 @@ class chaosaiart_reloadIMG_Save:
     RETURN_TYPES = ("IMAGE","STRING",)
     RETURN_NAMES = ("IMAGE","Info",)
     FUNCTION = "node"
-    CATEGORY = "🔶Chaosaiart/cache"
+    CATEGORY = chaosaiart_higher.name("cache")
  
     def node(self, image, reloader):  
         chaosaiart_higher.reloader_x("img",reloader,True,image) 
@@ -2284,7 +2454,7 @@ class chaosaiart_reloadIMG_Load:
     RETURN_TYPES = ("IMAGE",)
     RETURN_NAMES = ("IMAGE",)
     FUNCTION = "node"
-    CATEGORY = "🔶Chaosaiart/cache"
+    CATEGORY = chaosaiart_higher.name("cache")
  
     def node(self,reloader,preSave_Image_Size,preSave_Image_Mode,preSave_image_override=None,restart=0,vae=None):  
  
@@ -2296,7 +2466,7 @@ class chaosaiart_reloadIMG_Load:
             return preSave_image_override,
             
         if vae is None: 
-            raise ValueError("🔶 Cache Reloader IMG-> LOAD need VAE without preSave_image_override")
+            raise ValueError(chaosaiart_higher.name("main")+" - Cache Reloader IMG-> LOAD need VAE without preSave_image_override")
             
         sizeMode = {
             "360p":"360p",
@@ -2339,7 +2509,7 @@ class chaosaiart_reloadLatent_Save:
     RETURN_NAMES = ("LATENT","Info",)
     RETURN_TYPES = ("LATENT","STRING",)
     FUNCTION = "node"
-    CATEGORY = "🔶Chaosaiart/cache"
+    CATEGORY = chaosaiart_higher.name("cache")
  
     def node(self, latent, reloader): 
         chaosaiart_higher.reloader_x("latent",reloader,True,latent) 
@@ -2374,7 +2544,7 @@ class chaosaiart_reloadLatent_Load:
     RETURN_TYPES = ("LATENT",)
     RETURN_NAMES = ("LATENT",)
     FUNCTION = "node"
-    CATEGORY = "🔶Chaosaiart/cache"
+    CATEGORY = chaosaiart_higher.name("cache")
  
     def node(self,preSave_Image_Mode,preSave_Image_Size, reloader,restart=0, preSave_Latent_override=None): 
  
@@ -2425,7 +2595,7 @@ class chaosaiart_reloadAny_Save:
     RETURN_NAMES = ("ANY","Info",)
     RETURN_TYPES = (anyType,"STRING",)
     FUNCTION = "node"
-    CATEGORY = "🔶Chaosaiart/cache"
+    CATEGORY = chaosaiart_higher.name("cache")
  
     def node(self, Any, reloader): 
         chaosaiart_higher.reloader_x("any",reloader,True,Any) 
@@ -2454,7 +2624,7 @@ class chaosaiart_reloadAny_Load:
     RETURN_TYPES = (anyType,)
     RETURN_NAMES = ("ANY",)
     FUNCTION = "node"
-    CATEGORY = "🔶Chaosaiart/cache"
+    CATEGORY = chaosaiart_higher.name("cache")
  
     def node(self,reloader,any_pre_Save_Out,restart=0): 
 
@@ -2482,7 +2652,7 @@ class chaosaiart_TextCLIPEncode_simple:
     RETURN_TYPES = ("CONDITIONING",)
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/prompt"
+    CATEGORY = chaosaiart_higher.name("prompt")
     def node(self, clip, text):
         return (chaosaiart_higher.textClipEncode(clip,text), )
 
@@ -2501,7 +2671,7 @@ class chaosaiart_TextCLIPEncode:
     RETURN_NAMES = ("POSITIV","NEGATIV",)
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/prompt"
+    CATEGORY = chaosaiart_higher.name("prompt")
     def node(self, clip, positiv_txt,negativ_txt):
         return (chaosaiart_higher.textClipEncode(clip,positiv_txt),chaosaiart_higher.textClipEncode(clip,negativ_txt), )
 
@@ -2525,7 +2695,7 @@ class chaosaiart_TextCLIPEncode_lora:
     RETURN_NAMES = ("MODEL","POSITIV","NEGATIV",)
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/prompt"
+    CATEGORY = chaosaiart_higher.name("prompt")
     def node(self, clip, positiv_txt,negativ_txt,model,lora): 
    
         loraArray = lora
@@ -2553,7 +2723,7 @@ class chaosaiart_MainPromptCLIPEncode:
     RETURN_NAMES = ("MODEL","POSITIV","NEGATIV",)
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/prompt"
+    CATEGORY = chaosaiart_higher.name("prompt")
     def node(self,model, clip, main_prompt): 
 
         positiv_txt = main_prompt[0]
@@ -2584,7 +2754,7 @@ class chaosaiart_FramePromptCLIPEncode:
     RETURN_NAMES = ("MODEL","POSITIV","NEGATIV",)
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/prompt"
+    CATEGORY = chaosaiart_higher.name("prompt")
     def node(self,model, clip, frame_prompt): 
 
         positiv_txt = frame_prompt[1][0]
@@ -2639,7 +2809,7 @@ class chaosaiart_restarter_advanced:
 
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/restart"
+    CATEGORY = chaosaiart_higher.name("restart")
   
     def node(self, Mode, Start, End, Version, restart=0):
        
@@ -2721,6 +2891,8 @@ class chaosaiart_restarter_advanced:
             print("reset ------- reset")
             print("reset ------- reset")
         
+        info += "\nIf you change the version parameter, all nodes connected via restart will be restarted (restart = 1), and the Activ_Frame will be reset to the start (Activ_Frame = 1)." 
+    
         return ( info,int(counter), restartOUT, repeat,)    
 
  
@@ -2741,26 +2913,30 @@ class chaosaiart_restarter:
     def IS_CHANGED(cls, **kwargs):
         return float("NaN")
     
-    RETURN_TYPES = ("ACTIV_FRAME", "RESTART",)
-    RETURN_NAMES = ("ACTIV_FRAME", "RESTART", )
+    RETURN_TYPES = ("ACTIV_FRAME", "RESTART","STRING",)
+    RETURN_NAMES = ("ACTIV_FRAME", "RESTART","Info",)
 
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/restart"
+    CATEGORY = chaosaiart_higher.name("restart")
  
 
     def node(self, Version):
         
         out_NumCheck = 0
+        info = f"Restart = No\n"
         if not self.Version == Version:
             self.Version = Version
             out_NumCheck = 1
             self.count = 0
+            info = f"Restart = Yes\n"
 
         
         self.count += 1
-
-        return (self.count, out_NumCheck,)
+        info = f"Activ Frame {self.count}\n" + info
+        info += "\nIf you change the version parameter, all nodes connected via restart will be restarted (restart = 1), and the Activ_Frame will be reset to the start (Activ_Frame = 1)." 
+    
+        return (self.count, out_NumCheck,info,)
 
  
 
@@ -2778,7 +2954,7 @@ class chaosaiart_any_array2input_all_small:
     RETURN_NAMES = ("ANY_1","ANY_2","ANY_3","ANY_4",)
 
     FUNCTION = "node"
-    CATEGORY = "🔶Chaosaiart/switch"
+    CATEGORY = chaosaiart_higher.name("switch")
  
 
     def node(self,array=None):  
@@ -2802,7 +2978,7 @@ class chaosaiart_any_array2input_all_big:
     RETURN_NAMES = ("ANY_1","ANY_2","ANY_3","ANY_4","ANY_5","ANY_6","ANY_7","ANY_8","ANY_9",)
 
     FUNCTION = "node"
-    CATEGORY = "🔶Chaosaiart/switch"
+    CATEGORY = chaosaiart_higher.name("switch")
  
 
     def node(self,array=None):  
@@ -2833,7 +3009,7 @@ class chaosaiart_any_array2input_1Input:
     RETURN_NAMES = ("ANY",)
 
     FUNCTION = "node"
-    CATEGORY = "🔶Chaosaiart/switch"
+    CATEGORY = chaosaiart_higher.name("switch")
  
 
     def node(self,array,input_nr,input_nr_override=None):  
@@ -2872,7 +3048,7 @@ class chaosaiart_any_input2array_small:
     RETURN_NAMES = ("ARRAY",)
 
     FUNCTION = "node"
-    CATEGORY = "🔶Chaosaiart/switch"
+    CATEGORY = chaosaiart_higher.name("switch")
  
 
     def node(self,  
@@ -2918,7 +3094,7 @@ class chaosaiart_any_input2array_big:
     RETURN_NAMES = ("ARRAY",)
 
     FUNCTION = "node"
-    CATEGORY = "🔶Chaosaiart/switch"
+    CATEGORY = chaosaiart_higher.name("switch")
  
 
     def node(self, 
@@ -2977,7 +3153,7 @@ class chaosaiart_Any_Switch:
     RETURN_NAMES = ("Info","SOURCE_X",)
 
     FUNCTION = "node"
-    CATEGORY = "🔶Chaosaiart/switch"
+    CATEGORY = chaosaiart_higher.name("switch")
  
 
     def node(self, mode, source_1,source_2, restart=0):
@@ -3058,7 +3234,7 @@ class chaosaiart_Number_Switch:
     RETURN_NAMES = ("INT","FLOAT","Info",)
 
     FUNCTION = "node"
-    CATEGORY = "🔶Chaosaiart/logic"
+    CATEGORY = chaosaiart_higher.name("logic")
  
 
     def node(self, First_IMG,Rest_IMG, restart=0):
@@ -3099,7 +3275,7 @@ class chaosaiart_Denoising_Switch:
     RETURN_NAMES = ("DENOISE","Info",)
 
     FUNCTION = "node"
-    CATEGORY = "🔶Chaosaiart/ksampler"
+    CATEGORY = chaosaiart_higher.name("ksampler")
  
 
     def node(self, First_IMG,Rest_IMG, restart=0):
@@ -3112,7 +3288,39 @@ class chaosaiart_Denoising_Switch:
         info = f"Denoise: {iNumber}"
         return (iNumber,info,)
 
+class chaosaiart_Any_Switch_small:
+    def __init__(self):  
+        pass
 
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {  
+                "nr": ("INT", {"default": 0, "min": 0, "max": 1, "step": 1}),
+                "source_0": (anyType, {}),
+                "source_1": (anyType, {}),
+            },
+            "optional": { 
+                "nr_override": ("INT",{"forceInput": True}), 
+            }
+        }
+
+    @classmethod
+    def IS_CHANGED(cls, **kwargs):
+        return float("NaN")
+     
+    RETURN_TYPES = (anyType,)
+    RETURN_NAMES = ("SOURCE_X",)
+
+    FUNCTION = "node"
+    CATEGORY = chaosaiart_higher.name("switch")
+
+    def node(self, nr, source_0, source_1, nr_override=None):
+        aSource = [source_0, source_1]
+        out_NR = nr_override if nr_override is not None else nr
+        out_NR = 1 if out_NR >= 1 else 0 
+        return aSource[out_NR],
+                   
 class chaosaiart_Any_Switch_Big_Number:
     def __init__(self):  
         self.Started = 0
@@ -3150,7 +3358,7 @@ class chaosaiart_Any_Switch_Big_Number:
     RETURN_NAMES = ("SOURCE_X","Info",)
 
     FUNCTION = "node"
-    CATEGORY = "🔶Chaosaiart/switch"
+    CATEGORY = chaosaiart_higher.name("switch")
  
 
     def node(self, mode, nr,  
@@ -3192,8 +3400,7 @@ class chaosaiart_Any_Switch_Big_Number:
             random_index = random.randint(0, len(aSource) - 1)
             #out_NR = random_index 
             source_num = random_index 
-             
-        print("test")
+              
         if aSource[source_num]:
             out_NR = source_num
         else: 
@@ -3218,8 +3425,7 @@ class chaosaiart_Any_Switch_Big_Number:
                     print("chaosaiart_Any_Switch: Fatal error - No Resouce Found")
                     return(None,None)
 
-    
-        print("test2")
+     
         info = f"Used Number: {out_NR}" 
         return( aSource[out_NR], info,)
                    
@@ -3245,7 +3451,7 @@ class chaosaiart_Number:
     RETURN_TYPES = ("INT",)
     RETURN_NAMES = ("INT",)
     FUNCTION = "node"
-    CATEGORY = "🔶Chaosaiart/logic"
+    CATEGORY = chaosaiart_higher.name("logic")
 
     def node(self, number_int): 
         return (number_int,)
@@ -3268,7 +3474,7 @@ class chaosaiart_Number2:
     RETURN_TYPES = ("FLOAT",)
     RETURN_NAMES = ("FLOAT",)
     FUNCTION = "node"
-    CATEGORY = "🔶Chaosaiart/logic"
+    CATEGORY = chaosaiart_higher.name("logic")
 
     def node(self,number_float): 
         return (number_float,)
@@ -3295,7 +3501,7 @@ class chaosaiart_controlnet_weidgth:
     RETURN_NAMES = ("STRENGHT", "START", "END",)
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/controlnet"
+    CATEGORY = chaosaiart_higher.name("controlnet")
 
     def node(cls,strength, start, end, strength_override=None, start_override=None, end_override=None):
         iStrength   = strength_override if not strength_override    is None     else strength
@@ -3337,7 +3543,7 @@ class chaosaiart_Number_Counter:
     RETURN_NAMES = ("FLOAT", "INT", "Info")
 
     FUNCTION = "node"
-    CATEGORY = "🔶Chaosaiart/logic"
+    CATEGORY = chaosaiart_higher.name("logic")
  
     def node(self, mode, start, stop, step, restart=0, repeat2step=0):
        
@@ -3449,7 +3655,7 @@ class chaosaiart_Simple_Prompt:
 
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/prompt"
+    CATEGORY = chaosaiart_higher.name("prompt")
  
     def node(self, Prompt="", add_prompt=""): 
         out = chaosaiart_higher.add_Prompt_txt(add_prompt,Prompt)
@@ -3482,7 +3688,7 @@ class chaosaiart_ADD_Prompt:
 
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/prompt"
+    CATEGORY = chaosaiart_higher.name("prompt")
  
     def node(self,placement, addition="",  input_string=""):
 
@@ -3523,7 +3729,7 @@ class chaosaiart_Prompt_Frame:
 
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/prompt"
+    CATEGORY = chaosaiart_higher.name("prompt")
  
     def node(self,start_frame,positiv="",negativ="",add_lora=[],add_positiv="",add_negativ=""):
         
@@ -3531,6 +3737,51 @@ class chaosaiart_Prompt_Frame:
         negativOUT = chaosaiart_higher.add_Prompt_txt(add_negativ,negativ)
         return([start_frame,[positivOUT,negativOUT,add_lora]],)
     
+class chaosaiart_convert_Prompt:
+    
+    def __init__(self):
+        pass
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return { 
+            "required": { 
+            },
+            "optional": {
+                "add_frame_prompt":("FRAME_PROMPT",), 
+                "add_positiv": ("STRING", {"multiline": True, "forceInput": True}),
+                "add_negativ": ("STRING", {"multiline": True, "forceInput": True}),
+                "add_lora": ("LORA",),
+            },
+        }
+
+    RETURN_TYPES = ("MAIN_PROMPT","STRING")
+    RETURN_NAMES = ("MAIN_PROMPT","Info")
+
+    FUNCTION = "node"
+
+    CATEGORY = chaosaiart_higher.name("prompt")
+
+    def node(self,add_frame_prompt = None,add_lora=[],add_positiv="",add_negativ=""):
+        frame_prompt_postiv         = ""
+        frame_prompt_negativ        = ""
+        frame_prompt_lora           = []
+
+        if add_frame_prompt is not None: 
+            frame_prompt_postiv     = add_frame_prompt[1][0]
+            frame_prompt_negativ    = add_frame_prompt[1][1]
+            frame_prompt_lora       = add_frame_prompt[1][2]
+
+        add_lora += frame_prompt_lora
+        positivOUT = chaosaiart_higher.add_Prompt_txt(add_positiv,frame_prompt_postiv)
+        negativOUT = chaosaiart_higher.add_Prompt_txt(add_negativ,frame_prompt_negativ)
+
+        info = f"Positiv:\n{positivOUT}\n\n"
+        info += f"negativOUT:\n{negativOUT}\n\n"
+        info += f"Lora:\n" + ", ".join(add_lora)
+         
+        return [positivOUT,negativOUT,add_lora],info,
+
 class chaosaiart_Prompt: 
     
     def __init__(self):
@@ -3555,7 +3806,7 @@ class chaosaiart_Prompt:
 
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/prompt"
+    CATEGORY = chaosaiart_higher.name("prompt")
     
     def node(self,positiv="",negativ="",add_lora=[],add_positiv="",add_negativ=""):
         positivOUT = chaosaiart_higher.add_Prompt_txt(add_positiv,positiv)
@@ -3593,7 +3844,7 @@ class chaosaiart_Prompt_mixer_byFrame:
 
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/prompt"
+    CATEGORY = chaosaiart_higher.name("prompt")
 
     def node(self,activ_frame=0,
                  main_prompt=None,
@@ -3684,7 +3935,7 @@ class chaosaiart_Prompt_mixer:
 
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/prompt"
+    CATEGORY = chaosaiart_higher.name("prompt")
 
     def node(self,
                  prompt_txt_1=None,
@@ -3769,7 +4020,7 @@ class chaosaiart_merge_Folders:
 
     OUTPUT_NODE = True
 
-    CATEGORY = "🔶Chaosaiart/video"
+    CATEGORY = chaosaiart_higher.name("video")
 
     def node(self, if_Size_not_fit, Output_Folder, path_1,
                 path_2=None,
@@ -3865,7 +4116,7 @@ class chaosaiart_Load_Image_Batch:
     RETURN_NAMES = ("Info","IMAGE",)
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/image"
+    CATEGORY = chaosaiart_higher.name("image")
 
     def node(self, path, restart=0, activ_frame2index=None, index=1):
         
@@ -3959,7 +4210,7 @@ class chaosaiart_Load_Image_Batch_2img:
     RETURN_NAMES = ("Info","IMAGE = Index","IMAGE = Index+1","REPEAT",)
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/image"
+    CATEGORY = chaosaiart_higher.name("image")
 
     def node(self, path,restart=0, repeat_Override=None, repeat=0, index=0):
       
@@ -4107,7 +4358,7 @@ class chaosaiart_CheckpointLoader:
     RETURN_NAMES = ("Info","MODEL", "POSITIV","NEGATIV", "VAE",)
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/checkpoint"
+    CATEGORY = chaosaiart_higher.name("checkpoint")
 
     def node(self, 
                         ckpt_1,positiv_txt="", negativ_txt="",
@@ -4208,7 +4459,7 @@ class chaosaiart_convert:
     RETURN_NAMES = ("FLOAT", "INT", "NUMBER","ACTIV_FRAME","REPEAT","RESTART(reset=1)","Bool","STRING",)
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/logic"
+    CATEGORY = chaosaiart_higher.name("logic")
 
     def node(cls,source):
 
@@ -4230,6 +4481,7 @@ class chaosaiart_convert:
 class chaosaiart_oneNode:
     def __init__(self):  
         self.image_history  = None
+        self.latent_history = None
         self.notStarted     = True
 
         self.Cache_index    = None
@@ -4257,8 +4509,7 @@ class chaosaiart_oneNode:
                     "cfg": ("FLOAT", {"default": 8.0, "min": 0.0, "max": 100.0, "step":0.1, "round": 0.01}),
                     "denoise": ("FLOAT", {"default": 1, "min": 0, "max": 1, "step": 0.01}),
                     "sampler_name": (comfy.samplers.KSampler.SAMPLERS, ),
-                    "scheduler": (comfy.samplers.KSampler.SCHEDULERS, ),
-                      
+                    "scheduler": (comfy.samplers.KSampler.SCHEDULERS, ), 
                 },
                 "optional":{
                     "restart": ("RESTART", ),
@@ -4270,11 +4521,11 @@ class chaosaiart_oneNode:
             }
 
 
-    RETURN_TYPES = ("IMAGE",)
-    RETURN_NAMES = ("IMAGE",)
+    RETURN_TYPES = ("IMAGE","LATENT",)
+    RETURN_NAMES = ("IMAGE","LATENT",)
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/ksampler"
+    CATEGORY = chaosaiart_higher.name("ksampler")
 
     @staticmethod
     def vae_encode_crop_pixels(pixels):
@@ -4350,8 +4601,9 @@ class chaosaiart_oneNode:
             samples = chaosaiart_higher.ksampler(model, seed, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise)
             image = vae.decode(samples[0]["samples"])
             self.image_history = image 
+            self.latent_history = samples[0]
 
-        return self.image_history ,
+        return self.image_history , self.latent_history,
     
 class chaosaiart_ControlNetApply:
     @classmethod
@@ -4370,7 +4622,7 @@ class chaosaiart_ControlNetApply:
     RETURN_NAMES = ("POSITVE", "NEGATIVE")
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/controlnet"
+    CATEGORY = chaosaiart_higher.name("controlnet")
 
     def node(self, positive, negative, control_net, image, strength, start, end):
         if strength == 0:
@@ -4420,7 +4672,7 @@ class chaosaiart_ControlNetApply2:
     RETURN_NAMES = ("POSITVE", "NEGATIVE")
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/controlnet"
+    CATEGORY = chaosaiart_higher.name("controlnet")
 
     def node(self, positive, negative, control_net, image, strength, start, end):
         if strength == 0:
@@ -4478,7 +4730,7 @@ class chaosaiart_ControlNetApply3:
     RETURN_NAMES = ("POSITVE", "NEGATIVE")
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/controlnet"
+    CATEGORY = chaosaiart_higher.name("controlnet")
 
     def node(self, positive, negative, control_net, image, strength, start, end, start_Frame, End_Frame,activ_frame, strength_override= None,start_override = None,end_override=None):
         if not ( activ_frame >= start_Frame and  activ_frame < End_Frame ):    
@@ -4543,7 +4795,7 @@ class chaosaiart_adjust_color:
     RETURN_NAMES = ("IMAGE",)
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/image"
+    CATEGORY = chaosaiart_higher.name("image")
 
     #def colorChange(self,image,Contrast,Color,Brightness,contrast_Override=None,color_Override=None,brightness_Override=None):
 
@@ -4587,7 +4839,7 @@ class chaosaiart_Show_Info:
     OUTPUT_NODE = True
     OUTPUT_IS_LIST = (True,)
 
-    CATEGORY = "🔶Chaosaiart"
+    CATEGORY = chaosaiart_higher.name("main")
 
 
 
@@ -4617,7 +4869,7 @@ class chaosaiart_video2img2:
     RETURN_NAMES = ("Info",)
     FUNCTION = "node"  
 
-    CATEGORY = "🔶Chaosaiart/image"
+    CATEGORY = chaosaiart_higher.name("image")
 
 
 
@@ -4650,7 +4902,7 @@ class chaosaiart_video2img1:
     RETURN_NAMES = ("Info",)
     FUNCTION = "node"  
 
-    CATEGORY = "🔶Chaosaiart/video"
+    CATEGORY = chaosaiart_higher.name("video")
     
     OUTPUT_NODE = True
  
@@ -4684,7 +4936,7 @@ class chaosaiart_Frame_Switch:
     RETURN_NAMES = ("SOURCE",)
     FUNCTION = "node"  
 
-    CATEGORY = "🔶Chaosaiart/switch"
+    CATEGORY = chaosaiart_higher.name("switch")
 
     def node(self, activ_frame,source_before_frame,source_after_frame,Switch_frame): 
 
@@ -4751,7 +5003,7 @@ class chaosaiart_img2gif:
 
     OUTPUT_NODE = True
 
-    CATEGORY = "🔶Chaosaiart/video"
+    CATEGORY = chaosaiart_higher.name("video")
 
     def node(self, Image_dir,filename_prefix,FPS,Loop, merge_folders=None): 
 
@@ -4801,7 +5053,7 @@ class chaosaiart_img2gif:
          
         print("\n")  
         #TODO: No idea how to implement a progress bar while converting img2gif.
-        loading_process = noob_loading_process("🔶Chaosaiart Convert img2gif", "Creating Gif")
+        loading_process = noob_loading_process(chaosaiart_higher.name("main")+" Convert img2gif", "Creating Gif")
         loading_process.start()  
         full_image[0].save(ausgabedatei, save_all=True, append_images=full_image, loop=0, duration=1000//frame_count)
         loading_process.stop()
@@ -4848,7 +5100,7 @@ class chaosaiart_img2video:
 
     OUTPUT_NODE = True
 
-    CATEGORY = "🔶Chaosaiart/video"
+    CATEGORY = chaosaiart_higher.name("video")
 
 
 
@@ -4953,7 +5205,7 @@ class chaosaiart_lora:
     def IS_CHANGED(cls, **kwargs):
         return float("NaN")
     
-    CATEGORY = "🔶Chaosaiart/lora"
+    CATEGORY = chaosaiart_higher.name("lora")
 
     def node(self, lora_name, strength_model, strength_clip, add_lora=None): 
            
@@ -4981,7 +5233,7 @@ class chaosaiart_lora_advanced:
     RETURN_TYPES = ("LORA", )
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/lora"
+    CATEGORY = chaosaiart_higher.name("lora")
 
     def node(self, lora_name,lora_type, strength_model, strength_clip, strength_model_override=None,strength_clip_override=None, add_lora=None):
         loraType = "positiv" if lora_type == "Positiv_Prompt" else "negativ"
@@ -5005,7 +5257,7 @@ class chaosaiart_zoom_frame:
     RETURN_TYPES = ("ZOOM_FRAME", )
     FUNCTION = "node"
 
-    CATEGORY = "🔶Chaosaiart/image"
+    CATEGORY = chaosaiart_higher.name("image")
 
     def node(self, Mode):
         return 1,
@@ -5111,7 +5363,7 @@ class chaosaiart_HypernetworkLoader:
     RETURN_TYPES = ("MODEL",)
     FUNCTION = "load_hypernetwork"
 
-    CATEGORY = "loaders"
+    CATEGORY = chaosaiart_higher.name("main")
 
     def load_hypernetwork(self, model, hypernetwork_name, strength):
         hypernetwork_path = folder_paths.get_full_path("hypernetworks", hypernetwork_name)
@@ -5144,6 +5396,7 @@ NODE_CLASS_MAPPINGS = {
     "chaosaiart_MainPromptCLIPEncode":          chaosaiart_MainPromptCLIPEncode,
     "chaosaiart_TextCLIPEncode":                chaosaiart_TextCLIPEncode,
     "chaosaiart_TextCLIPEncode_lora":           chaosaiart_TextCLIPEncode_lora,
+    "chaosaiart_convert_Prompt":                chaosaiart_convert_Prompt,
 
     "chaosaiart_CheckpointPrompt":              chaosaiart_CheckpointPrompt,
     "chaosaiart_CheckpointPrompt2":             chaosaiart_CheckpointPrompt2,
@@ -5173,8 +5426,9 @@ NODE_CLASS_MAPPINGS = {
     "chaosaiart_restarter":                     chaosaiart_restarter,
     "chaosaiart_restarter_advanced":            chaosaiart_restarter_advanced,
 
-    "chaosaiart_Any_Switch":                    chaosaiart_Any_Switch,
+    "chaosaiart_Any_Switch_small":              chaosaiart_Any_Switch_small,
     "chaosaiart_Any_Switch_Big_Number":         chaosaiart_Any_Switch_Big_Number,
+    "chaosaiart_Any_Switch":                    chaosaiart_Any_Switch,
     "chaosaiart_any_array2input_all_small":     chaosaiart_any_array2input_all_small,
     "chaosaiart_any_array2input_all_big":       chaosaiart_any_array2input_all_big,
     "chaosaiart_any_array2input_1Input":        chaosaiart_any_array2input_1Input,
@@ -5196,15 +5450,16 @@ NODE_CLASS_MAPPINGS = {
     "chaosaiart_Frame_Switch":                  chaosaiart_Frame_Switch,
     "chaosaiart_forPreview":                    chaosaiart_forPreview,
     "chaosaiart_KSampler_a1":                   chaosaiart_KSampler_a1,
+    "chaosaiart_KSampler_a2":                   chaosaiart_KSampler_a2,
     "chaosaiart_KSampler_a1a":                  chaosaiart_KSampler_a1a,
     "chaosaiart_zoom_frame":                    chaosaiart_zoom_frame,
 
     "chaosaiart_merge_Folders":                  chaosaiart_merge_Folders,
    # "chaosaiart_Style_Node":                    chaosaiart_Style_Node,
  
-    #"chaosaiart_KSampler8":                     chaosaiart_KSampler8,
-    #"chaosaiart_Ksampler_attribut":             chaosaiart_Ksampler_attribut,
-    #"chaosaiart_KSampler6":                     chaosaiart_KSampler6,
+    "chaosaiart_KSampler_expert_1":              chaosaiart_KSampler_expert_1,
+    "chaosaiart_Ksampler_attribut":              chaosaiart_Ksampler_attribut,
+    #"chaosaiart_KSampler_expert_0":             chaosaiart_KSampler_expert_0,
     #"chaosaiart_KSampler4":                     chaosaiart_KSampler4,
     
     #"chaosaiart_KSampler7":                     chaosaiart_KSampler7,
@@ -5234,7 +5489,8 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "chaosaiart_TextCLIPEncode":                "🔶 Text Prompt Clip Encode", 
     "chaosaiart_TextCLIPEncode_lora":           "🔶 Text Prompt Clip Endcode +Lora",
     "chaosaiart_FramePromptCLIPEncode":         "🔶 Frame_Prompt Clip Endcode",
-    "chaosaiart_MainPromptCLIPEncode":          "🔶 Main_Prompt Clip Endcode",
+    "chaosaiart_MainPromptCLIPEncode":          "🔶 Main_Prompt Clip Endcode", 
+    "chaosaiart_convert_Prompt":                "🔶 Convert to Main Prompt",
 
     "chaosaiart_CheckpointPrompt":              "🔶 Load Checkpoint",
     "chaosaiart_CheckpointPrompt2":             "🔶 Load Checkpoint +Prompt",
@@ -5261,8 +5517,9 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "chaosaiart_Number2":                       "🔶 Number Float",
     "chaosaiart_Number_Switch":                 "🔶 One Time Number Switch",  
     
-    "chaosaiart_Any_Switch":                    "🔶 Any Switch", 
+    "chaosaiart_Any_Switch_small":              "🔶 Any Switch", 
     "chaosaiart_Any_Switch_Big_Number":         "🔶 Any Switch (Big)",
+    "chaosaiart_Any_Switch":                    "🔶 Any Switch, by Frame", 
     "chaosaiart_reloadIMG_Load":                "🔶 Cache Reloader IMG-> LOAD", 
     "chaosaiart_reloadIMG_Save":                "🔶 Cache Reloader IMG-> SAVE",
     "chaosaiart_reloadLatent_Load":             "🔶 Cache Reloader Latent-> LOAD", 
@@ -5276,28 +5533,29 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "chaosaiart_reloadAny_Load":                "🔶 Cache Reloader Any-> Load", 
     "chaosaiart_reloadAny_Save":                "🔶 Cache Reloader Any-> Save",
     "chaosaiart_convert":                       "🔶 Convert to Number String Float",
-    "chaosaiart_restarter_advanced":            "🔶 Restart & Activ - Advanced",
+    "chaosaiart_restarter_advanced":            "🔶 Restart & Activ Frame - Advanced",
     "chaosaiart_Show_Info":                     "🔶 Info Display",
     "chaosaiart_Denoising_Switch":              "🔶 Denoise Override (Switch)", 
  
     "chaosaiart_forPreview":                    "🔶 Preview Stacking",
     "chaosaiart_Frame_Switch":                  "🔶 Switch on Frame", 
-    "chaosaiart_KSampler_a1":                   "🔶 KSampler txt2video img2video v1",
+    "chaosaiart_KSampler_a2":                   "🔶 KSampler txt2video v1", 
+    "chaosaiart_KSampler_a1":                   "🔶 KSampler img2video v1",
     "chaosaiart_KSampler_a1a":                  "🔶 KSampler txt2video img2video - Advanced v1",
 
     "chaosaiart_zoom_frame":                    "🔶 Zoom_Frame - this node will come",
     
-    "chaosaiart_merge_Folders":                  "🔶 Merge Folders",
+    "chaosaiart_merge_Folders":                 "🔶 Merge Folders",
 
-    #"chaosaiart_image_loop":                     "🔶 Hold and Repeate one Image",
-    #"chaosaiart_Style_Node":                    "🔶 Style Node",
+    #"chaosaiart_image_loop":                   "🔶 Hold and Repeate one Image",
+    #"chaosaiart_Style_Node":                   "🔶 Style Node",
    
    
-    #"chaosaiart_KSampler4":                     "🔶 KSampler Advanced", 
-    #"chaosaiart_KSampler6":                     "🔶 KSampler Advanced 3", 
-    #"chaosaiart_KSampler8":                     "🔶 KSampler Splitted - Sub K_ATTRIBUT",
-    #"chaosaiart_Ksampler_attribut":             "🔶 KSampler Attribut - Main K_ATTRIBUT", 
-    #"chaosaiart_KSampler7":                     "🔶 KSampler Animation", 
-    #"chaosaiart_KSampler5":                     "🔶 KSampler Simple Animation",
+    #"chaosaiart_KSampler4":                    "🔶 KSampler Advanced", 
+    #"chaosaiart_KSampler_expert_0":            "🔶 KSampler expert 0", 
+    "chaosaiart_KSampler_expert_1":             "🔶 KSampler Splitted - Expert",
+    "chaosaiart_Ksampler_attribut":             "🔶 Main K_ATTRIBUT - Expert", 
+    #"chaosaiart_KSampler7":                    "🔶 KSampler Animation", 
+    #"chaosaiart_KSampler5":                    "🔶 KSampler Simple Animation",
    
 }
