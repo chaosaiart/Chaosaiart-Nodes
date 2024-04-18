@@ -379,9 +379,9 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
     <dl>
       <dd>
       <div align="center">  
-        <a href="#workflow_Expert_1"><img src="https://chaosaiart.de/nodes/workflows/elements/expert_1.png?v=4" width="30%"></a>  
+        <a href="#workflow_Expert_1"><img src="https://chaosaiart.de/nodes/workflows/elements/experte_1.png?v=4" width="30%"></a>  
       </div> <br><br>
-        <a id="workflow_Expert_1"><img src="https://chaosaiart.de/nodes/workflows/elements/expert_1.png?v=4" width="30%"></a>
+        <a id="workflow_Expert_1"><img src="https://chaosaiart.de/nodes/workflows/elements/experte_1.png?v=4" width="30%"></a>
       <dl><dd>
        In this workflow, the 🔶 Ksampler <a href="workflow_Animation_1">txt</a> & <a href="workflow_Animation_2">img2video</a> v1 has been dissected into its individual components.<br> This allows you to see what it consists of and enables you to adjust the values yourselves.
       <img src="https://chaosaiart.de/nodes/workflows/img/expert_txt2video_img2video.jpg?v=4" width="100%"> 
