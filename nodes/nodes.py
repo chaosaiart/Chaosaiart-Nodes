@@ -5378,6 +5378,10 @@ class chaosaiart_HypernetworkLoader:
 # A dictionary that contains all nodes you want to export with their names
 NODE_CLASS_MAPPINGS = {
 
+    "chaosaiart_KSampler_a2":                   chaosaiart_KSampler_a2,
+    "chaosaiart_KSampler_a1":                   chaosaiart_KSampler_a1,
+    "chaosaiart_KSampler_a1a":                  chaosaiart_KSampler_a1a,
+
     "chaosaiart_video2img1":                    chaosaiart_video2img1,
     "chaosaiart_img2video":                     chaosaiart_img2video,
     "chaosaiart_img2gif":                       chaosaiart_img2gif,
@@ -5449,16 +5453,15 @@ NODE_CLASS_MAPPINGS = {
    
     "chaosaiart_Frame_Switch":                  chaosaiart_Frame_Switch,
     "chaosaiart_forPreview":                    chaosaiart_forPreview,
-    "chaosaiart_KSampler_a1":                   chaosaiart_KSampler_a1,
-    "chaosaiart_KSampler_a2":                   chaosaiart_KSampler_a2,
-    "chaosaiart_KSampler_a1a":                  chaosaiart_KSampler_a1a,
     "chaosaiart_zoom_frame":                    chaosaiart_zoom_frame,
 
     "chaosaiart_merge_Folders":                  chaosaiart_merge_Folders,
+ 
+    "chaosaiart_KSampler_expert_1":             chaosaiart_KSampler_expert_1,
+    "chaosaiart_Ksampler_attribut":             chaosaiart_Ksampler_attribut,
+
    # "chaosaiart_Style_Node":                    chaosaiart_Style_Node,
  
-    "chaosaiart_KSampler_expert_1":              chaosaiart_KSampler_expert_1,
-    "chaosaiart_Ksampler_attribut":              chaosaiart_Ksampler_attribut,
     #"chaosaiart_KSampler_expert_0":             chaosaiart_KSampler_expert_0,
     #"chaosaiart_KSampler4":                     chaosaiart_KSampler4,
     
@@ -5471,6 +5474,12 @@ NODE_CLASS_MAPPINGS = {
 
 # A dictionary that contains the friendly/humanly readable titles for the nodes
 NODE_DISPLAY_NAME_MAPPINGS = {
+
+    
+    "chaosaiart_KSampler_a2":                   "🔶 KSampler txt2video v1", 
+    "chaosaiart_KSampler_a1":                   "🔶 KSampler img2video v1",
+    "chaosaiart_KSampler_a1a":                  "🔶 KSampler txt2video img2video - Advanced v1",
+
     "chaosaiart_video2img1":                    "🔶 Convert Video2Img -> Frame",
     "chaosaiart_img2video":                     "🔶 Convert img2video -> mp4",
     "chaosaiart_img2gif":                       "🔶 Convert img2gif -> GIF",
@@ -5539,13 +5548,13 @@ NODE_DISPLAY_NAME_MAPPINGS = {
  
     "chaosaiart_forPreview":                    "🔶 Preview Stacking",
     "chaosaiart_Frame_Switch":                  "🔶 Switch on Frame", 
-    "chaosaiart_KSampler_a2":                   "🔶 KSampler txt2video v1", 
-    "chaosaiart_KSampler_a1":                   "🔶 KSampler img2video v1",
-    "chaosaiart_KSampler_a1a":                  "🔶 KSampler txt2video img2video - Advanced v1",
 
     "chaosaiart_zoom_frame":                    "🔶 Zoom_Frame - this node will come",
     
     "chaosaiart_merge_Folders":                 "🔶 Merge Folders",
+
+    "chaosaiart_KSampler_expert_1":             "🔶 KSampler Splitted - Expert",
+    "chaosaiart_Ksampler_attribut":             "🔶 Main K_ATTRIBUT - Expert", 
 
     #"chaosaiart_image_loop":                   "🔶 Hold and Repeate one Image",
     #"chaosaiart_Style_Node":                   "🔶 Style Node",
@@ -5553,8 +5562,6 @@ NODE_DISPLAY_NAME_MAPPINGS = {
    
     #"chaosaiart_KSampler4":                    "🔶 KSampler Advanced", 
     #"chaosaiart_KSampler_expert_0":            "🔶 KSampler expert 0", 
-    "chaosaiart_KSampler_expert_1":             "🔶 KSampler Splitted - Expert",
-    "chaosaiart_Ksampler_attribut":             "🔶 Main K_ATTRIBUT - Expert", 
     #"chaosaiart_KSampler7":                    "🔶 KSampler Animation", 
     #"chaosaiart_KSampler5":                    "🔶 KSampler Simple Animation",
    
