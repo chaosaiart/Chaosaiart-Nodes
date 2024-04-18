@@ -184,6 +184,7 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
 <div align="center">  
   <a href="#Workflow_basic"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_1.png?v=4" alt="Install" width="25%"></a> 
   <a href="#Workflow_animation"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_2_2.png?v=4" alt="Install" width="25%"></a> 
+  <a href="#Workflow_expert"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_3.png?v=4" alt="Install" width="25%"></a>  
 </div>
 <a id="Workflow_basic">
   <img src="https://chaosaiart.de/nodes/workflows/elements/w1.png?v=4" alt="Workflows" width="100%">
@@ -367,6 +368,26 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       </dl> 
       <br><br><br>
       </dl>  
+</dd></dl></dd></dl> 
+
+<a id="Workflow_expert">
+  <img src="https://chaosaiart.de/nodes/workflows/elements/w3.png?v=4" alt="Workflows" width="100%">
+</a>
+<div>
+<dl>
+  <dd>
+    <dl>
+      <dd>
+      <div align="center">  
+        <a href="#workflow_Expert_1"><img src="https://chaosaiart.de/nodes/workflows/elements/expert_1.png?v=4" width="30%"></a>  
+      </div> <br><br>
+        <a id="workflow_Expert_1"><img src="https://chaosaiart.de/nodes/workflows/elements/expert_1.png?v=4" width="30%"></a>
+      <dl><dd>
+       In this workflow, the 🔶 Ksampler <a href="workflow_Animation_1">txt</a> & <a href="workflow_Animation_2">img2video</a> v1 has been dissected into its individual components.<br> This allows you to see what it consists of and enables you to adjust the values yourselves.
+      <img src="https://chaosaiart.de/nodes/workflows/img/expert_txt2video_img2video.jpg?v=4" width="100%"> 
+      </dl> 
+      <div align="center"><a href="https://chaosaiart.de/nodes/?json=expert_txt2video_img2video"><img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%"></a> 
+      </div><br><br>  
 </dd></dl></dd></dl> 
 </div>
 <a id="Nodes" name="Nodes">
