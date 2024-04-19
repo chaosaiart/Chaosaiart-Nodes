@@ -1,7 +1,8 @@
 # Versionslog:
 
 <details>
-    <summary>v1_03</summary>  
+    <summary>v1_03</summary> 
+
     Added:
     🔶 KSampler txt2video v1
     🔶 KSampler txt2video img2video - Advanced v1
@@ -12,6 +13,7 @@
 
 <details>
     <summary>v1_02</summary> 
+
     File:
     WISH_LIST.md
 
@@ -33,6 +35,7 @@
 
 <details>
     <summary>v1_03</summary> 
+    
     Added:
     🔶 KSampler txt2video v1
 
