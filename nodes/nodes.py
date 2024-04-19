@@ -2043,7 +2043,7 @@ class chaosaiart_Ksampler_attribut:
     RETURN_NAMES = ("MAIN_K_ATTRIBUT", "LATENT",) 
     FUNCTION = "node"
 
-    CATEGORY = chaosaiart_higher.name("ksampler")
+    CATEGORY = chaosaiart_higher.name("animation")
   
     @staticmethod
     def vae_encode_crop_pixels(pixels):
@@ -2107,7 +2107,7 @@ class chaosaiart_KSampler_expert_1:
     RETURN_NAMES = ("SUB_K_ATTRIBUT","SAMPLER","Info") 
     FUNCTION = "node"
 
-    CATEGORY = chaosaiart_higher.name("ksampler")
+    CATEGORY = chaosaiart_higher.name("animation")
     
     def node( self, model, positive, negative, k_attribut, 
              latent,seed, end_at_step, denoise, cfg,sampler_name,scheduler ):
@@ -2199,7 +2199,7 @@ class chaosaiart_forPreview:
     RETURN_NAMES = ("IMAGE",) 
     FUNCTION = "node"
 
-    CATEGORY = chaosaiart_higher.name("image")
+    CATEGORY = chaosaiart_higher.name("animation")
 
     def node(self, image, restart, Preview_Max):
 
