@@ -16,14 +16,14 @@
   <a href="#Nodes"><img src="https://chaosaiart.de/nodes/workflows/elements/d3.png?v=4"  width="25%"></a>
 </div>
 <div align="center">
-  <a href="#Support"><img src="https://chaosaiart.de/nodes/workflows/elements/d4.png?v=4"  width="25%"></a> 
+  <a href="#Support"><img src="https://chaosaiart.de/nodes/workflows/elements/d4_2.png?v=4"  width="25%"></a> 
   <a href="#Info"><img src="https://chaosaiart.de/nodes/workflows/elements/d5.png?v=4"  width="25%"></a>
   <a href="https://github.com/chaosaiart/Chaosaiart-Nodes/blob/main/WISH_LIST.md"><img src="https://chaosaiart.de/nodes/workflows/elements/d6.png?v=4"  width="25%"></a>
 </div>
 <br><br> 
 <div align="center">  
     <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h1.png?v=4" alt="Use Case:" width="65%"> <br>
-    LowVRAM Animation<br><br><br> 
+    Animation<br><br><br> 
     <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h3.png?v=4" alt="Examples" width="65%"> <br>
     <img src="https://chaosaiart.de/nodes/workflows/elements/examples_headline_3.png?v=4" alt="txt2img" width="50%"> <br>
     <div align="center"> 
@@ -394,7 +394,7 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
 <img src="https://chaosaiart.de/nodes/workflows/elements/nodes.png?v=4" alt="Nodes" width="100%">
 </a> 
 <!-- Headline Nodes -->
-<div align="center">
+<!--div align="center">
 <a href="#nodes_1"><img src="https://chaosaiart.de/nodes/workflows/elements/ni_1.png?v=4" alt="" width="30%"></a>
 <a href="#nodes_2"><img src="https://chaosaiart.de/nodes/workflows/elements/ni_2.png?v=4" alt="" width="30%"></a>
 <a href="#nodes_3"><img src="https://chaosaiart.de/nodes/workflows/elements/ni_3.png?v=4" alt="" width="30%"></a>
@@ -412,48 +412,78 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
 <div align="center">
 <a href="#nodes_8"><img src="https://chaosaiart.de/nodes/workflows/elements/ni_8.png?v=4" alt="" width="30%"></a>
 </div>
-<br><br><br>
-<div align="center">
+<br><br><br-->
+<!--div align="center"-->
+<div>
   <!-- Image -->  
+  <details>
+  <summary>🔶 Image</summary> 
   <a id="nodes_1"><img src="https://chaosaiart.de/nodes/workflows/elements/ni_1.png?v=4" alt="" width="30%"></a><br> 
   <img src="https://chaosaiart.de/nodes/workflows/nodes/image_1.jpg?v=4" alt="Nodes" width="50%">
   <img src="https://chaosaiart.de/nodes/workflows/nodes/image_2.jpg?v=4" alt="Nodes" width="50%"><br><br>
+  </details> 
+  <details>
+  <summary>🔶 Ksampler</summary> 
   <!-- Ksampler -->
   <a id="nodes_2"><img src="https://chaosaiart.de/nodes/workflows/elements/ni_2.png?v=4" alt="" width="30%"></a><br> 
   <img src="https://chaosaiart.de/nodes/workflows/nodes/Ksampler_1.jpg?v=4" alt="Nodes" width="50%">
   <img src="https://chaosaiart.de/nodes/workflows/nodes/Ksampler_3.jpg?v=4" alt="Nodes" width="50%">
   <img src="https://chaosaiart.de/nodes/workflows/nodes/Ksampler_2.jpg?v=4" alt="Nodes" width="50%">
   <img src="https://chaosaiart.de/nodes/workflows/nodes/One_Node.jpg?v=4" alt="Nodes" width="50%"><br><br>
+  </details> 
+  <details>
+  <summary>🔶 Cache</summary> 
   <!-- cache -->
   <a id="nodes_3"><img src="https://chaosaiart.de/nodes/workflows/elements/ni_3.png?v=4" alt="" width="30%"></a><br> 
   <img src="https://chaosaiart.de/nodes/workflows/nodes/cache_1.jpg?v=4" alt="Nodes" width="50%">
   <img src="https://chaosaiart.de/nodes/workflows/nodes/cache_2.jpg?v=4" alt="Nodes" width="50%">
   <img src="https://chaosaiart.de/nodes/workflows/nodes/cache_3.jpg?v=4" alt="Nodes" width="50%"><br><br>
+  </details> 
+  <details>
+  <summary>🔶 Logic</summary> 
   <!-- Logic --> 
   <a id="nodes_4"><img src="https://chaosaiart.de/nodes/workflows/elements/ni_4.png?v=4" alt="" width="30%"></a><br> 
   <img src="https://chaosaiart.de/nodes/workflows/nodes/logic.jpg?v=4" alt="Nodes" width="50%"><br><br>
+  </details> 
+  <details>
+  <summary>🔶 Prompt</summary> 
   <!-- Prompt --> 
   <a id="nodes_6"><img src="https://chaosaiart.de/nodes/workflows/elements/ni_6.png?v=4" alt="" width="30%"></a><br> 
   <img src="https://chaosaiart.de/nodes/workflows/nodes/prompt_1.jpg?v=4" alt="Nodes" width="50%">
   <img src="https://chaosaiart.de/nodes/workflows/nodes/prompt_2.jpg?v=4" alt="Nodes" width="50%"><br><br>
+  </details> 
+  <details>
+  <summary>🔶 Lora</summary>
   <!-- checkpoint --> 
   <a id="nodes_7"><img src="https://chaosaiart.de/nodes/workflows/elements/ni_7.png?v=4" alt="" width="30%"></a><br> 
   <img src="https://chaosaiart.de/nodes/workflows/nodes/checkpoint_1.jpg?v=4" alt="Nodes" width="50%">
   <img src="https://chaosaiart.de/nodes/workflows/nodes/checkpoint_2.jpg?v=4" alt="Nodes" width="50%">
   <img src="https://chaosaiart.de/nodes/workflows/nodes/checkpoint_3.jpg?v=4" alt="Nodes" width="50%"><br><br>
+  </details> 
+  <details>
+  <summary>🔶 Lora</summary>
   <!-- Lora --> 
   <a id="nodes_10"><img src="https://chaosaiart.de/nodes/workflows/elements/ni_10.png?v=4" alt="" width="30%"></a><br> 
   <img src="https://chaosaiart.de/nodes/workflows/nodes/lora.jpg?v=4" alt="Nodes" width="50%"><br><br>
+  </details> 
+  <details>
+  <summary>🔶 Controlnet</summary>
   <!-- Controlnet --> 
   <a id="nodes_9"><img src="https://chaosaiart.de/nodes/workflows/elements/ni_9.png?v=4" alt="" width="30%"></a><br> 
   <img src="https://chaosaiart.de/nodes/workflows/nodes/controlnet.jpg?v=4" alt="Nodes" width="50%"><br><br>
+  </details> 
+  <details>
+  <summary>🔶 Special</summary>
   <!-- special --> 
   <a id="nodes_5"><img src="https://chaosaiart.de/nodes/workflows/elements/ni_5.png?v=4" alt="" width="30%"></a><br> 
   <img src="https://chaosaiart.de/nodes/workflows/nodes/onlymy.jpg?v=4" alt="Nodes" width="50%"><br><br>
+  </details>
+  <details>
+  <summary>🔶 Switch</summary>
   <!-- Switch --> 
   <a id="nodes_8"><img src="https://chaosaiart.de/nodes/workflows/elements/ni_8.png?v=4" alt="" width="30%"></a><br> 
   <img src="https://chaosaiart.de/nodes/workflows/nodes/switch_1.jpg?v=4" alt="Nodes" width="50%">
-  <img src="https://chaosaiart.de/nodes/workflows/nodes/switch_2.jpg?v=4" alt="Nodes" width="50%"><br><br>
+  <img src="https://chaosaiart.de/nodes/workflows/nodes/switch_2.jpg?v=4" alt="Nodes" width="50%"><br><br></details>
 </div> 
 <!-- --->
 <!-- --->
