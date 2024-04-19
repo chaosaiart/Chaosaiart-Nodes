@@ -23,7 +23,7 @@
 <br><br> 
 <div align="center">  
     <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h1.png?v=4" alt="Use Case:" width="65%"> <br>
-    Animation<br><br><br> 
+    LowVRAM Animation<br><br><br> 
     <img src="https://chaosaiart.de/nodes/workflows/elements/overview_h3.png?v=4" alt="Examples" width="65%"> <br>
     <img src="https://chaosaiart.de/nodes/workflows/elements/examples_headline_3.png?v=4" alt="txt2img" width="50%"> <br>
     <div align="center"> 
@@ -453,7 +453,7 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
   <img src="https://chaosaiart.de/nodes/workflows/nodes/prompt_2.jpg?v=4" alt="Nodes" width="50%"><br><br>
   </details> 
   <details>
-  <summary>🔶 Lora</summary>
+  <summary>🔶 Checkpoint</summary>
   <!-- checkpoint --> 
   <a id="nodes_7"><img src="https://chaosaiart.de/nodes/workflows/elements/ni_7.png?v=4" alt="" width="30%"></a><br> 
   <img src="https://chaosaiart.de/nodes/workflows/nodes/checkpoint_1.jpg?v=4" alt="Nodes" width="50%">
