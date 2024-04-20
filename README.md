@@ -364,7 +364,7 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       </dl>
       <img src="https://chaosaiart.de/nodes/workflows/elements/wi_b_14.png?v=4" width="30%"><br> 
       <dl><dd>
-      No workflow, usable in all 🔶Chaosaiart prompt fields. 
+      usable in all 🔶Chaosaiart prompt fields. 
       <img src="https://chaosaiart.de/nodes/workflows/img/Basic_random_prompt_part.jpg?v=4" width="100%"><br>
       <div align="center"> 
       </div> <br><br><br><br><br>
