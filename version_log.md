@@ -1,7 +1,12 @@
 # Versionslog:
+## Current v1_03_01
+You can check your current version by opening the file named 'version_log' in your Custom_Node folder and looking at what is entered under Current Version<br>
 
-<details>
-    <summary>v1_03</summary> 
+## v1_03
+
+    Feature:
+    1. In all 🔶Prompt Section:
+    -  Random Promptpart -> {Random1|Random2|..|RandomXXX} => one will be randomly selected
 
     Added:
     🔶 KSampler txt2video v1
@@ -9,10 +14,12 @@
     🔶 Main K_ATTRIBUT - Expert
     🔶 KSampler Splitted - Expert
     🔶 Convert to Main Prompt 
-</details>
 
-<details>
-    <summary>v1_02</summary> 
+    Changed: 
+    🔶 KSampler txt2video img2video - Advanced v1 -> Input: Splitt_by -> Splitt_by_step
+
+
+## v1_02
 
     File:
     WISH_LIST.md
@@ -31,10 +38,9 @@
     "Image_Mode":(["Widht = Height","Widescreen / 16:9","Portrait (Smartphone) / 9:16"],),
     "Image_Size":(["360p","480p","HD","Full HD",],),
     "Img2img_input_Size":(["override","resize","crop"],),
-</details>
 
-<details>
-    <summary>v1_03</summary> 
+
+## v1_01
     
     Added:
     🔶 KSampler txt2video v1
