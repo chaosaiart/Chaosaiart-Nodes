@@ -1216,7 +1216,7 @@ class chaosaiart_KSampler2: #img2img
                     "model": ("MODEL",),
                     "Image_Mode":(["Widht = Height","Widescreen / 16:9","Portrait (Smartphone) / 9:16"],),
                     "Image_Size":(["360p","480p","HD","Full HD",],),
-                    "Img2img_input_Size":(["crop","resize","override"],), 
+                    "Img2img_input_Size":(["resize","crop","override"],), 
                     "denoise": ("FLOAT", {"default": 1, "min": 0, "max": 1, "step": 0.01}),
                     "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
                     "steps": ("INT", {"default": 20, "min": 1, "max": 10000}),
@@ -1285,7 +1285,7 @@ class chaosaiart_KSampler3:
                     "model": ("MODEL",),
                     "Image_Mode":(["Widht = Height","Widescreen / 16:9","Portrait (Smartphone) / 9:16"],),
                     "Image_Size":(["360p","480p","HD","Full HD",],),
-                    "Img2img_input_Size":(["crop","resize","override"],),
+                    "Img2img_input_Size":(["resize","crop","override"],),
                     "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
                     "steps": ("INT", {"default": 20, "min": 1, "max": 10000}),
                     "cfg": ("FLOAT", {"default": 8.0, "min": 0.0, "max": 100.0, "step":0.1, "round": 0.01}),
@@ -1370,7 +1370,7 @@ class chaosaiart_KSampler4:
                         "model": ("MODEL",),
                         "Image_Mode":(["Widht = Height","Widescreen / 16:9","Portrait (Smartphone) / 9:16"],),
                         "Image_Size":(["360p","480p","HD","Full HD",],),
-                        "Img2img_input_Size":(["crop","resize","override"],),
+                        "Img2img_input_Size":(["resize","crop","override"],),
                         "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
                         "steps": ("INT", {"default": 25, "min": 1, "max": 10000}),
                         "start_at_step": ("INT", {"default": 0, "min": 0, "max": 10000}),
@@ -1469,7 +1469,7 @@ class chaosaiart_KSampler_expert_0:
                         "model": ("MODEL",),     
                         "Image_Mode":(["Widht = Height","Widescreen / 16:9","Portrait (Smartphone) / 9:16"],),
                         "Image_Size":(["360p","480p","HD","Full HD",],),
-                        "Img2img_input_Size":(["crop","resize","override"],),
+                        "Img2img_input_Size":(["resize","crop","override"],),
                         "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff, "step": 1}), 
                         "steps": ("INT", {"default": 25, "min": 0, "max": 10000, "step": 1}),
                         "start_at_step": ("INT", {"default": 0, "min": 0, "max": 10000, "step": 1}),
@@ -1887,11 +1887,11 @@ class chaosaiart_KSampler_a1a: #txt2video & img2video
                         "model": ("MODEL",),     
                         "Image_Mode":(["Widht = Height","Widescreen / 16:9","Portrait (Smartphone) / 9:16"],),
                         "Image_Size":(["360p","480p","HD","Full HD",],),
-                        "Img2img_input_Size":(["crop","resize","override"],),
+                        "Img2img_input_Size":(["resize","crop","override"],),
                         "txt2video_seed_First_IMG":("INT", {"default": -1, "min": -1, "max": 0xffffffffffffffff, "step": 1}),
                         "seed_activ":("INT", {"default": -1, "min": -1, "max": 0xffffffffffffffff, "step": 1}),
-                        "splitt_by":("FLOAT", {"default": 0.5, "min": 0.3, "max": 0.8, "step":0.01}),
                         "seed_mode":(["fixed || fixed","increment || increment","fixed || increment","increment || fixed"],),
+                        "splitt_by_steps":("INT", {"default": 12, "min": 1, "max": 9999, "step":1}),
                         "denoise_part_1":("FLOAT", {"default": 0.6, "min": 0, "max": 1, "step":0.01}),
                         "denoise_part_2":("FLOAT", {"default": 1, "min": 0, "max": 1, "step":0.01}),
                         "steps": ("INT", {"default": 25, "min": 0, "max": 10000, "step": 1}),
@@ -1926,7 +1926,7 @@ class chaosaiart_KSampler_a1a: #txt2video & img2video
     
     def node(self,model, positive, negative, activ_frame,vae, 
             Image_Mode, Image_Size,Img2img_input_Size, 
-            txt2video_seed_First_IMG,seed_activ,splitt_by,seed_mode,
+            txt2video_seed_First_IMG,seed_activ,splitt_by_steps,seed_mode,
             denoise_part_1, denoise_part_2,   
             steps,cfg, sampler_name, scheduler, start_Image = None, zoom_frame = None):
             
@@ -1994,17 +1994,18 @@ class chaosaiart_KSampler_a1a: #txt2video & img2video
             samples =  chaosaiart_higher.ksampler(model, seed_txt2video, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise, disable_noise=disable_noise, start_step=start_at_step, last_step=end_at_step, force_full_denoise=force_full_denoise)
             latent_image = samples[0] 
 
-        splitt_factor = splitt_by
-        splittStep = int(chaosaiart_higher.round(steps * splitt_factor)) 
+        #splitt_factor = splitt_by
+        splittStep = splitt_by_steps
 
         start_at_step, end_at_step = 0, splittStep
         denoise, force_full_denoise = denoise_part_1, False 
         samples =  chaosaiart_higher.ksampler(model, seed, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise, disable_noise=disable_noise, start_step=start_at_step, last_step=end_at_step, force_full_denoise=force_full_denoise)
         
-        latent_image = samples[0]
-        start_at_step, end_at_step = splittStep, steps
-        denoise, disable_noise  = denoise_part_2, True 
-        samples =  chaosaiart_higher.ksampler(model, seed_2, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise, disable_noise=disable_noise, start_step=start_at_step, last_step=end_at_step, force_full_denoise=force_full_denoise)
+        if steps > splittStep:
+            latent_image = samples[0]
+            start_at_step, end_at_step = splittStep, steps
+            denoise, disable_noise  = denoise_part_2, True 
+            samples =  chaosaiart_higher.ksampler(model, seed_2, steps, cfg, sampler_name, scheduler, positive, negative, latent_image, denoise=denoise, disable_noise=disable_noise, start_step=start_at_step, last_step=end_at_step, force_full_denoise=force_full_denoise)
         
         
         info += f"Frame: {activ_frame}\n\n" 
@@ -2229,7 +2230,7 @@ class chaosaiart_KSampler5:
                         "model": ("MODEL",),  
                         "Image_Mode":(["Widht = Height","Widescreen / 16:9","Portrait (Smartphone) / 9:16"],),
                         "Image_Size":(["360p","480p","HD","Full HD",],),
-                        "Img2img_input_Size":(["crop","resize","override"],),"seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
+                        "Img2img_input_Size":(["resize","crop","override"],),"seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
                         "steps": ("INT", {"default": 25, "min": 1, "max": 10000}),
                         "start_at_step": ("INT", {"default": 0, "min": 0, "max": 10000}),
                         "end_at_step": ("INT", {"default": 25, "min": 0, "max": 10000}),
