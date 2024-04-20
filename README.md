@@ -382,8 +382,10 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       <div align="center">  
         <a href="#workflow_Animation_1"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_a_3.png?v=4" width="30%"></a> 
         <a href="#workflow_Animation_2"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_a_4.png?v=4" width="30%"></a> 
-      </div> <br><br>
-        <a id="workflow_Animation_1"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_a_3.png?v=4" width="30%"></a>
+      </div> 
+      <a id="workflow_Animation_1"></a>
+      <br><br>
+        <img src="https://chaosaiart.de/nodes/workflows/elements/wi_a_3.png?v=4" width="30%">
       <dl><dd>
       Animation:<br> 
         This workflow has integrated the cache of the <a href="#workflow_1">Cache Workflow</a> in KSampler. <br>
@@ -393,8 +395,10 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       <img src="https://chaosaiart.de/nodes/workflows/img/Animation_txt2video.jpg?v=4" width="100%"> 
       </dl> 
       <div align="center"><a href="https://chaosaiart.de/nodes/?json=Animation_txt2video"><img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%"></a> 
-      </div><br><br>
-      <a id="workflow_Animation_2"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_a_4.png?v=4" width="30%"></a>
+      </div>
+      <a id="workflow_Animation_2"></a>
+      <br><br>
+      <img src="https://chaosaiart.de/nodes/workflows/elements/wi_a_4.png?v=4" width="30%">
       <dl><dd>
       Same workflow as <a href="#workflow_Animation_1">txt2video</a>, but with image input.
       <img src="https://chaosaiart.de/nodes/workflows/img/Animation_img2video.jpg?v=4" width="100%">
@@ -415,8 +419,10 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       <dd>
       <div align="center">  
         <a href="#workflow_Expert_1"><img src="https://chaosaiart.de/nodes/workflows/elements/experte_1.png?v=4" width="30%"></a>  
-      </div> <br><br>
-        <a id="workflow_Expert_1"><img src="https://chaosaiart.de/nodes/workflows/elements/experte_1.png?v=4" width="30%"></a>
+      </div>
+      <a id="workflow_Expert_1"></a>
+      <br><br>
+        <img src="https://chaosaiart.de/nodes/workflows/elements/experte_1.png?v=4" width="30%">
       <dl><dd>
        In this workflow, the 🔶 Ksampler <a href="#workflow_Animation_1">txt</a> & <a href="#workflow_Animation_2">img2video</a> v1 has been dissected into its individual components.<br> This allows you to see what it consists of and enables you to adjust the values yourselves.
       <img src="https://chaosaiart.de/nodes/workflows/img/expert_txt2video_img2video.jpg?v=4" width="100%"> 
