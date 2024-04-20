@@ -269,7 +269,7 @@ class chaosaiart_higher:
 
         
     def replace_randomPart(text): 
-
+        #new function.
         matches = re.findall(r'\{([^{}]*)\}', text)
          
         for match in matches: 
