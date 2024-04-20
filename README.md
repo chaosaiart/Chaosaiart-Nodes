@@ -185,7 +185,7 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
   <a href="#Workflow_basic"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_1.png?v=4" alt="Install" width="25%"></a> 
   <a href="#Workflow_animation"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_2_2.png?v=4" alt="Install" width="25%"></a> 
   <a href="#Workflow_expert"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_3.png?v=4" alt="Install" width="25%"></a>  
-</div>
+</div> <br><br><br>
 <a id="Workflow_basic">
   <img src="https://chaosaiart.de/nodes/workflows/elements/w1.png?v=4" alt="Workflows" width="100%">
 </a>
@@ -214,6 +214,9 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
         <a href="#workflow_10"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_b_10.png?v=4" width="30%"></a>
         <a href="#workflow_11"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_b_11.png?v=4" width="30%"></a> 
         <a href="#workflow_12"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_b_12.png?v=4" width="30%"></a> 
+      </div>
+      <div align="center">  
+        <a href="#workflow_14"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_b_14.png?v=4" width="30%"></a> 
       </div>
       <!-- TODO: FIXME: -->
       <br><br>
@@ -334,7 +337,15 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_Lora"><img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%"></a> 
       </div><br><br>
       </dl>
-      
+      <!-- Random Prompt Filed -->
+      <a id="workflow_14"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_b_14.png?v=4" width="30%"></a><br> 
+      <dl><dd>
+      No workflow, usable in all 🔶Chaosaiart prompt fields. 
+      <img src="https://chaosaiart.de/nodes/workflows/img/Basic_random_prompt_part.jpg?v=4" width="100%"><br>
+      <div align="center"> 
+      </div> <br><br><br><br><br>
+      </dl>
+        
 </dd></dl></dd></dl>  
 <a id="Workflow_animation">
   <img src="https://chaosaiart.de/nodes/workflows/elements/w2_2.png?v=4" alt="Workflows" width="100%">
@@ -364,9 +375,9 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       Same workflow as <a href="#workflow_Animation_1">txt2video</a>, but with image input.
       <img src="https://chaosaiart.de/nodes/workflows/img/Animation_img2video.jpg?v=4" width="100%">
       <div align="center"><a href="https://chaosaiart.de/nodes/?json=Animation_img2video"><img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%"></a> 
-      </div><br><br>
+      </div>
       </dl> 
-      <br><br><br>
+       <br><br><br><br><br>
       </dl>  
 </dd></dl></dd></dl> 
 
