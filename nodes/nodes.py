@@ -10,6 +10,7 @@ import json
 import hashlib
 import traceback
 import math
+import re
 
 import time
 import glob
@@ -265,23 +266,38 @@ class chaosaiart_higher:
         except ZeroDivisionError:
             return False
     
+
+        
+    def replace_randomPart(text): 
+
+        matches = re.findall(r'\{([^{}]*)\}', text)
+         
+        for match in matches: 
+            options = match.split('|') 
+            replacement = random.choice(options) 
+            text = text.replace('{' + match + '}', replacement, 1)
+         
+        text = text.replace('|', '').replace('{', '').replace('}', '')
+        
+        return text
+
     @classmethod    
-    def add_Prompt_txt(cls, txt, txt2):
+    def add_Prompt_txt__replace_randomPart(cls, txt, txt2):
         if cls.check_Text(txt2):
             if cls.check_Text(txt):
-                return txt + "," + txt2
-            return txt2
+                return cls.replace_randomPart(txt) + "," + cls.replace_randomPart(txt2)
+            return cls.replace_randomPart(txt2)
         
         if cls.check_Text(txt):
-            return txt
+            return cls.replace_randomPart(txt)
             
         return ""     
     
     @classmethod
     def add_Prompt_txt_byMode(cls, txt, txt2, txt_after=True):
         if txt_after:
-            return cls.add_Prompt_txt(txt, txt2)
-        return cls.add_Prompt_txt(txt2, txt) 
+            return cls.add_Prompt_txt__replace_randomPart(txt, txt2)
+        return cls.add_Prompt_txt__replace_randomPart(txt2, txt) 
     
     def make_array(a1,a2,a3,a4,a5,a6,a7,a8,a9):
         mArray = [a1,a2,a3,a4,a5,a6,a7,a8,a9]
@@ -786,8 +802,8 @@ class chaosaiart_CheckpointPrompt2:
         
     
         ckpt_name = Checkpoint 
-        sPositiv = chaosaiart_higher.add_Prompt_txt(add_positiv_txt,Positiv)
-        sNegativ = chaosaiart_higher.add_Prompt_txt(add_negativ_txt,Negativ)  
+        sPositiv = chaosaiart_higher.add_Prompt_txt__replace_randomPart(add_positiv_txt,Positiv)
+        sNegativ = chaosaiart_higher.add_Prompt_txt__replace_randomPart(add_negativ_txt,Negativ)  
         alora = add_lora
         
         self.Cache_index, bCKPT_inCache, bLora_inCache, bPositiv_inCache ,bNegativ_inCache \
@@ -1092,8 +1108,8 @@ class chaosaiart_CheckpointPrompt_FrameMixer:
         Negativ     = activ_checkpoint_prompt_frame[3]
         frame_lora  = activ_checkpoint_prompt_frame[4]
  
-        sPositiv = chaosaiart_higher.add_Prompt_txt(main_positiv,Positiv)
-        sNegativ = chaosaiart_higher.add_Prompt_txt(Negativ,main_negativ)  
+        sPositiv = chaosaiart_higher.add_Prompt_txt__replace_randomPart(main_positiv,Positiv)
+        sNegativ = chaosaiart_higher.add_Prompt_txt__replace_randomPart(Negativ,main_negativ)  
           
         alora = chaosaiart_higher.lora_mainprompt_and_frame(main_lora,frame_lora)
 
@@ -3659,7 +3675,7 @@ class chaosaiart_Simple_Prompt:
     CATEGORY = chaosaiart_higher.name("prompt")
  
     def node(self, Prompt="", add_prompt=""): 
-        out = chaosaiart_higher.add_Prompt_txt(add_prompt,Prompt)
+        out = chaosaiart_higher.add_Prompt_txt__replace_randomPart(add_prompt,Prompt)
         return(out,)
 
 """    
@@ -3734,8 +3750,8 @@ class chaosaiart_Prompt_Frame:
  
     def node(self,start_frame,positiv="",negativ="",add_lora=[],add_positiv="",add_negativ=""):
         
-        positivOUT = chaosaiart_higher.add_Prompt_txt(add_positiv,positiv)
-        negativOUT = chaosaiart_higher.add_Prompt_txt(add_negativ,negativ)
+        positivOUT = chaosaiart_higher.add_Prompt_txt__replace_randomPart(add_positiv,positiv)
+        negativOUT = chaosaiart_higher.add_Prompt_txt__replace_randomPart(add_negativ,negativ)
         return([start_frame,[positivOUT,negativOUT,add_lora]],)
     
 class chaosaiart_convert_Prompt:
@@ -3774,8 +3790,8 @@ class chaosaiart_convert_Prompt:
             frame_prompt_lora       = add_frame_prompt[1][2]
 
         add_lora += frame_prompt_lora
-        positivOUT = chaosaiart_higher.add_Prompt_txt(add_positiv,frame_prompt_postiv)
-        negativOUT = chaosaiart_higher.add_Prompt_txt(add_negativ,frame_prompt_negativ)
+        positivOUT = chaosaiart_higher.add_Prompt_txt__replace_randomPart(add_positiv,frame_prompt_postiv)
+        negativOUT = chaosaiart_higher.add_Prompt_txt__replace_randomPart(add_negativ,frame_prompt_negativ)
 
         info = f"Positiv:\n{positivOUT}\n\n"
         info += f"negativOUT:\n{negativOUT}\n\n"
@@ -3810,8 +3826,8 @@ class chaosaiart_Prompt:
     CATEGORY = chaosaiart_higher.name("prompt")
     
     def node(self,positiv="",negativ="",add_lora=[],add_positiv="",add_negativ=""):
-        positivOUT = chaosaiart_higher.add_Prompt_txt(add_positiv,positiv)
-        negativOUT = chaosaiart_higher.add_Prompt_txt(add_negativ,negativ)
+        positivOUT = chaosaiart_higher.add_Prompt_txt__replace_randomPart(add_positiv,positiv)
+        negativOUT = chaosaiart_higher.add_Prompt_txt__replace_randomPart(add_negativ,negativ)
         return([positivOUT,negativOUT,add_lora],add_lora,positivOUT,negativOUT,)
         
 
@@ -3896,8 +3912,8 @@ class chaosaiart_Prompt_mixer_byFrame:
                     frame_key = int(array[0])
                     break
         
-        positiv = chaosaiart_higher.add_Prompt_txt(main_positiv,frame_positiv)
-        negativ = chaosaiart_higher.add_Prompt_txt(frame_negativ,main_negativ)
+        positiv = chaosaiart_higher.add_Prompt_txt__replace_randomPart(main_positiv,frame_positiv)
+        negativ = chaosaiart_higher.add_Prompt_txt__replace_randomPart(frame_negativ,main_negativ)
         lora =  chaosaiart_higher.lora_mainprompt_and_frame(main_Lora,frame_Lora)
         
         info =  f"Frame: {activ_frame},\nPositiv: {positiv},\nNegativ: {negativ}\n"
@@ -4554,8 +4570,8 @@ class chaosaiart_oneNode:
             self.notStarted = False
             ckpt_name       = Checkpoint
             alora           = add_lora
-            sPositiv        = chaosaiart_higher.add_Prompt_txt(add_positiv_txt,Positiv)
-            sNegativ        = chaosaiart_higher.add_Prompt_txt(Negativ,add_negativ_txt)  
+            sPositiv        = chaosaiart_higher.add_Prompt_txt__replace_randomPart(add_positiv_txt,Positiv)
+            sNegativ        = chaosaiart_higher.add_Prompt_txt__replace_randomPart(Negativ,add_negativ_txt)  
 
             self.Cache_index, bCKPT_inCache, bLora_inCache, bPositiv_inCache ,bNegativ_inCache \
             = chaosaiart_higher.check_Checkpoint_Lora_Txt_caches(self.Cache_index,ckpt_name,alora,sPositiv,sNegativ)
