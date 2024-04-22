@@ -62,7 +62,7 @@
 <div align="center"> 
   <a href="#Install_full"><img src="https://chaosaiart.de/nodes/workflows/elements/h1_2.png?v=4" alt="Manuel" width="25%"></a> 
   <a href="#Install_manager"><img src="https://chaosaiart.de/nodes/workflows/elements/h3.png?v=4" alt="ComfyUI Manager" width="25%"></a>
-  <a href="#Install_git"><img src="https://chaosaiart.de/nodes/workflows/elements/h2.png?v=4" alt="Git" width="25%"></a>
+  <!--a href="#Install_git"><img src="https://chaosaiart.de/nodes/workflows/elements/h2.png?v=4" alt="Git" width="25%"></a-->
 </div>
      
 <br>
@@ -89,9 +89,10 @@
 
     pip install opencv-python & pip install tqdm
 If you are using a virtual environment (venv), make sure it is activated before installation. 
-</dd></dl><br> 
-7. get a good checkpoint, like <a href="https://civitai.com/models/9409?modelVersionId=30163">Anything5</a> ( Folder: ../ComfyUI/models/checkpoints )    
-</dl>
+</dd></dl>
+<br> 
+<!--7. get a good checkpoint, like <a href="https://civitai.com/models/9409?modelVersionId=30163">Anything5</a> ( Folder: ../ComfyUI/models/checkpoints )    
+</dl-->
 <div align="center"> 
 Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workflows</a>.    
 </div>     
@@ -117,9 +118,9 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       4. Command:
       
     https://github.com/chaosaiart/Chaosaiart-Nodes
-<x>    
+<!--x>    
 5. get a good checkpoint, like <a href="https://civitai.com/models/9409?modelVersionId=30163">Anything5</a> ( Folder: ../ComfyUI/models/checkpoints )</x>
-<br><br>
+<br--><br>
 <div align="center"> 
 Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workflows</a>.    
 </div>      
@@ -128,7 +129,7 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
 </dl></dd></dl>  
 
 
-<a id="Install_git">
+<!--a id="Install_git">
 <img src="https://chaosaiart.de/nodes/workflows/elements/i2.png?v=4" alt="Install" width="100%">
 </a>
 <br>
@@ -173,7 +174,7 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
 </div>      
 </dd></dl></dd></dl></dd></dl></dd></dl>     
 <br>
-<br>
+<br-->
 
  
    
