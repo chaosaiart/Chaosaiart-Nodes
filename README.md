@@ -552,19 +552,19 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
 </a>
 <dl><dd>
 <!-- buy me a coffee -->
-<a href="https://www.buymeacoffee.com/chaosaiart"><img src="https://chaosaiart.de/nodes/workflows/elements/mo_1.png?v=4" width="30%"></a>
+<a href="https://chaosaiart.de/donate?use=buymeacoffee"><img src="https://chaosaiart.de/nodes/workflows/elements/mo_1.png?v=4" width="30%"></a>
 <dl><dd>
-<a href="https://www.buymeacoffee.com/chaosaiart">Open Buymeacoffee</a><br><br>
+<a href="https://chaosaiart.de/donate?use=buymeacoffee">Open Buymeacoffee</a><br><br>
 </dd>
 <!-- Paypal -->
-<a href="https://www.paypal.com/donate/?hosted_button_id=92WFYKA586YQG"><img src="https://chaosaiart.de/nodes/workflows/elements/mo_2.png?v=4" width="30%"></a>
+<a href="https://chaosaiart.de/donate?use=paypal"><img src="https://chaosaiart.de/nodes/workflows/elements/mo_2.png?v=4" width="30%"></a>
 <dl><dd>
-<a href="https://www.paypal.com/donate/?hosted_button_id=92WFYKA586YQG">Open Paypal</a><br><br>
+<a href="https://chaosaiart.de/donate?use=paypal">Open Paypal</a><br><br>
 </dd>
 <!-- Patreon -->
-<a href="https://patreon.com/Chaosaiart?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink"><img src="https://chaosaiart.de/nodes/workflows/elements/mo_3.png?v=4" width="30%"></a>
+<a href="https://chaosaiart.de/donate?use=patreon"><img src="https://chaosaiart.de/nodes/workflows/elements/mo_3.png?v=4" width="30%"></a>
 <dl><dd>
-<a href="https://patreon.com/Chaosaiart?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink">
+<a href="https://chaosaiart.de/donate?use=patreon">
 Open Patreon</a><br><br>
 </dd>
 </dl></dd>
