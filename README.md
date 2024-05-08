@@ -219,7 +219,7 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       <div align="center">  
         <a href="#workflow_14"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_b_14.png?v=4" width="30%"></a> 
         <a href="#workflow_15"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_b_15.png?v=4" width="30%"></a> 
-        <a href="#workflow_16"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_b_15.png?v=4" width="30%"></a> 
+        <a href="#workflow_16"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_b_16.png?v=4" width="30%"></a> 
       </div>
       <!-- Checkpoint Changer --->
       <a id="workflow_3"></a><br><br>
