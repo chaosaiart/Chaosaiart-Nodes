@@ -219,6 +219,7 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       <div align="center">  
         <a href="#workflow_14"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_b_14.png?v=4" width="30%"></a> 
         <a href="#workflow_15"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_b_15.png?v=4" width="30%"></a> 
+        <a href="#workflow_16"><img src="https://chaosaiart.de/nodes/workflows/elements/wi_b_15.png?v=4" width="30%"></a> 
       </div>
       <!-- Checkpoint Changer --->
       <a id="workflow_3"></a><br><br>
@@ -382,6 +383,19 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       <img src="https://chaosaiart.de/nodes/workflows/img/Basic_color_change.jpg?v=4" width="100%"><br>
       <div align="center"> 
       <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_color_change"><img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%"></a> 
+      </div> 
+      </dl>
+      <!-- Number Count -->
+      <a id="workflow_16"></a>
+      <br><br>
+      </dl>
+      <dl><dd>
+      <img src="https://chaosaiart.de/nodes/workflows/elements/wi_b_16.png?v=4" width="30%"><br> 
+      <dl><dd>
+      Change Contrast, Color, Brightness, Red, Green, Blue.
+      <img src="https://chaosaiart.de/nodes/workflows/img/Basic_Number_Counter.jpg?v=4" width="100%"><br>
+      <div align="center"> 
+      <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_Number_Counter"><img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%"></a> 
       </div> 
       </dl>
       <br><br>
