@@ -702,6 +702,10 @@ class chaosaiart_higher:
         resized_img = cls.resize_image("crop",img, target_width, target_height)   
         return pil2tensor(resized_img)  
 
+    def getImgSize(imageIN): 
+        img = tensor2pil(imageIN)  
+        return img.width, img.height
+
     @classmethod 
     def resize_image(cls, resize_tpye,imageIN, target_width, target_height):   
         if resize_tpye == "resize":
@@ -2201,6 +2205,8 @@ class chaosaiart_forPreview:
     def __init__(self):
         self.image_batch = None
         self.count = 1
+        self.width = 0
+        self.height = 0
 
     @classmethod
     def INPUT_TYPES(s):
@@ -2220,8 +2226,10 @@ class chaosaiart_forPreview:
 
     def node(self, image, restart, Preview_Max):
 
-        if self.image_batch == None or restart >= 1 or self.count > Preview_Max:
+        width, height = chaosaiart_higher.getImgSize(image)
+        if self.image_batch == None or restart >= 1 or self.count > Preview_Max or not width == self.width or not height == self.height: 
             self.image_batch = image
+            self.width, self.height = width, height
             self.count = 2
             return image,  
 
