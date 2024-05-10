@@ -250,8 +250,8 @@ class chaosaiart_higher:
             for object in aTemp:
                 if object.index == index:
                     return (object.saveItem)
-            cls.ErrorMSG(f"Chaosaiart:",f"{art}_Cache nr: {index} not exist") 
-            raise ValueError(f"Chaosaiart: {art}_Cache nr: {index} not exist")
+            #TODO: better FIX => then Kickout  #cls.ErrorMSG(f"Chaosaiart:",f"{art}_Cache nr: {index} not exist") 
+            #TODO: better FIX => then Kickout  #raise ValueError(f"Chaosaiart: {art}_Cache nr: {index} not exist")
 
     def check_Text(txt):
         
