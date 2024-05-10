@@ -249,9 +249,9 @@ class chaosaiart_higher:
         else:
             for object in aTemp:
                 if object.index == index:
-                    return (object.saveItem)
-            #TODO: better FIX => then Kickout  #cls.ErrorMSG(f"Chaosaiart:",f"{art}_Cache nr: {index} not exist") 
-            #TODO: better FIX => then Kickout  #raise ValueError(f"Chaosaiart: {art}_Cache nr: {index} not exist")
+                    return (object.saveItem) 
+            cls.ErrorMSG(f"Chaosaiart:",f"{art}_Cache nr: {index} no Cache, use pre Cache") 
+            return None 
 
     def check_Text(txt):
         
@@ -2483,9 +2483,11 @@ class chaosaiart_reloadIMG_Load:
  
     def node(self,reloader,preSave_Image_Size,preSave_Image_Mode,preSave_image_override=None,restart=0,vae=None):  
  
-        if restart == 0 and self.is_Started: 
-            return chaosaiart_higher.reloader_x("img",reloader,False,None),
-            
+        if restart == 0 and self.is_Started:  
+            loadedIMG = chaosaiart_higher.reloader_x("img",reloader,False,None)
+            if loadedIMG is not None:
+                return loadedIMG,
+
         self.is_Started = True 
         if preSave_image_override is not None:
             return preSave_image_override,
@@ -2573,8 +2575,10 @@ class chaosaiart_reloadLatent_Load:
  
     def node(self,preSave_Image_Mode,preSave_Image_Size, reloader,restart=0, preSave_Latent_override=None): 
  
-        if restart == 0 and self.is_Started: 
-            return chaosaiart_higher.reloader_x("latent",reloader,False,None),
+        if restart == 0 and self.is_Started:  
+            loadedIMG = chaosaiart_higher.reloader_x("latent",reloader,False,None)
+            if loadedIMG is not None:
+                return loadedIMG, 
             
         self.is_Started = True 
         if preSave_Latent_override is not None:
