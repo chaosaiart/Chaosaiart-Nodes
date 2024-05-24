@@ -357,7 +357,8 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       </dl>
       <img src="https://chaosaiart.de/nodes/workflows/elements/wi_b_12.png?v=4" width="30%"><br> 
       <dl><dd>
-      Lora Input
+      <a href="https://github.com/idrirap">idrirap</a> has written a great Lora Auto-Trigger-Words Custom Node. Through this, I found out that all tags are included in the metadata. From now on, all tags and their frequency of use will be output by Lora via Info.
+      <img src="https://chaosaiart.de/nodes/workflows/img/Basic_Lora_Info.jpg?v=4" width="100%"><br>
       <img src="https://chaosaiart.de/nodes/workflows/img/Basic_Lora.jpg?v=4" width="100%"><br>
       <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_Lora"><img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%"></a> 
       </div>
@@ -591,7 +592,8 @@ Open Patreon</a><br><br>
 </a>
 <a id="Credits"><img src="https://chaosaiart.de/nodes/workflows/elements/zi_1.png?v=4" width="30%"></a>
 <dl><dd>
-Credits to pythongosssss for their <a href="https://github.com/pythongosssss/ComfyUI-Custom-Scripts?tab=readme-ov-file#installation">custom node</a> without it, my info display would have been more challenging.
+Credits to pythongosssss for their <a href="https://github.com/pythongosssss/ComfyUI-Custom-Scripts?tab=readme-ov-file#installation">custom node</a> without it, my info display would have been more challenging.<br>
+Credits to Idrirap for their <a href="https://github.com/idrirap/ComfyUI-Lora-Auto-Trigger-Words/">custom node</a> and the idea of extracting tags from the metadata of Lora. 
 </dd>
 <br><br>
 <a id="web"><img src="https://chaosaiart.de/nodes/workflows/elements/zi_3.png?v=4" width="30%"></a>
