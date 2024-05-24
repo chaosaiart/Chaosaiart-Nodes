@@ -767,6 +767,44 @@ class chaosaiart_higher:
             return cach_seed,cach_seed
         return seed, seed
 
+    #Credit on idrirap -> https://github.com/idrirap/ComfyUI-Lora-Auto-Trigger-Words/
+    def get_metadata_tags(filepath, type):
+        try:
+            filepath = folder_paths.get_full_path(type, filepath)
+            with open(filepath, "rb") as file: 
+                header_size = int.from_bytes(file.read(8), "little", signed=False)
+
+                if header_size <= 0: 
+                    return ""
+                
+                header = file.read(header_size)
+                if header_size <= 0: 
+                    return ""
+                
+                header_json = json.loads(header)
+                
+                info = "Training-Tags:\nTag count : Tag"
+                if "__metadata__" in header_json:
+                    meta_tags = header_json["__metadata__"]
+                    if "ss_tag_frequency" in meta_tags:
+                        j_meta_tags = meta_tags["ss_tag_frequency"]
+                        a_meta_tags = json.loads(j_meta_tags)
+                        
+                        sorted_tags = {}
+                        for _, dataset in a_meta_tags.items():
+                            for tag, count in dataset.items():
+                                tag = str(tag).strip()
+                                if tag in sorted_tags:
+                                    sorted_tags[tag] = sorted_tags[tag] + count
+                                else:
+                                    sorted_tags[tag] = count
+
+                        sorted_tags = dict(sorted(sorted_tags.items(), key=lambda item: item[1], reverse=True))
+                        formatted_items = [f"{value} : {key}" for key, value in sorted_tags.items()]
+                        info = "\n".join(formatted_items)    
+            return info
+        except:
+            return "No Meta Data - Meta Error"        
    
 
  
@@ -5227,7 +5265,8 @@ class chaosaiart_lora:
                 "add_lora": ("LORA",),
             }
         }
-    RETURN_TYPES = ("LORA",)
+    RETURN_TYPES = ("LORA","STRING")
+    RETURN_NAMES = ("LORA","INFO")
     FUNCTION = "node"
 
     @classmethod
@@ -5237,9 +5276,9 @@ class chaosaiart_lora:
     CATEGORY = chaosaiart_higher.name("lora")
 
     def node(self, lora_name, strength_model, strength_clip, add_lora=None): 
-           
+        info = chaosaiart_higher.get_metadata_tags(lora_name, "loras") 
         loraArray = chaosaiart_higher.add_Lora(add_lora,"positiv",lora_name,strength_model,strength_clip)
-        return loraArray,
+        return loraArray, info
 
 
 class chaosaiart_lora_advanced: 
@@ -5259,19 +5298,22 @@ class chaosaiart_lora_advanced:
                 "strength_clip_override": ("FLOAT",{"forceInput": True}),
             }
         }
-    RETURN_TYPES = ("LORA", )
+    RETURN_TYPES = ("LORA","STRING")
+    RETURN_NAMES = ("LORA","INFO")
     FUNCTION = "node"
 
     CATEGORY = chaosaiart_higher.name("lora")
 
     def node(self, lora_name,lora_type, strength_model, strength_clip, strength_model_override=None,strength_clip_override=None, add_lora=None):
         loraType = "positiv" if lora_type == "Positiv_Prompt" else "negativ"
+        
+        info = chaosaiart_higher.get_metadata_tags(lora_name, "loras") 
 
         strength_model_float =  strength_model if strength_model_override is None else strength_model_override
         strength_clip_float =  strength_clip if strength_clip_override is None else strength_clip_override
          
         loraArray = chaosaiart_higher.add_Lora(add_lora,loraType,lora_name,strength_model_float,strength_clip_float)
-        return loraArray,
+        return loraArray, info
  
 class chaosaiart_zoom_frame: 
 
