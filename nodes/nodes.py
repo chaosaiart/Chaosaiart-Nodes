@@ -783,7 +783,7 @@ class chaosaiart_higher:
                 
                 header_json = json.loads(header)
                 
-                info = "Training-Tags:\nTag count : Tag"
+                info = "Training-Tags\n\nTag count : Tag\n"
                 if "__metadata__" in header_json:
                     meta_tags = header_json["__metadata__"]
                     if "ss_tag_frequency" in meta_tags:
@@ -801,7 +801,7 @@ class chaosaiart_higher:
 
                         sorted_tags = dict(sorted(sorted_tags.items(), key=lambda item: item[1], reverse=True))
                         formatted_items = [f"{value} : {key}" for key, value in sorted_tags.items()]
-                        info = "\n".join(formatted_items)    
+                        info += "\n".join(formatted_items)    
             return info
         except:
             return "No Meta Data - Meta Error"        
