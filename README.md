@@ -358,7 +358,8 @@ Open ComfyUI, Load or Drag & Drop one of the <a href="#workflow_overview">workfl
       <img src="https://chaosaiart.de/nodes/workflows/elements/wi_b_12.png?v=4" width="30%"><br> 
       <dl><dd>
       <a href="https://github.com/idrirap">idrirap</a> has written a great Lora Auto-Trigger-Words Custom Node. Through this, I found out that all tags are included in the metadata. From now on, all tags and their frequency of use will be output by Lora via Info.
-      <img src="https://chaosaiart.de/nodes/workflows/img/Basic_Lora_Info.jpg?v=4" width="100%"><br>
+      <img src="https://chaosaiart.de/nodes/workflows/img/Basic_Lora_Info.jpg?v=4" width="100%"><br><br>
+      How to Use Loras:<br>
       <img src="https://chaosaiart.de/nodes/workflows/img/Basic_Lora.jpg?v=4" width="100%"><br>
       <div align="center"><a href="https://chaosaiart.de/nodes/?json=Basic_Lora"><img src="https://chaosaiart.de/nodes/workflows/elements/workflow_dl.png?v=4" width="20%"></a> 
       </div>
