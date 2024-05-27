@@ -1,11 +1,12 @@
 # Versionslog:
-## Current v1_03_01
+## Current v1_03_02
 You can check your current version by opening the file named 'version_log' in your "comfyUI/custom_node/Chaosaiart-Nodes" folder and looking at what is entered under Current Version<br>
 
 ## v1_03
 
     Feature:
-    1. In all 🔶Prompt Section:
+    1. 🔶Lora - Output : Info -> Lora Training Tags + Tag frequency
+    2. In all 🔶Prompt Section:
     -  Random Promptpart -> {Random1|Random2|..|RandomXXX} => one will be randomly selected
 
     Added:
