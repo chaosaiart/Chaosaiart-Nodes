@@ -10,6 +10,6 @@ Repository = "https://github.com/chaosaiart/Chaosaiart-Nodes"
 #  Used by Comfy Registry https://comfyregistry.org
 
 [tool.comfy]
-PublisherId = "Chaosaiart Nodes"
+PublisherId = "chaosaiart"
 DisplayName = "Chaosaiart-Nodes"
 Icon = "https://chaosaiart.de/nodes/main_img/chaosaiart_node.png"
