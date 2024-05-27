@@ -1,8 +1,8 @@
 [project]
 name = "chaosaiart-nodes"
 description = "LowVRAM Animation : txt2video - img2video - video2video , Frame by Frame, compatible with LowVRAM GPUs\nIncluded : Prompt Switch, Checkpoint Switch, Cache, Number Count by Frame, Ksampler txt2img & img2img ..."
-version = "1.0.0"
-license = "LICENSE"
+version = "1.3.2"
+license = ""
 dependencies = ["opencv-python", "tqdm"]
 
 [project.urls]
@@ -10,6 +10,6 @@ Repository = "https://github.com/chaosaiart/Chaosaiart-Nodes"
 #  Used by Comfy Registry https://comfyregistry.org
 
 [tool.comfy]
-PublisherId = ""
+PublisherId = "Chaosaiart"
 DisplayName = "Chaosaiart-Nodes"
-Icon = ""
+Icon = "https://chaosaiart.de/nodes/main_img/chaosaiart_node.png"
