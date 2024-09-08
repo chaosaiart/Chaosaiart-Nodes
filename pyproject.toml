@@ -1,7 +1,7 @@
 [project]
 name = "chaosaiart-nodes"
 description = "LowVRAM Animation : txt2video - img2video - video2video , Frame by Frame, compatible with LowVRAM GPUs - Included : Prompt Switch, Checkpoint Switch, Cache, Number Count by Frame, Ksampler txt2img & img2img ..."
-version = "1.3.2"
+version = "1.3.3"
 license = ""
 dependencies = ["opencv-python", "tqdm"]
 
