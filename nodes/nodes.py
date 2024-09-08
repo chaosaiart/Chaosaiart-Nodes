@@ -3355,6 +3355,37 @@ class chaosaiart_Denoising_Switch:
         info = f"Denoise: {iNumber}"
         return (iNumber,info,)
 
+
+class chaosaiart_AutoNone_Switch_small:
+    def __init__(self):  
+        pass
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {  
+                "recovery_input": (anyType, {}),
+            },
+            "optional": { 
+                "switch_input": (anyType, {}), 
+            }
+        }
+
+    @classmethod
+    def IS_CHANGED(cls, **kwargs):
+        return float("NaN")
+     
+    RETURN_TYPES = (anyType,)
+    RETURN_NAMES = ("SOURCE_X",)
+
+    FUNCTION = "node"
+    CATEGORY = chaosaiart_higher.name("switch")
+
+    def node(self, recovery_input, switch_input=None):
+        if switch_input is None:
+            return recovery_input,
+        return switch_input, 
+
 class chaosaiart_Any_Switch_small:
     def __init__(self):  
         pass
@@ -5502,6 +5533,7 @@ NODE_CLASS_MAPPINGS = {
     "chaosaiart_restarter_advanced":            chaosaiart_restarter_advanced,
 
     "chaosaiart_Any_Switch_small":              chaosaiart_Any_Switch_small,
+    "chaosaiart_AutoNone_Switch_small":         chaosaiart_AutoNone_Switch_small,
     "chaosaiart_Any_Switch_Big_Number":         chaosaiart_Any_Switch_Big_Number,
     "chaosaiart_Any_Switch":                    chaosaiart_Any_Switch,
     "chaosaiart_any_array2input_all_small":     chaosaiart_any_array2input_all_small,
@@ -5598,6 +5630,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "chaosaiart_Number_Switch":                 "🔶 One Time Number Switch",  
     
     "chaosaiart_Any_Switch_small":              "🔶 Any Switch", 
+    "chaosaiart_AutoNone_Switch_small":         "🔶 Auto None Switch",
     "chaosaiart_Any_Switch_Big_Number":         "🔶 Any Switch (Big)",
     "chaosaiart_Any_Switch":                    "🔶 Any Switch, by Frame", 
     "chaosaiart_reloadIMG_Load":                "🔶 Cache Reloader IMG-> LOAD", 
