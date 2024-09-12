@@ -3382,8 +3382,10 @@ class chaosaiart_AutoNone_Switch_small:
     CATEGORY = chaosaiart_higher.name("switch")
 
     def node(self, recovery_input, switch_input=None):
-        if switch_input is None:
-            return recovery_input,
+
+        if switch_input is None or switch_input == "": 
+            return recovery_input, 
+    
         return switch_input, 
 
 class chaosaiart_Any_Switch_small:
