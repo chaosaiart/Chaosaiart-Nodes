@@ -3,10 +3,10 @@
 <a id="header"><img src="https://chaosaiart.de/nodes/workflows/elements/logo_2.png?v=4" alt="Alternativer Text" width="80%"></a>
 </div><br>
 <div align="center"> 
-  <a href=""><img src="https://chaosaiart.de/nodes/workflows/elements/placeholder_button_00.png?v=4" alt="Discord" width="10%"></a>
-  <a href="https://hire.chaosaiart.com/"><img src="https://chaosaiart.de/nodes/workflows/elements/h_b_1.png?v=4" alt="Youtube" width="40%"></a>
-  <a href="https://chaosaiart.com/#support_me"><img src="https://chaosaiart.de/nodes/workflows/elements/h_b_2.png?v=4" alt="Twitter" width="40%"></a>
-  <a href=""><img src="https://chaosaiart.de/nodes/workflows/elements/placeholder_button_00.png?v=4" alt="Tiktok" width="10%"></a>
+  <a href="#"><img src="https://chaosaiart.de/nodes/workflows/elements/placeholder_button_00.png?v=4" alt="" width="10%"></a>
+  <a href="https://hire.chaosaiart.com/"><img src="https://chaosaiart.de/nodes/workflows/elements/h_b_1.png?v=4" alt="" width="40%"></a>
+  <a href="https://chaosaiart.com/#support_me"><img src="https://chaosaiart.de/nodes/workflows/elements/h_b_2.png?v=4" alt="" width="40%"></a>
+  <a href="#"><img src="https://chaosaiart.de/nodes/workflows/elements/placeholder_button_00.png?v=4" alt="" width="10%"></a>
  </div> 
 <br><br><br>
 <a id="Overview"><img src="https://chaosaiart.de/nodes/workflows/elements/overview.png?v=4" alt="Alternativer Text" width="100%"></a>   
