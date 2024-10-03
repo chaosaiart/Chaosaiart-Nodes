@@ -1,15 +1,15 @@
 <br>
 <div align="center"> 
-<a id="header"><img src="https://chaosaiart.de/nodes/workflows/elements/logo_2.png?v=4" alt="Alternativer Text" width="80%"></a>
+<img src="https://chaosaiart.de/nodes/workflows/elements/logo_2.png?v=4" width="80%">
 </div><br>
 <div align="center"> 
-  <img src="https://chaosaiart.de/nodes/workflows/elements/placeholder_button_00.png?v=4" alt="" width="10%">
-  <a href="https://hire.chaosaiart.com/"><img src="https://chaosaiart.de/nodes/workflows/elements/h_b_1.png?v=4" alt="" width="40%"></a>
-  <a href="https://chaosaiart.com/#support_me"><img src="https://chaosaiart.de/nodes/workflows/elements/h_b_2.png?v=4" alt="" width="40%"></a>
+  <img src="https://chaosaiart.de/nodes/workflows/elements/placeholder_button_00.png?v=4" width="10%">
+  <a href="https://hire.chaosaiart.com/"><img src="https://chaosaiart.de/nodes/workflows/elements/h_b_1.png?v=4" width="40%"></a>
+  <a href="https://chaosaiart.com/#support_me"><img src="https://chaosaiart.de/nodes/workflows/elements/h_b_2.png?v=4" width="40%"></a>
   <img src="https://chaosaiart.de/nodes/workflows/elements/placeholder_button_00.png?v=4" alt="" width="10%">
 </div> 
 <br><br><br>
-<a id="Overview"><img src="https://chaosaiart.de/nodes/workflows/elements/overview.png?v=4" alt="Alternativer Text" width="100%"></a>   
+<a id="Overview"><img src="https://chaosaiart.de/nodes/workflows/elements/overview.png?v=4" width="100%"></a>   
 <br>
 <div align="center"> 
   <a href="#Install"><img src="https://chaosaiart.de/nodes/workflows/elements/d1.png?v=4"  width="25%"></a>
