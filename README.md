@@ -2,10 +2,11 @@
 <div align="center"> 
 <a id="header"><img src="https://chaosaiart.de/nodes/workflows/elements/logo_2.png?v=4" alt="Alternativer Text" width="80%"></a>
 </div><br>
-<div align="center"> <a href="https://chaosaiart.com/discord"><img src="https://chaosaiart.de/nodes/workflows/elements/c1.png?v=4" alt="Discord" width="20%"></a>
-  <a href="https://chaosaiart.com/youtube"><img src="https://chaosaiart.de/nodes/workflows/elements/c2.png?v=4" alt="Youtube" width="20%"></a>
-  <a href="https://chaosaiart.com/twitter"><img src="https://chaosaiart.de/nodes/workflows/elements/c3.png?v=4" alt="Twitter" width="20%"></a>
-  <a href="https://chaosaiart.com/tiktok"><img src="https://chaosaiart.de/nodes/workflows/elements/c4.png?v=4" alt="Tiktok" width="20%"></a>
+<div align="center"> 
+  <a href="https://chaosaiart.com/discord"><img src="https://chaosaiart.de/nodes/workflows/elements/placeholder_button_00.png?v=4" alt="Discord" width="20%"></a>
+  <a href="https://chaosaiart.com/youtube"><img src="https://chaosaiart.de/nodes/workflows/elements/h_b_1.png?v=4" alt="Youtube" width="20%"></a>
+  <a href="https://chaosaiart.com/twitter"><img src="https://chaosaiart.de/nodes/workflows/elements/h_b_2.png?v=4" alt="Twitter" width="20%"></a>
+  <a href="https://chaosaiart.com/tiktok"><img src="https://chaosaiart.de/nodes/workflows/elements/placeholder_button_00.png?v=4" alt="Tiktok" width="20%"></a>
  </div> 
 <br><br><br>
 <a id="Overview"><img src="https://chaosaiart.de/nodes/workflows/elements/overview.png?v=4" alt="Alternativer Text" width="100%"></a>   
