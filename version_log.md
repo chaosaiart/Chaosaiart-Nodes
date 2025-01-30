@@ -1,7 +1,16 @@
 # Versionslog:
-## Current v1_03_03
+## Current v1_04_00
 You can check your current version by opening the file named 'version_log' in your "comfyUI/custom_node/Chaosaiart-Nodes" folder and looking at what is entered under Current Version<br>
 
+## v1_04
+
+    Added:
+        🔶 Prompt - Deepseek <think> Fix 
+    
+    Details:
+        It removes the Think block of your Deepseek model.
+        You need a Deepseek Custom Node, it's just a fix for the prompt.
+        
 ## v1_03
 
     Feature:
