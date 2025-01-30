@@ -5365,7 +5365,36 @@ class chaosaiart_zoom_frame:
 
     def node(self, Mode):
         return 1,
+
+         
+class chaosaiart_deepseek_fix: 
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {  
+                "deepseek_str": ("STRING", {"multiline": True, "forceInput": True}),
+            },
+            
+        }
+        
+    RETURN_TYPES = ("STRING","STRING")
+    RETURN_NAMES = ("STRING","INFO")
+    FUNCTION = "node"
+
+    CATEGORY = chaosaiart_higher.name("prompt")
+
+    
+    def node(self, deepseek_str):  
+        parts = deepseek_str.split('</think>')
+        if len(parts) > 1:
+            pre_out = parts[1]
+            out = pre_out.strip()
+            
+            return out,"Fix Deepseek string, only usable with Deepseek-R1 models" 
+        return parts[0],"Fix Deepseek string, only usable with Deepseek-R1 models"
  
+
 """
 def load_hypernetwork_patch(path, strength):
     sd = comfy.utils.load_torch_file(path, safe_load=True)
@@ -5564,6 +5593,8 @@ NODE_CLASS_MAPPINGS = {
  
     "chaosaiart_KSampler_expert_1":             chaosaiart_KSampler_expert_1,
     "chaosaiart_Ksampler_attribut":             chaosaiart_Ksampler_attribut,
+    
+    "chaosaiart_deepseek_fix":                  chaosaiart_deepseek_fix,
 
    # "chaosaiart_Style_Node":                    chaosaiart_Style_Node,
  
@@ -5580,7 +5611,6 @@ NODE_CLASS_MAPPINGS = {
 # A dictionary that contains the friendly/humanly readable titles for the nodes
 NODE_DISPLAY_NAME_MAPPINGS = {
 
-    
     "chaosaiart_KSampler_a2":                   "🔶 KSampler txt2video v1", 
     "chaosaiart_KSampler_a1":                   "🔶 KSampler img2video v1",
     "chaosaiart_KSampler_a1a":                  "🔶 KSampler txt2video img2video - Advanced v1",
@@ -5661,6 +5691,8 @@ NODE_DISPLAY_NAME_MAPPINGS = {
 
     "chaosaiart_KSampler_expert_1":             "🔶 KSampler Splitted - Expert",
     "chaosaiart_Ksampler_attribut":             "🔶 Main K_ATTRIBUT - Expert", 
+
+    "chaosaiart_deepseek_fix":                  "🔶 Prompt - Deepseek <think> Fix", 
 
     #"chaosaiart_image_loop":                   "🔶 Hold and Repeate one Image",
     #"chaosaiart_Style_Node":                   "🔶 Style Node",
