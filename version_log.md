@@ -8,7 +8,8 @@ You can check your current version by opening the file named 'version_log' in yo
         🔶 Prompt - Deepseek <think> Fix 
     
     Details:
-        It removes the Think block of your Deepseek model.
+        🔶 Prompt - Deepseek <think> Fix 
+        It removes the <Think> block of your Deepseek model.
         You need a Deepseek Custom Node, it's just a fix for the prompt.
         
 ## v1_03
