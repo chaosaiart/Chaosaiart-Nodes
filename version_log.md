@@ -1,5 +1,5 @@
 # Versionslog:
-## Current v1_04_00
+## Current v1_04_01
 You can check your current version by opening the file named 'version_log' in your "comfyUI/custom_node/Chaosaiart-Nodes" folder and looking at what is entered under Current Version<br>
 
 ## v1_04
