@@ -81,6 +81,7 @@ class chaosaiart_higher:
             "checkpoint":   main_name+"/checkpoint",
             "image":        main_name+"/image",
             "prompt":       main_name+"/prompt",
+            "llm":          main_name+"/LLM",
             "ksampler":     main_name+"/ksampler",
             "cache":        main_name+"/cache",
             "restart":      main_name+"/restart",
@@ -5382,8 +5383,7 @@ class chaosaiart_deepseek_fix:
     RETURN_NAMES = ("STRING","INFO")
     FUNCTION = "node"
 
-    CATEGORY = chaosaiart_higher.name("prompt")
-
+    CATEGORY = chaosaiart_higher.name("llm")
     
     def node(self, deepseek_str):  
         parts = deepseek_str.split('</think>')
